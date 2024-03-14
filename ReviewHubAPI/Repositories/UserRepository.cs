@@ -15,7 +15,7 @@ public class UserRepository : IUserRepository
         _dbContext = dbContext;
     }
 
-    public async Task AddUserAsync(UserEntity user)
+    public async Task RegisterUserAsync(UserEntity user)
     {
         _dbContext.Users.Add(user);
         await _dbContext.SaveChangesAsync();
@@ -33,8 +33,12 @@ public class UserRepository : IUserRepository
         {
             throw new NotFoundException($"User with ID {userId} not found");
         }
-
         return user;
+    }
+
+    public async Task<UserEntity?> GetUserByUsernameAsync(string username)
+    {
+        return await _dbContext.Users.FirstOrDefaultAsync(u => u.Username == username);
     }
 
     public async Task DeleteUserAsync(int userId)
@@ -45,5 +49,15 @@ public class UserRepository : IUserRepository
             _dbContext.Users.Remove(userToDelete);
             await _dbContext.SaveChangesAsync();
         }
+    }
+
+    public async Task<bool> UsernameExistsAsync(string username)
+    {
+        return await _dbContext.Users.AnyAsync(user => user.Username == username);
+    }
+
+    public async Task<bool> EmailExistsAsync(string email)
+    {
+        return await _dbContext.Users.AnyAsync(user => user.Email == email);
     }
 }

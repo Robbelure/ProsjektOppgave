@@ -18,16 +18,7 @@ public class UserController : ControllerBase
         _logger = logger;
     }
 
-    [HttpPost]
-    public async Task<ActionResult<UserDTO>> AddUser([FromBody] UserDTO newUser)
-    {
-        if (newUser == null)
-            return BadRequest();
-
-        var addedUser = await _userService.AddUserAsync(newUser);
-        return CreatedAtAction(nameof(GetUserById), new { userId = addedUser.UserID }, addedUser);
-    }
-
+    [Authorize(Roles = "Admin")]
     [HttpGet]
     public async Task<ActionResult<IEnumerable<UserDTO>>> GetAllUsers()
     {
@@ -35,13 +26,26 @@ public class UserController : ControllerBase
         return Ok(users);
     }
 
-    [HttpGet("{userId}")]
+    [Authorize(Roles = "Admin")]
+    [HttpGet("{userId:int}")]
     public async Task<ActionResult<UserDTO>> GetUserById(int userId)
     {
         var user = await _userService.GetUserByIdAsync(userId);
         if (user == null)
             return NotFound();
 
+        return Ok(user);
+    }
+
+    [HttpGet("{username}")]
+    [Authorize]
+    public async Task<ActionResult<UserDTO>> GetUserByUsername(string username)
+    {
+        var user = await _userService.GetUserByUsernameAsync(username);
+        if (user == null)
+        {
+            return NotFound($"User with username {username} not found.");
+        }
         return Ok(user);
     }
 

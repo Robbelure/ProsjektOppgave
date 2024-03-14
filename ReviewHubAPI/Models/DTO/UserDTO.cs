@@ -9,4 +9,5 @@ public class UserDTO
     public string Firstname { get; set; } = string.Empty;
     public string Lastname { get; set; } = string.Empty;
     public DateTime DateCreated { get; set; }
+    public bool IsAdmin { get; set; } = false;
 }
