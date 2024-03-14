@@ -15,7 +15,8 @@ public class UserMapper : IMapper<UserEntity, UserDTO>
             Email = entity.Email,
             Firstname = entity.Firstname,
             Lastname = entity.Lastname,
-            DateCreated = entity.DateCreated
+            DateCreated = entity.DateCreated,
+            IsAdmin = entity.IsAdmin
         };
     }
 
@@ -28,7 +29,8 @@ public class UserMapper : IMapper<UserEntity, UserDTO>
             Email = dto.Email,
             Firstname = dto.Firstname,
             Lastname = dto.Lastname,
-            DateCreated = dto.DateCreated
+            DateCreated = dto.DateCreated,
+            IsAdmin = dto.IsAdmin
         };
     }
 }
