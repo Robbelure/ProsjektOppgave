@@ -21,10 +21,16 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("register")]
-    public async Task<ActionResult<UserDTO>> Register([FromBody] UserRegistrationDTO userRegDTO)
+    public async Task<ActionResult<UserRegistrationResponseDTO>> Register([FromBody] UserRegistrationDTO userRegDTO)
     {
-        var user = await _authService.RegisterUserAsync(userRegDTO);
-        return Ok(user);
+        var userResponse = await _authService.RegisterUserAsync(userRegDTO);
+        if (userResponse == null)
+        {
+            _logger.LogWarning("User registration failed.");
+            return BadRequest("Unable to register user.");
+        }
+
+        return Ok(userResponse);
     }
 
     [HttpPost("login")]

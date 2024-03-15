@@ -1,4 +1,5 @@
 ﻿using Microsoft.IdentityModel.Tokens;
+using ReviewHubAPI.Mappers;
 using ReviewHubAPI.Mappers.Interface;
 using ReviewHubAPI.Middleware;
 using ReviewHubAPI.Models.DTO;
@@ -13,38 +14,40 @@ namespace ReviewHubAPI.Services.Authentication
     public class AuthService : IAuthService
     {
         private readonly IUserRepository _userRepository;
-        private readonly IConfiguration _configuration;
         private readonly IMapper<UserEntity, UserDTO> _userMapper;
         private readonly IMapper<UserEntity, UserRegistrationDTO> _userRegMapper;
+        private readonly IMapper<UserEntity, UserRegistrationResponseDTO> _userRegResponseMapper;
+        private readonly IConfiguration _configuration;
 
-        public AuthService(IUserRepository userRepository, 
-            IConfiguration configuration, 
-            IMapper<UserEntity, UserDTO> userMapper, 
-            IMapper<UserEntity, UserRegistrationDTO> userRegMapper) 
+        public AuthService(IUserRepository userRepository,
+            IMapper<UserEntity, UserDTO> userMapper,
+            IMapper<UserEntity, UserRegistrationDTO> userRegMapper,
+            IMapper<UserEntity, UserRegistrationResponseDTO> userRegResponseMapper,
+            IConfiguration configuration)
         {
             _userRepository = userRepository;
-            _configuration = configuration;
-            _userMapper = userMapper; 
+            _userMapper = userMapper;
             _userRegMapper = userRegMapper;
+            _userRegResponseMapper = userRegResponseMapper;
+            _configuration = configuration;
         }
 
-        public async Task<UserDTO?> RegisterUserAsync(UserRegistrationDTO newUser)
+        public async Task<UserRegistrationResponseDTO> RegisterUserAsync(UserRegistrationDTO newUser)
         {
             if (await _userRepository.UsernameExistsAsync(newUser.Username))
             {
                 throw new ConflictException("Username is already taken.");
             }
+
             if (await _userRepository.EmailExistsAsync(newUser.Email))
             {
                 throw new ConflictException("Email is already in use.");
             }
 
-            // UserRegistrationDTO -> UserEntity og legger til brukeren i databasen
             var userEntity = _userRegMapper.MapToEntity(newUser);
-            await _userRepository.RegisterUserAsync(userEntity);
 
-            // UserEntity -> UserDTO for respons til klienten
-            return _userMapper.MapToDTO(userEntity);
+            await _userRepository.RegisterUserAsync(userEntity);
+            return _userRegResponseMapper.MapToDTO(userEntity);
         }
 
         public async Task<string> AuthenticateAsync(LoginDTO loginDto)
@@ -52,7 +55,7 @@ namespace ReviewHubAPI.Services.Authentication
             var userEntity = await _userRepository.GetUserByUsernameAsync(loginDto.Username);
             if (userEntity == null || !BCrypt.Net.BCrypt.Verify(loginDto.Password, userEntity.PasswordHash))
             {
-                throw new UnauthorizedAccessException("Invalid username or password.");
+                throw new AuthenticationFailedException("Invalid username or password.");
             }
 
             var userDto = _userMapper.MapToDTO(userEntity);

@@ -21,8 +21,7 @@ public class UserRegistrationMapper : IMapper<UserEntity, UserRegistrationDTO>
             PasswordHash = PasswordHelper.HashPassword(dto.Password),
             Firstname = dto.Firstname,
             Lastname = dto.Lastname,
-            DateCreated = DateTime.UtcNow, // Eller annen logikk for dato
-            IsAdmin = false // Eller basert på input, om nødvendig
+            DateCreated = DateTime.UtcNow
         };
     }
 

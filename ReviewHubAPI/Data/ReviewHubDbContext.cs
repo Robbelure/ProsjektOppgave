@@ -12,6 +12,7 @@ public class ReviewHubDbContext : DbContext
     }
 
     public DbSet<UserEntity> Users { get; set; }
+    public DbSet<MovieEntity> Movies { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

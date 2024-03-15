@@ -71,6 +71,26 @@ public class GlobalExceptionMiddleware : IMiddleware
             var jsonResponse = JsonSerializer.Serialize(problemDetails);
             await context.Response.WriteAsync(jsonResponse);
         }
+        catch (AuthenticationFailedException authEx)
+        {
+            _logger.LogWarning(authEx, "Authentication failed for request at {Path}. Detail: {Message}",
+                                context.Request.Path, authEx.Message);
+
+            context.Response.ContentType = "application/json";
+            context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+
+            var problemDetails = new ProblemDetails
+            {
+                Title = "Authentication failed",
+                Detail = authEx.Message,
+                Status = StatusCodes.Status401Unauthorized,
+                Instance = context.Request.Path,
+                Extensions = { ["traceId"] = System.Diagnostics.Activity.Current?.Id ?? context.TraceIdentifier }
+            };
+
+            var jsonResponse = JsonSerializer.Serialize(problemDetails);
+            await context.Response.WriteAsync(jsonResponse);
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, "An error occurred while processing the request on machine {@Machine} with trace ID {@TraceId}",
@@ -101,4 +121,9 @@ public class EmailConflictException : Exception
 public class NotFoundException : Exception
 {
     public NotFoundException(string message) : base(message) { }
+}
+
+public class AuthenticationFailedException : Exception
+{
+    public AuthenticationFailedException(string message) : base(message) { }
 }

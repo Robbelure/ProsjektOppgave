@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ReviewHubAPI.Mappers.Interface;
 using ReviewHubAPI.Models.DTO;
 using ReviewHubAPI.Services.Interface;
 
@@ -37,16 +38,15 @@ public class UserController : ControllerBase
         return Ok(user);
     }
 
-    [HttpGet("{username}")]
-    [Authorize]
-    public async Task<ActionResult<UserDTO>> GetUserByUsername(string username)
+    [HttpGet("username/{username}")]
+    public async Task<ActionResult<UserPublicProfileDTO>> GetUserByUsername(string username)
     {
-        var user = await _userService.GetUserByUsernameAsync(username);
-        if (user == null)
-        {
-            return NotFound($"User with username {username} not found.");
-        }
-        return Ok(user);
+        var userPublicProfile = await _userService.GetUserPublicProfileByUsernameAsync(username);
+        if (userPublicProfile == null)
+            return NotFound();
+
+
+        return Ok(userPublicProfile);
     }
 
     [HttpDelete("{userId}")]

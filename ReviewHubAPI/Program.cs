@@ -16,10 +16,12 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.Text.Json;
 using ReviewHubAPI.Services.Authentication;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 
+#region JWT-token
 // Sjekk om JWT-nøkkelen er konfigurert korrekt
 var jwtKey = configuration["Jwt:Key"] ?? throw new InvalidOperationException("JWT Key is not configured properly.");
 var jwtIssuer = configuration["Jwt:Issuer"];
@@ -68,14 +70,16 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             }
         };
     });
+#endregion
 
-// serilog
+#region Serilog
 builder.Host.UseSerilog((context, configuration) =>
 {
     configuration.ReadFrom.Configuration(context.Configuration);
 });
+#endregion
 
-// Dependency Injection Reg
+#region DI
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 builder.Services.AddScoped<IUserService, UserService>();
@@ -83,20 +87,54 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 
 builder.Services.AddScoped<IMapper<UserEntity, UserDTO>, UserMapper>();
 builder.Services.AddScoped<IMapper<UserEntity, UserRegistrationDTO>, UserRegistrationMapper>();
+builder.Services.AddScoped<IMapper<UserEntity, UserRegistrationResponseDTO>, UserRegistrationResponseMapper>();
+builder.Services.AddScoped<IMapper<UserEntity, UserPublicProfileDTO>, UserPublicProfileMapper>();
+builder.Services.AddScoped<IMapper<UserEntity, UserPrivateProfileDTO>, UserPrivateProfileMapper>();
+#endregion
 
-// Middleware, Extensions
+#region Middleware, Extensions
 builder.Services.AddTransient<GlobalExceptionMiddleware>();
 builder.RegisterMappers();
+#endregion
 
-// EF Database Config
+#region EF Database Config
 builder.Services.AddDbContext<ReviewHubDbContext>(options =>
     options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"),
         new MySqlServerVersion(new Version(8, 0))));
-
+#endregion
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "ReviewHubAPI", Version = "v1" });
+
+    // Legger til JWT-støtte i Swagger
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        Scheme = "Bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+        Description = "JWT Authorization header using the Bearer scheme."
+    });
+
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            new string[] {}
+        }
+    });
+});
 
 
 var app = builder.Build();

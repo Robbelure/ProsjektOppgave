@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ReviewHubAPI.Mappers;
 using ReviewHubAPI.Mappers.Interface;
 using ReviewHubAPI.Middleware;
 using ReviewHubAPI.Models.DTO;
@@ -13,16 +14,18 @@ public class UserService : IUserService
 {
     private readonly IUserRepository _userRepository;
     private readonly IMapper<UserEntity, UserDTO> _userMapper;
+    private readonly IMapper<UserEntity, UserPublicProfileDTO> _userPublicProfileMapper; 
 
     public UserService(IUserRepository userRepository, 
-        IMapper<UserEntity, UserDTO> userMapper)
+        IMapper<UserEntity, UserDTO> userMapper, 
+        IMapper<UserEntity, UserPublicProfileDTO> userPublicProfileMapper)
     {
         _userRepository = userRepository;
         _userMapper = userMapper;
-
+        _userPublicProfileMapper = userPublicProfileMapper;
     }
 
-    public async Task<IEnumerable<UserDTO>> GetAllUsersAsync()
+    public async Task<IEnumerable<UserDTO?>> GetAllUsersAsync()
     {
         var users = await _userRepository.GetAllUsersAsync();
         return users.Select(user => _userMapper.MapToDTO(user)).ToList();
@@ -34,15 +37,10 @@ public class UserService : IUserService
         return userEntity == null ? null : _userMapper.MapToDTO(userEntity);
     }
 
-    public async Task<UserDTO?> GetUserByUsernameAsync(string username)
+    public async Task<UserPublicProfileDTO?> GetUserPublicProfileByUsernameAsync(string username)
     {
         var userEntity = await _userRepository.GetUserByUsernameAsync(username);
-        if (userEntity == null)
-        {
-            return null;
-        }
-
-        return _userMapper.MapToDTO(userEntity);
+        return userEntity == null ? null : _userPublicProfileMapper.MapToDTO(userEntity);
     }
 
     public async Task DeleteUserAsync(int userId)

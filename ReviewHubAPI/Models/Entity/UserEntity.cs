@@ -13,8 +13,8 @@ public class UserEntity
     public string Username { get; set; } = string.Empty;
 
     // Tenkte vi kunne legge til profil bilde også
-    [Required]
-    public byte[]? ProfilePicture { get; set; } 
+    // Fjernet [Required] og tillater null-verdier
+    public byte[]? ProfilePicture { get; set; } = null;
 
     [Required]
     [EmailAddress]
@@ -29,10 +29,8 @@ public class UserEntity
     [Required]
     public string Lastname { get; set; } = string.Empty;
 
-    [Required]
     public DateTime DateCreated { get; set; } = DateTime.UtcNow;
 
-    [Required]
     public bool IsAdmin { get; set; } = false;
 
     // Navigasjonsegenskap når vi oppretter ReviewEntity

@@ -14,11 +14,7 @@ namespace ReviewHubAPI.Models.Entity
         public string Director { get; set; } = string.Empty;
         [Required]
         public string Genre { get; set; } = string.Empty;
-        [Required]
         public DateTime DateCreated { get; set; }
-        [Required]
         public DateTime DateUpdated { get; set; }
-
-
     }
 }

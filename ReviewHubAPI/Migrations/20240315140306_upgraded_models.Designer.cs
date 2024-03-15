@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ReviewHubAPI.Data;
 
@@ -11,9 +12,11 @@ using ReviewHubAPI.Data;
 namespace ReviewHubAPI.Migrations
 {
     [DbContext(typeof(ReviewHubDbContext))]
-    partial class ReviewHubDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240315140306_upgraded_models")]
+    partial class upgraded_models
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,40 +24,6 @@ namespace ReviewHubAPI.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
-
-            modelBuilder.Entity("ReviewHubAPI.Models.Entity.MovieEntity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<DateTime>("DateUpdated")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("Director")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Genre")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("MovieName")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<int>("ReleaseYear")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Movies");
-                });
 
             modelBuilder.Entity("ReviewHubAPI.Models.Entity.UserEntity", b =>
                 {
@@ -101,12 +70,12 @@ namespace ReviewHubAPI.Migrations
                         new
                         {
                             UserID = -1,
-                            DateCreated = new DateTime(2024, 3, 15, 14, 6, 31, 363, DateTimeKind.Utc).AddTicks(7824),
+                            DateCreated = new DateTime(2024, 3, 15, 14, 3, 5, 300, DateTimeKind.Utc).AddTicks(2403),
                             Email = "admin@proton.me",
                             Firstname = "Admin",
                             IsAdmin = true,
                             Lastname = "User",
-                            PasswordHash = "$2a$11$s5IZ00zTDUn5qqZtPpc0ueZL7muxKUPshVfqLmdbb7.2E/wDue8o2",
+                            PasswordHash = "$2a$11$VSJUlcYPs69Y0dI4f7/pluhpsWEdjZbX4is/rHKX9.qNIRZrt.9oG",
                             Username = "TheOne"
                         });
                 });
