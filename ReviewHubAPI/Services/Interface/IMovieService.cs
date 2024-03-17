@@ -6,6 +6,7 @@ namespace ReviewHubAPI.Services.Interface
     {
         
         public Task<ICollection<MovieDTO>> GetAllMovies();
+       
 
         public Task<MovieDTO> GetMovieById(int Id);
 

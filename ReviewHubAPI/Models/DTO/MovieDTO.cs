@@ -10,7 +10,10 @@ namespace ReviewHubAPI.Models.DTO
         public string MovieName { get; set; } = string.Empty;
        
         public int ReleaseYear { get; set; }
-    
+
+        public int AverageRating { get; set; }
+
+
         public string Director { get; set; } = string.Empty;
         
         public string Genre { get; set; } = string.Empty;
