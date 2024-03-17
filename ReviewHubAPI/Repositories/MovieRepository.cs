@@ -20,7 +20,7 @@ namespace ReviewHubAPI.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<MovieEntity> UpdateMovieById(int Id, MovieEntity dto)
+        public Task<MovieEntity> UpdateMovieById(int Id, MovieEntity entity)
         {
             throw new NotImplementedException();
         }

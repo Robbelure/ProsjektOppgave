@@ -29,6 +29,7 @@ namespace ReviewHubAPI.Controllers
             return Ok(movies);
         }
 
+        //TODO: Legg til update Movie
         [HttpGet("{Id}", Name = "GetMovieById")]
 
         public async Task<ActionResult<MovieDTO>> GetMovieById(int Id)

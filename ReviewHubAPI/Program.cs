@@ -81,9 +81,12 @@ builder.Host.UseSerilog((context, configuration) =>
 
 #region DI
 builder.Services.AddScoped<IUserRepository, UserRepository>();
-
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IMovieRepository, MovieRepository>();
+builder.Services.AddScoped<IMovieService, MovieService>();
+builder.Services.AddScoped<IReviewRespository,ReviewRepository>();
+
 
 builder.Services.AddScoped<IMapper<UserEntity, UserDTO>, UserMapper>();
 builder.Services.AddScoped<IMapper<UserEntity, UserRegistrationDTO>, UserRegistrationMapper>();
