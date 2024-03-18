@@ -30,9 +30,9 @@ namespace ReviewHubAPI.Services
 
         }
 
-        public async Task<ICollection<MovieDTO>> GetAllMovies()
+        public async Task<ICollection<MovieDTO>> GetAllMovies(int pagesize, int pagenummer)
         {
-            var movies = await  _movierep.GetAllMovies();
+            var movies = await  _movierep.GetAllMovies(pagesize, pagenummer);
             ICollection<MovieDTO> moviesdto = new List<MovieDTO>();
 
             foreach (var movie in movies)

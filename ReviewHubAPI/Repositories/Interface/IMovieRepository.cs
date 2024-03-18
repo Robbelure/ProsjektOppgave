@@ -4,7 +4,7 @@ namespace ReviewHubAPI.Repositories.Interface
 {
     public interface IMovieRepository
     {
-        public Task<ICollection<MovieEntity>> GetAllMovies();
+        public Task<ICollection<MovieEntity>> GetAllMovies(int pagesize, int pagenummer);
 
         public Task<MovieEntity> GetMovieByName(string name);
 

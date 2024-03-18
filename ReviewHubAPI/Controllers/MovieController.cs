@@ -17,9 +17,9 @@ namespace ReviewHubAPI.Controllers
         }
         [HttpGet(Name = "GetAllMovies")]
 
-        public async Task<ActionResult< ICollection<MovieDTO>>> GetAllMovies()
+        public async Task<ActionResult< ICollection<MovieDTO>>> GetAllMovies(int pagesize, int pagenummer)
         {
-            var movies =  await _movieservice.GetAllMovies();
+            var movies =  await _movieservice.GetAllMovies(pagesize,pagenummer);
 
             if (movies == null)
             { 
