@@ -20,6 +20,11 @@ namespace ReviewHubAPI.Repositories
             throw new NotImplementedException();
         }
 
+        public Task<MovieEntity> GetMovieByName(string name)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<MovieEntity> UpdateMovieById(int Id, MovieEntity entity)
         {
             throw new NotImplementedException();

@@ -43,6 +43,13 @@ namespace ReviewHubAPI.Services
             return moviesdto ?? null!;
         }
 
+        public async Task<MovieDTO> GetMovieByName(string name)
+        {
+            var movie = await _movierep.GetMovieByName(name);
+
+            return _moviemapper.MapToDTO(movie) ?? null!;
+        }
+
         public async Task<MovieDTO> GetMovieById(int Id)
         {
             var movie = await _movierep.GetMovieById(Id);
