@@ -16,9 +16,9 @@ namespace ReviewHubAPI.Controllers
             _reviewser = reviewser;
         }
         [HttpGet(Name = "GetALlReviews")]
-        public async Task<ActionResult<ICollection<ReviewDTO>>> GetAllReviews()
+        public async Task<ActionResult<ICollection<ReviewDTO>>> GetAllReviews(int pagesize, int pagenummer)
         {
-            var reviews =await  _reviewser.GetAllReviews();
+            var reviews =await  _reviewser.GetAllReviews(pagesize,pagenummer);
 
             if(reviews != null)
             {

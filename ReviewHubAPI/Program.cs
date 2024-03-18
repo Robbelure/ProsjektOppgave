@@ -88,11 +88,11 @@ builder.Services.AddScoped<IMovieService, MovieService>();
 builder.Services.AddScoped<IReviewRespository,ReviewRepository>();
 
 
-builder.Services.AddScoped<IMapper<UserEntity, UserDTO>, UserMapper>();
-builder.Services.AddScoped<IMapper<UserEntity, UserRegistrationDTO>, UserRegistrationMapper>();
-builder.Services.AddScoped<IMapper<UserEntity, UserRegistrationResponseDTO>, UserRegistrationResponseMapper>();
-builder.Services.AddScoped<IMapper<UserEntity, UserPublicProfileDTO>, UserPublicProfileMapper>();
-builder.Services.AddScoped<IMapper<UserEntity, UserPrivateProfileDTO>, UserPrivateProfileMapper>();
+//builder.Services.AddScoped<IMapper<UserEntity, UserDTO>, UserMapper>();
+//builder.Services.AddScoped<IMapper<UserEntity, UserRegistrationDTO>, UserRegistrationMapper>();
+//builder.Services.AddScoped<IMapper<UserEntity, UserRegistrationResponseDTO>, UserRegistrationResponseMapper>();
+//builder.Services.AddScoped<IMapper<UserEntity, UserPublicProfileDTO>, UserPublicProfileMapper>();
+//builder.Services.AddScoped<IMapper<UserEntity, UserPrivateProfileDTO>, UserPrivateProfileMapper>();
 #endregion
 
 #region Middleware, Extensions
