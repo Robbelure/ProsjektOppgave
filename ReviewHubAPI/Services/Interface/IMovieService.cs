@@ -1,4 +1,5 @@
 ﻿using ReviewHubAPI.Models.DTO;
+using ReviewHubAPI.Models.Entity;
 
 namespace ReviewHubAPI.Services.Interface
 {
@@ -6,7 +7,8 @@ namespace ReviewHubAPI.Services.Interface
     {
         
         public Task<ICollection<MovieDTO>> GetAllMovies();
-       
+
+        public Task<MovieDTO> GetMovieByName(string name);
 
         public Task<MovieDTO> GetMovieById(int Id);
 

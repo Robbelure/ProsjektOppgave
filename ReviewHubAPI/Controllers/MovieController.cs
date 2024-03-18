@@ -29,8 +29,7 @@ namespace ReviewHubAPI.Controllers
             return Ok(movies);
         }
 
-        //TODO: Legg til update Movie
-        [HttpGet("{Id}", Name = "GetMovieById")]
+        [HttpGet("movieid:{Id}", Name = "GetMovieById")]
 
         public async Task<ActionResult<MovieDTO>> GetMovieById(int Id)
         {
@@ -42,7 +41,20 @@ namespace ReviewHubAPI.Controllers
             return Ok(movie);
         }
 
-        // POST: MovieController/Edit/5
+        [HttpGet("{name}", Name = "GetMovieByName")]
+
+        public async Task<ActionResult<MovieDTO>> GetMovieByName(string name)
+        {
+            var movie = await _movieservice.GetMovieByName(name);
+
+            if (movie == null)
+            {
+                return NotFound("No movie with that name was found");
+            }
+            return Ok(movie);
+        }
+
+      
         [HttpPut("{Id}", Name = "UpdateMovieById")]
 
         public async Task<ActionResult<MovieDTO>> UpdateMovieById(int Id, MovieDTO dto)
