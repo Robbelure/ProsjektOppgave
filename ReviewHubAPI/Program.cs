@@ -86,13 +86,12 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IMovieRepository, MovieRepository>();
 builder.Services.AddScoped<IMovieService, MovieService>();
 builder.Services.AddScoped<IReviewRespository,ReviewRepository>();
+builder.Services.AddScoped<IReviewService,ReviewService>();
+builder.Services.AddScoped<IcommentRepository,commentRepository>();
+builder.Services.AddScoped<IcommentService, CommentService>();
 
 
-//builder.Services.AddScoped<IMapper<UserEntity, UserDTO>, UserMapper>();
-//builder.Services.AddScoped<IMapper<UserEntity, UserRegistrationDTO>, UserRegistrationMapper>();
-//builder.Services.AddScoped<IMapper<UserEntity, UserRegistrationResponseDTO>, UserRegistrationResponseMapper>();
-//builder.Services.AddScoped<IMapper<UserEntity, UserPublicProfileDTO>, UserPublicProfileMapper>();
-//builder.Services.AddScoped<IMapper<UserEntity, UserPrivateProfileDTO>, UserPrivateProfileMapper>();
+
 #endregion
 
 #region Middleware, Extensions
@@ -134,7 +133,7 @@ builder.Services.AddSwaggerGen(c =>
                     Id = "Bearer"
                 }
             },
-            new string[] {}
+            Array.Empty<string>()
         }
     });
 });
