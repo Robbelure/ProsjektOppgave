@@ -5,10 +5,6 @@ using ReviewHubAPI.Repositories;
 using ReviewHubAPI.Services.Interface;
 using ReviewHubAPI.Services;
 using Serilog;
-using ReviewHubAPI.Mappers.Interface;
-using ReviewHubAPI.Mappers;
-using ReviewHubAPI.Models.DTO;
-using ReviewHubAPI.Models.Entity;
 using Microsoft.EntityFrameworkCore;
 using ReviewHubAPI.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -17,6 +13,9 @@ using System.Text;
 using System.Text.Json;
 using ReviewHubAPI.Services.Authentication;
 using Microsoft.OpenApi.Models;
+using FluentValidation;
+using FluentValidation.AspNetCore;
+using ReviewHubAPI.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -86,12 +85,15 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IMovieRepository, MovieRepository>();
 builder.Services.AddScoped<IMovieService, MovieService>();
 builder.Services.AddScoped<IReviewRespository,ReviewRepository>();
-builder.Services.AddScoped<IReviewService,ReviewService>();
-builder.Services.AddScoped<IcommentRepository,commentRepository>();
+builder.Services.AddScoped<IReviewService, ReviewService>();
+builder.Services.AddScoped<IcommentRepository, commentRepository>();
 builder.Services.AddScoped<IcommentService, CommentService>();
+#endregion
 
-
-
+#region FluentValidation Registrering
+builder.Services.AddControllers();
+builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
+builder.Services.AddValidatorsFromAssemblyContaining<UserRegistrationDTOValidator>(); // Husk å erstatte med din faktiske validator-klasse
 #endregion
 
 #region Middleware, Extensions
@@ -105,8 +107,9 @@ builder.Services.AddDbContext<ReviewHubDbContext>(options =>
         new MySqlServerVersion(new Version(8, 0))));
 #endregion
 
-builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
+
+// JWT-token autentisering i Swagger
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "ReviewHubAPI", Version = "v1" });
