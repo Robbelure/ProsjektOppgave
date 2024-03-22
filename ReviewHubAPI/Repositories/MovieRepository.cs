@@ -10,12 +10,17 @@ namespace ReviewHubAPI.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<ICollection<MovieEntity>> GetAllMovies()
+        public Task<ICollection<MovieEntity>> GetAllMovies(int pagesize, int pagenummer)
         {
             throw new NotImplementedException();
         }
 
         public Task<MovieEntity> GetMovieById(int Id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<MovieEntity> GetMovieByName(string name)
         {
             throw new NotImplementedException();
         }

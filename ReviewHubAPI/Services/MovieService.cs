@@ -30,9 +30,9 @@ namespace ReviewHubAPI.Services
 
         }
 
-        public async Task<ICollection<MovieDTO>> GetAllMovies()
+        public async Task<ICollection<MovieDTO>> GetAllMovies(int pagesize, int pagenummer)
         {
-            var movies = await  _movierep.GetAllMovies();
+            var movies = await  _movierep.GetAllMovies(pagesize, pagenummer);
             ICollection<MovieDTO> moviesdto = new List<MovieDTO>();
 
             foreach (var movie in movies)
@@ -41,6 +41,13 @@ namespace ReviewHubAPI.Services
             }
 
             return moviesdto ?? null!;
+        }
+
+        public async Task<MovieDTO> GetMovieByName(string name)
+        {
+            var movie = await _movierep.GetMovieByName(name);
+
+            return _moviemapper.MapToDTO(movie) ?? null!;
         }
 
         public async Task<MovieDTO> GetMovieById(int Id)

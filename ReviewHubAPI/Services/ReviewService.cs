@@ -17,9 +17,9 @@ namespace ReviewHubAPI.Services
             _reviewmapper = Reviewmapper;
         }
 
-        public async Task<ICollection<ReviewDTO>> GetAllReviews()
+        public async Task<ICollection<ReviewDTO>> GetAllReviews(int pagesize, int pagenummer)
         {
-            var reviewsentity = await _reviewrep.GetAllReviews();
+            var reviewsentity = await _reviewrep.GetAllReviews(pagenummer,pagesize);
             var reviews = new List<ReviewDTO>();
 
             if (reviewsentity != null)
@@ -40,19 +40,19 @@ namespace ReviewHubAPI.Services
             return _reviewmapper.MapToDTO(review) ?? null;
         }
 
-        public async Task<ReviewDTO?> AddReview(ReviewDTO dto)
+        public async Task<ReviewDTO> AddReview(ReviewDTO dto)
         {
             var reviewtoadd = await _reviewrep.AddReview(_reviewmapper.MapToEntity(dto));
 
-            return _reviewmapper.MapToDTO(reviewtoadd)?? null;
+            return _reviewmapper.MapToDTO(reviewtoadd)?? null!;
 
         }
 
-        public async Task<ReviewDTO?> DeleteReviewById(int id)
+        public async Task<ReviewDTO> DeleteReviewById(int id)
         {
             var reviewtodelete = await _reviewrep.DeleteReviewById(id);
 
-            return _reviewmapper.MapToDTO(reviewtodelete) ?? null;
+            return _reviewmapper.MapToDTO(reviewtodelete) ?? null!;
         }
 
         public async Task<ReviewDTO> UpdateReviewById(int id, ReviewDTO dto)

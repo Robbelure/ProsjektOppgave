@@ -15,7 +15,7 @@ namespace ReviewHubAPI.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<ICollection<ReviewEntity>> GetAllReviews()
+        public Task<ICollection<ReviewEntity>> GetAllReviews(int pagesize, int pagenummer)
         {
             throw new NotImplementedException();
         }
