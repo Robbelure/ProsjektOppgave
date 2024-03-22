@@ -26,7 +26,7 @@ public class UserRepository : IUserRepository
         return await _dbContext.Users.ToListAsync();
     }
 
-    public async Task<UserEntity> GetUserByIdAsync(int userId)
+    public async Task<UserEntity?> GetUserByIdAsync(int userId)
     {
         var user = await _dbContext.Users.FindAsync(userId);
         if (user == null)

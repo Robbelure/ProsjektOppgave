@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using ReviewHubAPI.Mappers;
-using ReviewHubAPI.Mappers.Interface;
+﻿using ReviewHubAPI.Mappers.Interface;
 using ReviewHubAPI.Middleware;
 using ReviewHubAPI.Models.DTO;
 using ReviewHubAPI.Models.Entity;
@@ -14,15 +11,18 @@ public class UserService : IUserService
 {
     private readonly IUserRepository _userRepository;
     private readonly IMapper<UserEntity, UserDTO> _userMapper;
-    private readonly IMapper<UserEntity, UserPublicProfileDTO> _userPublicProfileMapper; 
+    private readonly IMapper<UserEntity, UserPublicProfileDTO> _userPublicProfileMapper;
+    private readonly ILogger<UserService> _logger;
 
     public UserService(IUserRepository userRepository, 
         IMapper<UserEntity, UserDTO> userMapper, 
-        IMapper<UserEntity, UserPublicProfileDTO> userPublicProfileMapper)
+        IMapper<UserEntity, UserPublicProfileDTO> userPublicProfileMapper,
+        ILogger<UserService> logger)
     {
         _userRepository = userRepository;
         _userMapper = userMapper;
         _userPublicProfileMapper = userPublicProfileMapper;
+        _logger = logger;
     }
 
     public async Task<IEnumerable<UserDTO?>> GetAllUsersAsync()
@@ -45,6 +45,22 @@ public class UserService : IUserService
 
     public async Task DeleteUserAsync(int userId)
     {
+        var userEntity = await _userRepository.GetUserByIdAsync(userId);
+        if (userEntity == null)
+        {
+            _logger.LogError($"User with ID {userId} not found.");
+            throw new NotFoundException($"User with ID {userId} not found.");
+        }
+
         await _userRepository.DeleteUserAsync(userId);
+        _logger.LogInformation($"User with ID {userId} has been successfully deleted.");
     }
+
+    public async Task<bool> IsUserAdminAsync(int userId)
+    {
+        var user = await _userRepository.GetUserByIdAsync(userId);
+        return user?.IsAdmin ?? false;
+    }
+
 }
+
