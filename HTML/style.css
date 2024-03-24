@@ -14,7 +14,7 @@ body{
 
 .background{
     height: 100vh;
-    background-image: url(/assets/1.jpg);
+    /* background-image: url(/assets/Background/2.JPG); */
     background-size: cover;
     background-position: center;
 }
@@ -34,10 +34,11 @@ body{
 .nav{
     width: 100%;
     position: absolute;
-    top: 30px;
+    top: 35px;
     transform: translateY(-100%);
     display: flex;
-    padding: 4px 4px;
+    padding-top: 4px;
+    padding-bottom: 6px;
 }
 
 .nav nav{
@@ -123,8 +124,8 @@ body{
 
 .hero img{
     align-self: center;
-    width: 150px;
-    height: 150px;
+    width: 100px;
+    height: 100px;
 }
 
 .hero h2{
