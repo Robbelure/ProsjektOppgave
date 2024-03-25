@@ -16,7 +16,7 @@ function loadImage(index) {
     var img = new Image();
     img.onload = function() {
         // Set the background image once the image has loaded
-        randomchange.style.backgroundImage = 'url('+images[index]+')';
+        randomchange.style.backgroundImage = 'linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.8)),url('+images[index]+')'
     };
     img.src = images[index];
 }

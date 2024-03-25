@@ -15,12 +15,11 @@ body{
 
 .background{
     height: 100vh;
-    /* background-image: url(/assets/Background/2.JPG); */
     background-size: cover;
     background-position: center;
 }
 
-.background::after{
+/* .background::after{
     content: "";
     position: absolute;
     height: 100vh;
@@ -28,7 +27,7 @@ body{
     top: 0;
     left: 0;
     background-color: rgba(0, 0, 0, 0.66);
-}
+} */
 
 
 
@@ -160,26 +159,24 @@ body{
     height: 80px;
     width: 80px;
 }
-.button{
-    appearance: none;
+.hero a{
     align-self: center;
-    background-color: red;
+    background: linear-gradient( red, rgb(250, 105, 61)) ;
     height: 2.7rem;
+    width: 300px;
+    padding-top: 10px;
     border: 0;
     box-shadow: none;
-    border-radius: 0px;
+    border-radius: 36px;
     cursor: pointer;
-    
-
-}
-
-.button span{
-    align-self: center;
-
-
+    text-align: center;
+    text-decoration: none;
     color: white;
     font-family: "Bebas Neue", sans-serif;
     font-weight: 400;
     font-style: normal;
     font-size: 1.6rem;
+    
+
 }
+
