@@ -1,6 +1,6 @@
 
 @import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap");
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
 
 
 body{
@@ -8,7 +8,7 @@ body{
     padding: 0;
     box-sizing: border-box;
     width: 100vw;
-    height: 100vh;
+    height: 50vh;
 
 }
 
@@ -18,18 +18,6 @@ body{
     background-size: cover;
     background-position: center;
 }
-
-/* .background::after{
-    content: "";
-    position: absolute;
-    height: 100vh;
-    width: 100vw;
-    top: 0;
-    left: 0;
-    background-color: rgba(0, 0, 0, 0.66);
-} */
-
-
 
 .nav{
     width: 100%;
@@ -110,7 +98,7 @@ body{
 
 .hero{
     position: absolute;
-    top: 50%;
+    top: 40%;
     transform: translateY(-50%);
     display: flex;
     flex-direction: column;
@@ -176,7 +164,48 @@ body{
     font-weight: 400;
     font-style: normal;
     font-size: 1.6rem;
-    
+}
+
+.footer{
+    position: absolute;
+    opacity: 89%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    bottom: 2px;
+    height: 80px;
+    width: 100%;
+    background-color: black;
+    color: white;
 
 }
 
+.footer-container {
+    display: flex;
+    flex-direction: column;
+    padding-top: 15px;
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: 400;
+    font-style: normal;
+
+
+}
+
+.footer-container p {
+    margin: 0;
+    font-size: 1.3rem;
+}
+
+.footer-container span{
+    margin-left: 110px;
+}
+
+.footer-container .Copyright{
+    font-size: 0.8rem;
+    margin-left: 60px;
+}
+
+.footer-container .Copyrigh em{
+    margin-bottom: 4px;
+    color: red;
+}
