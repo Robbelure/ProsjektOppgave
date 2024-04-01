@@ -1,0 +1,136 @@
+
+*{
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.Container{
+    display: flex;
+    height: auto;
+    justify-content: center;
+}
+.background{
+    display: grid;
+    justify-items: center;
+    height: 600px;
+    max-height: 900px;
+    width: 100vw;
+
+}
+.nav{
+    width: 100vw;;
+    position: absolute;
+    top: 35px;
+    transform: translateY(-100%);
+    display: flex;
+    padding-top: 4px;
+    padding-bottom: 6px;
+}
+
+.nav nav{
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.11s ease-in-out 0.08s;
+}
+.nav:hover{
+    background-color: rgb(3, 3, 3);
+}
+
+.navlist{
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+    margin-left: 10%;
+    padding: 0px;
+
+}
+
+.nav ul{
+    margin-top:15px;
+    margin-bottom: 2px;
+
+}
+
+
+.navlist li{
+    list-style: none;
+    margin-left: 10%;
+
+}
+
+.navlist li a{
+    font-family: "Bebas Neue", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    letter-spacing: 4px;
+    margin-left: 5px;
+    text-decoration: none;
+    color: white;
+    font-size: 1rem;
+    
+}
+
+.navlist li a:hover{
+    color: red;
+}
+
+
+.signinn{
+    margin-left: 2%;
+    width: 80px;
+    margin-right: 7%;
+    font-family: "Bebas Neue", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    letter-spacing: 2px;
+    text-decoration: none;
+    color: white;
+    font-size: 1rem;
+    align-items: end;
+}
+
+.signinn:hover{
+    color: red;
+}
+
+.hero-content{
+    position: relative;
+    top: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 0 2rem ;
+    margin-left: 30px;
+    background-color:rgba(255, 255, 255, 0.04);
+    height: 400px;
+    width: 95%;
+
+
+}
+
+
+
+.hero-content h1{
+    width: 500px;
+    display: inline;
+    text-align: center;
+    color: white;
+    font-size: 3rem;
+    justify-self: center;
+    align-self: center;
+} 
+
+.hero-content p{
+    width: 500px;
+    display: inline;
+    text-align: center;
+    color: white;
+    font-size: 1srem;
+    justify-self: center;
+    align-self: center;
+}
