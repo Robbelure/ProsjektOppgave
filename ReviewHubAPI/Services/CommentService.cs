@@ -8,9 +8,9 @@ namespace ReviewHubAPI.Services
 {
     public class CommentService : IcommentService
     {
-        private IcommentRepository _commentRep;
+        private ICommentRepository _commentRep;
         private IMapper<CommentEntity, CommentDTO> _commentmapper;
-        public CommentService(IcommentRepository commentRep, IMapper<CommentEntity,CommentDTO> commentmapper)
+        public CommentService(ICommentRepository commentRep, IMapper<CommentEntity,CommentDTO> commentmapper)
         {
             _commentRep = commentRep;
             _commentmapper = commentmapper;

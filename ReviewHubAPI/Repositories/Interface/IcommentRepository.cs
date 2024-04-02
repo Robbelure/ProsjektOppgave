@@ -3,7 +3,7 @@ using ReviewHubAPI.Models.Entity;
 
 namespace ReviewHubAPI.Repositories.Interface
 {
-    public interface IcommentRepository
+    public interface ICommentRepository
     {
         public Task<ICollection<CommentEntity>> GetAllComentsByReviewId(int ReviewId);
         public Task<ICollection<CommentEntity>> GetAllComentsByUserId(int UserId);

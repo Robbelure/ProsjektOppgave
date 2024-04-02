@@ -10,7 +10,7 @@ namespace ReviewHubAPI.Controllers
     [ApiController]
     public class CommentController : Controller
     {
-        private IcommentService _commentservice;
+        private readonly IcommentService _commentservice;
 
         public ILogger<CommentController> _logger;
 

@@ -1,14 +1,16 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ReviewHubAPI.Models.Entity
 {
     public class CommentEntity
     {
-        [Required]
+        [Key]
         public int Id { get; set; }
-        [Required]
+
+        [ForeignKey("UserID")]
         public int UserId { get; set; }
-        [Required]
+        [ForeignKey("Id")]
         public int ReviewId { get; set; }
         [Required]
         public string Title { get; set; } = string.Empty;
@@ -19,6 +21,9 @@ namespace ReviewHubAPI.Models.Entity
         [Required]
         public DateTime Updated { get; set; }
 
+
+        //public virtual UserEntity? UserEntity { get; set; }
+        //public virtual ReviewEntity? ReviewEntity { get; set; }
 
     }
 }

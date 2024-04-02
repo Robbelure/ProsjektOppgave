@@ -12,8 +12,7 @@ public class UserEntity
     [Required]
     public string Username { get; set; } = string.Empty;
 
-    // Tenkte vi kunne legge til profil bilde også
-    // Fjernet [Required] og tillater null-verdier
+
     public byte[]? ProfilePicture { get; set; } = null;
 
     [Required]

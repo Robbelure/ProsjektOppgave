@@ -4,7 +4,7 @@ namespace ReviewHubAPI.Models.Entity
 {
     public class ReviewEntity
     {
-        [Required] 
+        [Key] 
         public int Id { get; set; }
         [Required]
         public int MovieId { get; set; }

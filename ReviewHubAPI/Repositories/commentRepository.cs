@@ -4,7 +4,7 @@ using ReviewHubAPI.Repositories.Interface;
 
 namespace ReviewHubAPI.Repositories
 {
-    public class commentRepository : IcommentRepository
+    public class commentRepository : ICommentRepository
     {
         public Task<ICollection<CommentEntity>> GetAllComents(int PageSize, int Pagenummer)
         {
