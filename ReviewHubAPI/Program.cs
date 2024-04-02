@@ -86,8 +86,14 @@ builder.Services.AddScoped<IMovieRepository, MovieRepository>();
 builder.Services.AddScoped<IMovieService, MovieService>();
 builder.Services.AddScoped<IReviewRespository,ReviewRepository>();
 builder.Services.AddScoped<IReviewService, ReviewService>();
-builder.Services.AddScoped<IcommentRepository, commentRepository>();
+builder.Services.AddScoped<ICommentRepository, commentRepository>();
 builder.Services.AddScoped<IcommentService, CommentService>();
+builder.Services.AddScoped<IReviewPictureRepository, ReviewPictureRepository>();
+builder.Services.AddScoped<IReviewPictureService, ReviewPictureService>();
+builder.Services.AddScoped<IMoviePosterRepository, MoviePosterRepository>();
+builder.Services.AddScoped <IMoviePosterService, MoviePosterService>();
+builder.Services.AddScoped <IUploadProfilePictureRepository, UploadProfilePictureRepository>();
+builder.Services.AddScoped <IUploadProfilePictureService, UploadProfilePictureService>();
 #endregion
 
 #region FluentValidation Registrering
