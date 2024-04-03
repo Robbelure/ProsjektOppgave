@@ -15,6 +15,7 @@ public class ReviewHubDbContext : DbContext
     public DbSet<MovieEntity> Movies { get; set; }
     public DbSet<ReviewEntity> Reviews { get; set; }
     public DbSet<CommentEntity> Comments { get; set; }
+
     public DbSet<MoviePosterEntity> MoviePoster { get; set; }
     public DbSet<ProfilePictureEntity> ProfilePicture { get; set; }
     public DbSet<ReviewPictureEntity> ReviewPicture { get; set; }

@@ -12,8 +12,8 @@ using ReviewHubAPI.Data;
 namespace ReviewHubAPI.Data.Migrations
 {
     [DbContext(typeof(ReviewHubDbContext))]
-    [Migration("20240403120943_Migration1")]
-    partial class Migration1
+    [Migration("20240403214920_migration-rog")]
+    partial class migrationrog
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -65,7 +65,7 @@ namespace ReviewHubAPI.Data.Migrations
 
                     b.HasIndex("UserEntityUserID");
 
-                    b.ToTable("Coments");
+                    b.ToTable("Comments");
                 });
 
             modelBuilder.Entity("ReviewHubAPI.Models.Entity.MovieEntity", b =>
@@ -256,12 +256,12 @@ namespace ReviewHubAPI.Data.Migrations
                         new
                         {
                             UserID = -1,
-                            DateCreated = new DateTime(2024, 4, 3, 12, 9, 42, 993, DateTimeKind.Utc).AddTicks(5858),
+                            DateCreated = new DateTime(2024, 4, 3, 21, 49, 20, 240, DateTimeKind.Utc).AddTicks(4181),
                             Email = "admin@proton.me",
                             Firstname = "Admin",
                             IsAdmin = true,
                             Lastname = "User",
-                            PasswordHash = "$2a$11$xcNu80R0G2Qg62bPgrCs3eMYKPdHDwY1UZt8MxYKlGANEP6H7aSpy",
+                            PasswordHash = "$2a$11$2vrP5Ku13EF/6eVGYb7p0.0syg5AZmbEFUF/jviqHWbpSZd5TBhx.",
                             Username = "TheOne"
                         });
                 });

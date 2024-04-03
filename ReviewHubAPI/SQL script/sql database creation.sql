@@ -13,3 +13,5 @@ CREATE USER IF NOT EXISTS 'ga-app'@'%' IDENTIFIED BY 'pass123';
 
 GRANT ALL PRIVILEGES ON review_hub.* TO 'ga-app'@'%';
 GRANT ALL PRIVILEGES ON review_hub.* TO 'ga-app'@'localhost';
+
+SHOW TABLES FROM review_hub;
