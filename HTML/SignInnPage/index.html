@@ -16,12 +16,13 @@
                 <button type="button" class="toggle"onclick="login()">Log In</button>
                 <button type="button" class="toggle" onclick="register()">Register</button>
             </div>
-            <form id ="login" class="inputgroup">
-                <input type="text" class="input-field" placeholder="Username" required>
-                <input type="password" class="input-field" placeholder="Password" required>
-                <input type="checkbox" class="checkbox" placeholder="Password" required><span>Remember Passoword</span>
+            <form id="loginForm" class="inputgroup">
+                <input type="text" id="loginUsername" class="input-field" placeholder="Username" required>
+                <input type="password" id="loginPassword" class="input-field" placeholder="Password" required>
+                <input type="checkbox" class="checkbox"><span>Remember Password</span>
                 <button type="submit" class="submit-btn">Log in</button>
             </form>
+            
             <form id ="register" class="inputgroup">
                 <input type="firstname" class="input-field" placeholder="First Name" required>
                 <input type="lastname" class="input-field" placeholder="Last Name" required>

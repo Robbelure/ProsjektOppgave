@@ -50,6 +50,30 @@ public class UserController : ControllerBase
     }
 
     [Authorize]
+    [HttpPut("{userId:int}")]
+    public async Task<ActionResult> UpdateUser(int userId, [FromBody] UserUpdateDTO updateDto)
+    {
+        _logger.LogInformation($"Starting update process for user with ID {userId}.");
+
+        // Valider at innlogget bruker er eieren av kontoen eller har adminrettigheter
+        if (User.GetUserId() != userId && !User.IsInRole("Admin"))
+        {
+            _logger.LogWarning($"User with ID {User.GetUserId()} does not have permission to update user with ID {userId}.");
+            return Forbid();
+        }
+
+        var updateResult = await _userService.UpdateUserAsync(userId, updateDto);
+        if (updateResult == null)
+        {
+            _logger.LogWarning($"User with ID {userId} update failed or no changes were made.");
+            return BadRequest("Update failed or no changes were made.");
+        }
+
+        _logger.LogInformation($"User with ID {userId} updated successfully.");
+        return NoContent();
+    }
+
+    [Authorize]
     [HttpDelete("{id}")]
     public async Task<ActionResult> DeleteUser(int id)
     {

@@ -20,8 +20,21 @@ using ReviewHubAPI.Validators;
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 
+#region CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecificOrigin",
+        builder =>
+        {
+            builder.WithOrigins("http://127.0.0.1:5500") // Eller hvilken som helst annen spesifikk URL
+                   .AllowAnyHeader()
+                   .AllowAnyMethod();
+        });
+});
+#endregion
+
 #region JWT-token
-// Sjekk om JWT-nøkkelen er konfigurert korrekt
+// Sjekk om JWT-nï¿½kkelen er konfigurert korrekt
 var jwtKey = configuration["Jwt:Key"] ?? throw new InvalidOperationException("JWT Key is not configured properly.");
 var jwtIssuer = configuration["Jwt:Issuer"];
 var jwtAudience = configuration["Jwt:Audience"];
@@ -99,7 +112,7 @@ builder.Services.AddScoped <IUploadProfilePictureService, UploadProfilePictureSe
 #region FluentValidation Registrering
 builder.Services.AddControllers();
 builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
-builder.Services.AddValidatorsFromAssemblyContaining<UserRegistrationDTOValidator>(); // Husk å erstatte med din faktiske validator-klasse
+builder.Services.AddValidatorsFromAssemblyContaining<UserRegistrationDTOValidator>(); // Husk ï¿½ erstatte med din faktiske validator-klasse
 #endregion
 
 #region Middleware, Extensions
@@ -115,12 +128,12 @@ builder.Services.AddDbContext<ReviewHubDbContext>(options =>
 
 builder.Services.AddEndpointsApiExplorer();
 
-// JWT-token autentisering i Swagger
+#region JWT Authorization header SWAGGER
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "ReviewHubAPI", Version = "v1" });
 
-    // Legger til JWT-støtte i Swagger
+    // Legger til JWT-stï¿½tte i Swagger
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         Name = "Authorization",
@@ -146,6 +159,7 @@ builder.Services.AddSwaggerGen(c =>
         }
     });
 });
+#endregion
 
 
 var app = builder.Build();
@@ -160,6 +174,8 @@ app.UseSerilogRequestLogging();
 app.UseMiddleware<GlobalExceptionMiddleware>();
 
 app.UseHttpsRedirection();
+
+app.UseCors("AllowSpecificOrigin");
 
 app.UseAuthentication();
 app.UseAuthorization();

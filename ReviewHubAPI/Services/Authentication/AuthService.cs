@@ -48,14 +48,27 @@ namespace ReviewHubAPI.Services.Authentication
             return _userRegResponseMapper.MapToDTO(userEntity);
         }
 
-        public async Task<string> AuthenticateAsync(LoginDTO loginDto)
+        public async Task<AuthResponseDTO> AuthenticateAsync(LoginDTO loginDto)
         {
             var userEntity = await _userRepository.GetUserByUsernameAsync(loginDto.Username);
             if (userEntity == null || !BCrypt.Net.BCrypt.Verify(loginDto.Password, userEntity.PasswordHash))
+            {
                 throw new AuthenticationFailedException("Invalid username or password.");
+            }
 
+            // Mapper fra UserEntity til UserDTO
             var userDto = _userMapper.MapToDTO(userEntity);
-            return GenerateJwtToken(userDto);
+
+            // Genererer JWT-token basert på den mappete UserDTO
+            var token = GenerateJwtToken(userDto);
+
+            // Oppretter AuthResponseDTO og returnerer den
+            return new AuthResponseDTO
+            {
+                Token = token,
+                UserId = userDto.UserID,
+                Username = userDto.Username
+            };
         }
 
         public string GenerateJwtToken(UserDTO user)

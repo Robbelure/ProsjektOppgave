@@ -41,6 +41,12 @@ public class UserRepository : IUserRepository
         return await _dbContext.Users.FirstOrDefaultAsync(u => u.Username == username);
     }
 
+    public async Task UpdateUserAsync(UserEntity user)
+    {
+        _dbContext.Users.Update(user);
+        await _dbContext.SaveChangesAsync();
+    }
+
     public async Task DeleteUserAsync(int userId)
     {
         var userToDelete = await _dbContext.Users.FindAsync(userId);

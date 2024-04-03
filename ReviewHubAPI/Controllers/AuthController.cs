@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using ReviewHubAPI.Models.DTO;
 using ReviewHubAPI.Services.Authentication;
 using ReviewHubAPI.Services.Interface;
+using System.Linq;
 
 namespace ReviewHubAPI.Controllers;
 
@@ -34,15 +35,11 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("login")]
-    public async Task<ActionResult<string>> Login([FromBody] LoginDTO loginDto)
+    public async Task<ActionResult<AuthResponseDTO>> Login([FromBody] LoginDTO loginDto)
     {
-        var token = await _authService.AuthenticateAsync(loginDto);
-
-        if (string.IsNullOrEmpty(token))
-        {
+        var authResult = await _authService.AuthenticateAsync(loginDto);
+        if (authResult == null)
             return Unauthorized("Invalid username or password.");
-        }
-
-        return Ok(new { token });
+        return Ok(authResult);
     }
 }

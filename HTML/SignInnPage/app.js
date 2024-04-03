@@ -8,7 +8,6 @@ var images = [
     '../assets/Background/7.png'
 ];
 
-
 var imgCount = images.length;
 var randomIndex = Math.floor(Math.random() * imgCount);
 var randomchange = document.getElementById("container");
@@ -16,31 +15,69 @@ var randomchange = document.getElementById("container");
 function loadImage(index) {
     var img = new Image();
     img.onload = function() {
-        // Set the background image once the image has loaded
-        randomchange.style.backgroundImage = 'linear-gradient(rgba(0,0,0,0.8),rgba(0,0,0,0.2)),url('+images[index]+')'
-
+        randomchange.style.backgroundImage = 'linear-gradient(rgba(0,0,0,0.6),rgba(0,0,0,0.98)),url('+images[index]+')';
     };
     img.src = images[index];
 }
 
 window.onload = function() {
-    // Load the random image initially
     loadImage(randomIndex);
+    
+    // Flytter event listener for skjemaet inn i window.onload for å sikre at elementene er lastet
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        var username = document.getElementById('loginUsername').value;
+        var password = document.getElementById('loginPassword').value;
+        loginUser(username, password);
+    });
 };
 
+var x = document.getElementById("register");
+var y = document.getElementById("login");
+var z = document.getElementById("btn");
 
-var x =  document.getElementById("register");
-var y =  document.getElementById("login");
-var z =   document.getElementById("btn");  
-
-function login(){
+function login() {
     x.style.left = "-400px";
     y.style.left = "50px";
-    z.style.left = "-10px"
+    z.style.left = "-10px";
 }
 
-function register(){
+function register() {
     x.style.left = "50px";
     y.style.left = "-400px";
-    z.style.left = "120px"
+    z.style.left = "120px";
+}
+
+// innlogging bruker
+function loginUser(username, password) {
+    var loginUrl = 'https://localhost:7033/api/Auth/login'; 
+
+    fetch(loginUrl, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password }),
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Autentisering mislyktes');
+        }
+        return response.json();
+    })
+    .then(data => {
+        if(data.token) {
+            localStorage.setItem('jwtToken', data.token); // Lagrer brukerens jwt-token
+            localStorage.setItem('userId', data.userId); // Lagrer brukerens ID
+            localStorage.setItem('username', data.username);
+            alert('Innlogging vellykket!');
+            window.location.href = '../index.html';
+        } else {
+            alert('Innlogging mislyktes, ingen token mottatt.');
+        }
+    })
+    .catch(error => {
+        console.error('Innloggingsfeil:', error);
+        alert('Innlogging mislyktes: ' + error.message);
+    });
 }

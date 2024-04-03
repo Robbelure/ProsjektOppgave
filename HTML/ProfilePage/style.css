@@ -1,0 +1,97 @@
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Sentrerer innholdet vertikalt */
+    align-items: center; /* Sentrerer innholdet horisontalt */
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; /* Denne sentrerer innholdet vertikalt */
+    height: 100vh;
+    width: 100%;
+}
+
+.container-image {
+    /* Fjern position absolute og relaterte stiler */
+    width: 100%; /* Tilpass etter behov */
+    display: flex;
+    justify-content: center; /* Sentrerer bildet horisontalt */
+}
+
+.container img {
+    position: relative;
+    height: 120px;
+    width: 120px;
+    left: 190px;
+    top: -10px;
+    z-index: 6;
+    background-color: white;
+    border-top-right-radius: 50%;
+    border-top-left-radius: 50%;
+}
+
+.form-container {
+    /* Fjern position absolute og relaterte stiler */
+    width: 380px; /* Eksisterende bredde */
+    margin: 0 auto; /* Legger til margin på toppen og bunnen, sentrerer horisontalt */
+    padding: 5px; /* Eksisterende padding */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Eksempel på enkel skygge for å løfte elementet visuelt */
+}
+
+.inputgroup {
+    margin: 20px 0;
+}
+
+.input-field {
+    width: 100%;
+    padding: 10px 0;
+    margin: 5px 0;
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+    border-bottom: 1px solid red;
+    outline: none;
+    background: transparent;
+}
+
+.submit-btn {
+    width: 85%;
+    padding: 10px 30px;
+    cursor: pointer;
+    display: block;
+    margin: auto;
+    background: linear-gradient(red, rgb(250, 105, 61));
+    border: 0;
+    outline: none;
+    border-radius: 30px;
+}
+
+.navigation {
+    width: 100%;
+    padding: 10px; /* Juster padding etter behov for plassering */
+    box-sizing: border-box;
+}
+
+.home-link {
+    display: inline-block;
+    padding: 5px 10px;
+    margin-bottom: 20px;
+    font-size: 1.2em;
+    color: #ff0026;
+    text-decoration: none;
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.home-link:hover {
+    background-color: #e2e6ea;
+    text-decoration: none;
+}

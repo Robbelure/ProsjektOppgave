@@ -1,4 +1,5 @@
-﻿using ReviewHubAPI.Mappers.Interface;
+﻿using Microsoft.EntityFrameworkCore;
+using ReviewHubAPI.Mappers.Interface;
 using ReviewHubAPI.Middleware;
 using ReviewHubAPI.Models.DTO;
 using ReviewHubAPI.Models.Entity;
@@ -54,6 +55,61 @@ public class UserService : IUserService
 
         await _userRepository.DeleteUserAsync(userId);
         _logger.LogInformation($"User with ID {userId} has been successfully deleted.");
+    }
+
+    public async Task<UserDTO?> UpdateUserAsync(int userId, UserUpdateDTO userUpdateDto)
+    {
+        var user = await _userRepository.GetUserByIdAsync(userId);
+        if (user == null)
+        {
+            _logger.LogError($"User with ID {userId} not found for update.");
+            return null;
+        }
+
+        bool isUpdated = false;
+
+        if (!string.IsNullOrWhiteSpace(userUpdateDto.Username) && userUpdateDto.Username != user.Username)
+        {
+            if (await _userRepository.UsernameExistsAsync(userUpdateDto.Username))
+            {
+                _logger.LogWarning($"Username {userUpdateDto.Username} already exists.");
+                return null;
+            }
+            user.Username = userUpdateDto.Username;
+            isUpdated = true;
+        }
+
+        if (!string.IsNullOrWhiteSpace(userUpdateDto.Email) && userUpdateDto.Email != user.Email)
+        {
+            if (await _userRepository.EmailExistsAsync(userUpdateDto.Email))
+            {
+                _logger.LogWarning($"Email {userUpdateDto.Email} already in use.");
+                return null;
+            }
+            user.Email = userUpdateDto.Email;
+            isUpdated = true;
+        }
+
+        if (!string.IsNullOrWhiteSpace(userUpdateDto.Firstname) && userUpdateDto.Firstname != user.Firstname)
+        {
+            user.Firstname = userUpdateDto.Firstname;
+            isUpdated = true;
+        }
+
+        if (!string.IsNullOrWhiteSpace(userUpdateDto.Lastname) && userUpdateDto.Lastname != user.Lastname)
+        {
+            user.Lastname = userUpdateDto.Lastname;
+            isUpdated = true;
+        }
+
+        if (isUpdated)
+        {
+            _logger.LogInformation($"Updating user with ID {userId}.");
+            await _userRepository.UpdateUserAsync(user);
+            _logger.LogInformation($"User with ID {userId} updated in database.");
+        }
+
+        return _userMapper.MapToDTO(user);
     }
 
     public async Task<bool> IsUserAdminAsync(int userId)
