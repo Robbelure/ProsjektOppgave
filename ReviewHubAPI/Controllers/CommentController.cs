@@ -50,7 +50,7 @@ namespace ReviewHubAPI.Controllers
                 var comments = await _commentservice.GetAllComentsByReviewId(ReviewId);
                 if (comments == null)
                 {
-                 return NotFound("No Comment with that review id was found");
+                 return NotFound("No Comments with that review id was found");
                 }
 
                 return Ok(comments);
@@ -73,7 +73,7 @@ namespace ReviewHubAPI.Controllers
                 var comments = await _commentservice.GetAllComentsByUserId(UserId);
                 if (comments == null)
                 {
-                    return NotFound("No Comment with that user id was found");
+                    return NotFound("No Comments with that user id was found");
                 }
 
                 return Ok(comments);
@@ -114,7 +114,7 @@ namespace ReviewHubAPI.Controllers
                 var comment = await _commentservice.DeleteCommentById(id);
                 if (comment == null)
                 {
-                    return BadRequest("Comment Could not be deleted");
+                    return BadRequest("Comments Could not be deleted");
                 }
                 return Ok(comment);
             }
@@ -134,7 +134,7 @@ namespace ReviewHubAPI.Controllers
                 var comment = await _commentservice.UpdateComment(Id, dto);
                 if (comment == null)
                 {
-                    return BadRequest("Comment Could not be updated");
+                    return BadRequest("Comments Could not be updated");
                 }
                 return Ok(comment);
             }
