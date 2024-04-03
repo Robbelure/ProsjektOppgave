@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using ReviewHubAPI.Models.DTO;
+using ReviewHubAPI.Services;
 using ReviewHubAPI.Services.Interface;
 using Serilog.Sinks.SystemConsole.Themes;
 
@@ -10,21 +11,41 @@ namespace ReviewHubAPI.Controllers
     [ApiController]
     public class ReviewPictureController : Controller
     {
-        private readonly IReviewPictureService _ireviewpictureservice;
+        private readonly IReviewPictureService _reviewpictureservice;
         private readonly ILogger<IReviewPictureService> _logger;
 
         public ReviewPictureController(IReviewPictureService Ireviewpictureservice, ILogger<IReviewPictureService> logger)
         {
-            _ireviewpictureservice = Ireviewpictureservice;
+            _reviewpictureservice = Ireviewpictureservice;
             _logger = logger;
         }
+        [HttpPost]
+        public async Task<ActionResult<string>> AddReviewPictures(IFormFile file, int userId)
+        {
+            try
+            {
+                var message = await _reviewpictureservice.AddReviewPicture(file, userId);
+
+                return Ok(message);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("An Error occurred on add review picture in the ReviewPictureController : {ex}", ex);
+
+                return StatusCode(500, $"An error occurred while trying to add review picture");
+
+            }
+
+
+        }
+
 
         [HttpGet (Name = "GetAllReviewPictures")]
         public async Task<ActionResult<ICollection<ReviewPictureDTO>>> GetAllReviewPicturesAsync(int PageSize, int PageNummer)
         {
             try
             {
-                var pics = await _ireviewpictureservice.GetAllReviewPicturesAsync(PageSize, PageNummer);
+                var pics = await _reviewpictureservice.GetAllReviewPicturesAsync(PageSize, PageNummer);
 
                 if (pics == null)
                 {
@@ -49,7 +70,7 @@ namespace ReviewHubAPI.Controllers
         {
             try
             {
-                var pic = await _ireviewpictureservice.DeleteReviewPictureByReviewIdAsync(ReviewId);
+                var pic = await _reviewpictureservice.DeleteReviewPictureByReviewIdAsync(ReviewId);
 
                 if (pic == null)
                 {
@@ -70,7 +91,7 @@ namespace ReviewHubAPI.Controllers
             public async Task<ActionResult<ReviewPictureDTO>> GetReviewPictureByReviewIddAsync(int ReviewId)
             {
                 try { 
-                var pic = await _ireviewpictureservice.GetReviewPictureByReviewIdAsync(ReviewId);
+                var pic = await _reviewpictureservice.GetReviewPictureByReviewIdAsync(ReviewId);
 
                 if(pic == null)
                 {

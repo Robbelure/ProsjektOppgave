@@ -12,11 +12,10 @@ namespace ReviewHubAPI.Mappers
             {
                 Id = entity.Id,
                 MovieId = entity.MovieId,
-                Userid = entity.Userid,
+                Userid = entity.UserId,
                 Title = entity.Title,
                 Rating = entity.Rating,
-                Text = entity.Text,
-                MoviePicture = entity.MoviePicture,
+                Text = entity.Text
             };
         }
 
@@ -26,11 +25,10 @@ namespace ReviewHubAPI.Mappers
             {
                 Id = dto.Id,
                 MovieId = dto.MovieId,
-                Userid = dto.Userid,
+                UserId = dto.Userid,
                 Title = dto.Title,
                 Rating = dto.Rating,
-                Text = dto.Text,
-                MoviePicture = dto.MoviePicture,
+                Text = dto.Text
             };
         }
     }

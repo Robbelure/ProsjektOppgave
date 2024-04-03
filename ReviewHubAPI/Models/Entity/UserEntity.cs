@@ -12,9 +12,6 @@ public class UserEntity
     [Required]
     public string Username { get; set; } = string.Empty;
 
-
-    public byte[]? ProfilePicture { get; set; } = null;
-
     [Required]
     [EmailAddress]
     public string Email { get; set; } = string.Empty;
@@ -32,6 +29,6 @@ public class UserEntity
 
     public bool IsAdmin { get; set; } = false;
 
-    // Navigasjonsegenskap når vi oppretter ReviewEntity
-    // public virtual ICollection<ReviewEntity>? Reviews { get; set; }
+    public virtual ICollection<ReviewEntity>? Reviews { get; set; }
+    public virtual ICollection<CommentEntity>? comments { get; set; }
 }

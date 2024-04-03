@@ -10,11 +10,20 @@ namespace ReviewHubAPI.Services
     {
         private readonly IMoviePosterRepository _movieposterrep;
         private readonly IMapper<MoviePosterEntity, MoviePosterDTO> _moviepostermapper;
-
+     
         public MoviePosterService(IMoviePosterRepository movieposterRep, IMapper<MoviePosterEntity,MoviePosterDTO> moviepostermapper)
         {
             _movieposterrep = movieposterRep;
             _moviepostermapper = moviepostermapper;
+        }
+
+        public async Task<string> AddMoviePoster(IFormFile file, int MovieID)
+        {
+            var pic = await GetPictureBytesAsync(file);
+            var movieposter = new MoviePosterEntity { MovieEntityId = MovieID, MoviePoster = pic };
+            var addedposter = await _movieposterrep.AddMoviePoster(movieposter);
+
+            return addedposter;
         }
         public async Task<MoviePosterDTO> DeleteMoviePosterMovieIdAsync(int MovieId)
         {
@@ -45,6 +54,16 @@ namespace ReviewHubAPI.Services
             var poster = await _movieposterrep.GetMoviePostereByMovieIdAsync(MovieId);
 
             return _moviepostermapper.MapToDTO(poster) ?? null!;
+        }
+
+        private async Task<byte[]> GetPictureBytesAsync(IFormFile picture)
+        {
+
+            using (var memoryStream = new System.IO.MemoryStream())
+            {
+                await picture.CopyToAsync(memoryStream);
+                return memoryStream.ToArray();
+            }
         }
     }
 }

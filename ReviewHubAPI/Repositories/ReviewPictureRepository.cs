@@ -5,6 +5,11 @@ namespace ReviewHubAPI.Repositories
 {
     public class ReviewPictureRepository : IReviewPictureRepository
     {
+        public Task<string> AddReviewPicture(ReviewPictureEntity entity)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<ReviewPictureEntity> DeleteReviewPictureByReviewIdAsync(int ReviewId)
         {
             throw new NotImplementedException();

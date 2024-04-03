@@ -3,17 +3,20 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ReviewHubAPI.Data;
 
 #nullable disable
 
-namespace ReviewHubAPI.Migrations
+namespace ReviewHubAPI.Data.Migrations
 {
     [DbContext(typeof(ReviewHubDbContext))]
-    partial class ReviewHubDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240403120943_Migration1")]
+    partial class Migration1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -11,6 +11,9 @@ namespace ReviewHubAPI.Models.Entity
         public string MovieName { get; set; } = string.Empty;
 
         [Required]
+        public string Summary { get; set; } = string.Empty;
+
+        [Required]
         public int AverageRating { get; set; }
 
         [Required]
@@ -23,5 +26,9 @@ namespace ReviewHubAPI.Models.Entity
         public DateTime DateCreated { get; set; }
         [Required]
         public DateTime DateUpdated { get; set; }
+
+
+        public virtual MoviePosterEntity? MoviePosterEntity { get; set; }
+        public virtual ICollection<ReviewEntity>? ReviewEntities { get; set; }
     }
 }

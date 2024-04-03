@@ -16,6 +16,21 @@ namespace ReviewHubAPI.Services
             _reviewpicturerepository = reviewpicturerepository;
             _reviewpicmapper = reviewpicmapper;
         }
+
+        public async Task<string> AddReviewPicture(IFormFile file, int ReviewId)
+        {
+            var pic = await GetPictureBytesAsync(file);
+            ReviewPictureEntity rewpicture = new ReviewPictureEntity 
+            { 
+                ReviewId = ReviewId,
+                ReviewPicture = pic,
+            
+            };
+            var addedRewPic = await  _reviewpicturerepository.AddReviewPicture(rewpicture);
+
+            return addedRewPic;
+        }
+
         public async Task<ReviewPictureDTO> DeleteReviewPictureByReviewIdAsync(int ReviewId)
         {
             var reviewpic = await _reviewpicturerepository.DeleteReviewPictureByReviewIdAsync(ReviewId);
@@ -48,6 +63,16 @@ namespace ReviewHubAPI.Services
             var pic = await _reviewpicturerepository.GetReviewPictureByReviewIdAsync(ReviewId);
 
             return _reviewpicmapper.MapToDTO(pic) ?? null!; 
+        }
+
+        private async Task<byte[]> GetPictureBytesAsync(IFormFile picture)
+        {
+
+            using (var memoryStream = new System.IO.MemoryStream())
+            {
+                await picture.CopyToAsync(memoryStream);
+                return memoryStream.ToArray();
+            }
         }
     }
 }

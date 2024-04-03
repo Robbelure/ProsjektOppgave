@@ -5,6 +5,7 @@ namespace ReviewHubAPI.Services.Interface
 {
     public interface IUploadProfilePictureService
     {
+        public Task<String> AddNewProfilePicture(IFormFile file, int UserId);
         public Task<ICollection<ProfilePictureDTO>> GetAllProfilePicturesAsync(int PageSize, int PageNummer);
 
         public Task<ProfilePictureDTO> GetProfilePictureByUserIdAsync(int UserId);

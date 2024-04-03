@@ -62,10 +62,10 @@ namespace ReviewHubAPI.Services
             {
                 reviewtoupdate.Id = id;
                 reviewtoupdate.MovieId = dto.MovieId;
-                reviewtoupdate.Userid = dto.Userid;
+                reviewtoupdate.UserId = dto.Userid;
                 reviewtoupdate.Text = dto.Text;
                 reviewtoupdate.Title = dto.Title;
-                reviewtoupdate.MoviePicture = dto.MoviePicture;
+             
 
                 await _reviewrep.UpdateReviewById(reviewtoupdate);
                 return _reviewmapper.MapToDTO(reviewtoupdate);

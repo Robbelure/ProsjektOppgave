@@ -18,8 +18,29 @@ namespace ReviewHubAPI.Controllers
             _logger = logger;
         }
 
+        [HttpPost]
+        public async Task<ActionResult<string>> AddMoviePoster(IFormFile file, int MovieID)
+        {
+            try
+            {
+                var message = _movieposterservice.AddMoviePoster(file, MovieID);
+
+                return Ok(message);
+            }
+            catch (Exception ex) 
+            {
+                _logger.LogError("An Error occurred on add movie poster in the MoviePosterController : {ex}", ex);
+
+                return StatusCode(500, $"An error occurred while trying to add movie poster");
+
+            }
+
+
+        }
+
+
         [HttpGet (Name = "GetAllMoviePosters")]
-        public async Task<ActionResult<ICollection<ProfilePictureDTO>>> GetAllMoviePostersAsync(int PageSize, int PageNummer)
+        public async Task<ActionResult<ICollection<MoviePosterDTO>>> GetAllMoviePostersAsync(int PageSize, int PageNummer)
         {
             try
             {
@@ -42,11 +63,11 @@ namespace ReviewHubAPI.Controllers
         }
 
         [HttpGet("UserId/{UserId}", Name = "GetMoviePostereByMovieId")]
-         public async Task<ActionResult<ProfilePictureDTO>> GetMoviePostereByMovieIdAsync(int UserId)
+         public async Task<ActionResult<MoviePosterDTO>> GetMoviePostereByMovieIdAsync(int MovieId)
         {
             try
             {
-                var poster = await _movieposterservice.GetMoviePostereByMovieIdAsync(UserId);
+                var poster = await _movieposterservice.GetMoviePostereByMovieIdAsync(MovieId);
                 if (poster == null)
                 {
                     return NotFound("No poster with that id was found");
@@ -64,11 +85,11 @@ namespace ReviewHubAPI.Controllers
          }
 
         [HttpDelete("UserId/{UserId}", Name = "DeleteMoviePosterMovieId")]
-        public async Task<ActionResult<ProfilePictureDTO>> DeleteMoviePosterMovieIdAsync(int UserId)
+        public async Task<ActionResult<MoviePosterDTO>> DeleteMoviePosterMovieIdAsync(int MovieId)
         {
             try
             {
-                var poster = await _movieposterservice.DeleteMoviePosterMovieIdAsync(UserId);
+                var poster = await _movieposterservice.DeleteMoviePosterMovieIdAsync(MovieId);
                 if (poster == null)
                 {
                     return BadRequest("The poster could not be delete");
