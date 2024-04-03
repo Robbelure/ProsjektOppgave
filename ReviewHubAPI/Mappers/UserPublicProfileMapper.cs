@@ -11,7 +11,6 @@ public class UserPublicProfileMapper : IMapper<UserEntity, UserPublicProfileDTO>
         return new UserPublicProfileDTO
         {
             Username = entity.Username,
-            ProfilePicture = entity.ProfilePicture,
             Firstname = entity.Firstname,
             Lastname = entity.Lastname
         };

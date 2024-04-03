@@ -8,11 +8,11 @@ namespace ReviewHubAPI.Models.Entity
         [Key]
         public int Id { get; set; }
 
-        [ForeignKey("Id")]
+        [ForeignKey("ReviewEntity")]
         public int ReviewId { get; set; }
 
         public byte[]? ReviewPicture { get; set; }
 
-        //public virtual ReviewEntity? ReviewEntity { get; set; }
+        public virtual ReviewEntity? ReviewEntity { get; set; }
     }
 }

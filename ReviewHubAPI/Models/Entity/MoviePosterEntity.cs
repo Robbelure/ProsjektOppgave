@@ -13,6 +13,6 @@ namespace ReviewHubAPI.Models.Entity
 
         public byte[]? MoviePoster { get; set; }
 
-        //public virtual MovieEntity? MovieEntity { get; set; }
+        public virtual MovieEntity? MovieEntity { get; set; }
     }
 }

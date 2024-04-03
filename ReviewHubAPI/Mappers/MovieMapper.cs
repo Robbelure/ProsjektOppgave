@@ -12,6 +12,7 @@ namespace ReviewHubAPI.Mappers
             {
                 Id = entity.Id,
                 MovieName = entity.MovieName,
+                Summary = entity.Summary,
                 ReleaseYear = entity.ReleaseYear,
                 AverageRating = entity.AverageRating,
                 Director = entity.Director,
@@ -27,6 +28,7 @@ namespace ReviewHubAPI.Mappers
             {
                 Id = dto.Id,
                 MovieName = dto.MovieName,
+                Summary = dto.Summary,
                 ReleaseYear = dto.ReleaseYear,
                 AverageRating = dto.AverageRating,
                 Director = dto.Director,

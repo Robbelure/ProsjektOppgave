@@ -5,6 +5,11 @@ namespace ReviewHubAPI.Repositories
 {
     public class MoviePosterRepository : IMoviePosterRepository
     {
+
+        public Task<string> AddMoviePoster(MoviePosterEntity entity)
+        {
+            throw new NotImplementedException();
+        }
         public Task<MoviePosterEntity> DeleteMoviePosterMovieIdAsync(int MovieId)
         {
             throw new NotImplementedException();

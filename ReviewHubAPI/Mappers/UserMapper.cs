@@ -12,7 +12,6 @@ public class UserMapper : IMapper<UserEntity, UserDTO>
         {
             UserID = entity.UserID,
             Username = entity.Username,
-            ProfilePicture = entity.ProfilePicture,
             Email = entity.Email,
             Firstname = entity.Firstname,
             Lastname = entity.Lastname,
@@ -27,7 +26,6 @@ public class UserMapper : IMapper<UserEntity, UserDTO>
         {
             UserID = dto.UserID,
             Username = dto.Username,
-            ProfilePicture = dto.ProfilePicture,
             Email = dto.Email,
             Firstname = dto.Firstname,
             Lastname = dto.Lastname,

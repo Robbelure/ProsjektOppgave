@@ -22,8 +22,8 @@ namespace ReviewHubAPI.Models.Entity
         public DateTime Updated { get; set; }
 
 
-        //public virtual UserEntity? UserEntity { get; set; }
-        //public virtual ReviewEntity? ReviewEntity { get; set; }
+        public virtual UserEntity? UserEntity { get; set; }
+        public virtual ReviewEntity? ReviewEntity { get; set; }
 
     }
 }

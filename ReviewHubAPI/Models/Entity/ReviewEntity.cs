@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ReviewHubAPI.Models.Entity
 {
@@ -6,10 +7,10 @@ namespace ReviewHubAPI.Models.Entity
     {
         [Key] 
         public int Id { get; set; }
-        [Required]
+        [ForeignKey("MovieEntityId")]
         public int MovieId { get; set; }
-        [Required]
-        public int Userid { get; set; }
+        [ForeignKey("UserEntity")]
+        public int UserId { get; set; }
         [Required]
         public string Title { get; set; }= string.Empty;
         [Required]
@@ -17,8 +18,9 @@ namespace ReviewHubAPI.Models.Entity
         [Required]
         public string Text { get; set; } = string.Empty;
 
-        [Required]
-        public byte[]? MoviePicture { get; set; }
+        public virtual UserEntity? UserEntity { get; set; }
+        public virtual ICollection<CommentEntity>? CommentEntities { get; set; }
+        public virtual ReviewPictureEntity? ReviewPictureEntity { get; set; }
 
     }
 }

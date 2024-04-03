@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using ReviewHubAPI.Mappers.Interface;
 using ReviewHubAPI.Models.DTO;
 using ReviewHubAPI.Models.Entity;
+using ReviewHubAPI.Services;
 using ReviewHubAPI.Services.Interface;
 
 namespace ReviewHubAPI.Controllers
@@ -18,6 +19,26 @@ namespace ReviewHubAPI.Controllers
         {
             _porfilepictureservice = porfilePictureService;
             _logger = logger;
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<string>> AddProfilePicture(IFormFile file, int userId)
+        {
+            try
+            {
+                var message = await _porfilepictureservice.AddNewProfilePicture(file, userId);
+
+                return Ok(message);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("An Error occurred on add profile pictur in the UploadProfilePictureController : {ex}", ex);
+
+                return StatusCode(500, $"An error occurred while trying to add profile picture");
+
+            }
+
+
         }
 
         [HttpGet(Name = "GetPictureAllProfilePictures")]

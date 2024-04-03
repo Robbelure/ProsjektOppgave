@@ -16,6 +16,5 @@ namespace ReviewHubAPI.Models.DTO
         
         public string Text { get; set; } = string.Empty;
        
-        public byte[]? MoviePicture { get; set; }
     }
 }

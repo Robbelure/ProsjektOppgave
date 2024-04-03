@@ -15,6 +15,6 @@ namespace ReviewHubAPI.Models.Entity
         public byte[]? ProfilePicture { get; set; }
 
 
-        //public virtual UserEntity? UserEntity { get; set; }
+        public virtual UserEntity? UserEntity { get; set; }
     }
 }

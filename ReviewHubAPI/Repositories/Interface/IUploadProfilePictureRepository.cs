@@ -4,6 +4,7 @@ namespace ReviewHubAPI.Repositories.Interface
 {
     public interface IUploadProfilePictureRepository
     {
+        public Task<String> AddProfilePicture(ProfilePictureEntity entity);
         public Task<ICollection<ProfilePictureEntity>> GetAllProfilePicturesAsync(int PageSize, int PageNummer);
 
         public Task<ProfilePictureEntity> GetProfilePictureByUserIdAsync(int UserId);
