@@ -42,7 +42,7 @@ namespace ReviewHubAPI.Controllers
 
         
 
-        [HttpGet("{id}", Name ="GetReviewById")]
+        [HttpGet("Id={id}", Name ="GetReviewById")]
         public async Task<ActionResult<ReviewDTO?>> GetReviewById(int id)
         {
             try 
@@ -89,7 +89,7 @@ namespace ReviewHubAPI.Controllers
 
         }
 
-        [HttpPut(Name = "UpdateReview")]
+        [HttpPut("Id={id}",Name = "UpdateReview")]
         public async Task<ActionResult<ReviewDTO>> UpdateReviewById(int id, ReviewDTO dto)
         {
             try 
@@ -112,7 +112,7 @@ namespace ReviewHubAPI.Controllers
 
         }
 
-        [HttpDelete ("{id}", Name = "DeleteReviewById")]
+        [HttpDelete ("Id={id}", Name = "DeleteReviewById")]
         public async Task<ActionResult<ReviewDTO>> DeleteReviewById(int id)
         {
             try 

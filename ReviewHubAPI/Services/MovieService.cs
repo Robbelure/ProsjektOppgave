@@ -9,9 +9,9 @@ namespace ReviewHubAPI.Services
     public class MovieService : IMovieService
     {
         private readonly IMovieRepository _movierep;
-        private readonly IMapper<MovieEntity, MovieDTO> _moviemapper;
+        private readonly IMapper<Movie, MovieDTO> _moviemapper;
 
-        public MovieService(IMovieRepository movierep, IMapper<MovieEntity, MovieDTO> moviemapper)
+        public MovieService(IMovieRepository movierep, IMapper<Movie, MovieDTO> moviemapper)
         {
             _movierep = movierep;
             _moviemapper = moviemapper;

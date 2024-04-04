@@ -4,13 +4,13 @@ using ReviewHubAPI.Models.Entity;
 
 namespace ReviewHubAPI.Mappers;
 
-public class UserRegistrationResponseMapper : IMapper<UserEntity, UserRegistrationResponseDTO>
+public class UserRegistrationResponseMapper : IMapper<User, UserRegistrationResponseDTO>
 {
-    public UserRegistrationResponseDTO MapToDTO(UserEntity entity)
+    public UserRegistrationResponseDTO MapToDTO(User entity)
     {
         return new UserRegistrationResponseDTO
         {
-            UserID = entity.UserID,
+            Id = entity.Id,
             Username = entity.Username,
             Email = entity.Email,
             Firstname = entity.Firstname,
@@ -19,7 +19,7 @@ public class UserRegistrationResponseMapper : IMapper<UserEntity, UserRegistrati
         };
     }
 
-    public UserEntity MapToEntity(UserRegistrationResponseDTO dto)
+    public User MapToEntity(UserRegistrationResponseDTO dto)
     {
         throw new NotImplementedException();
     }

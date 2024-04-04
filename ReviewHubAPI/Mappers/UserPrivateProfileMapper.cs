@@ -4,13 +4,13 @@ using ReviewHubAPI.Models.Entity;
 
 namespace ReviewHubAPI.Mappers;
 
-public class UserPrivateProfileMapper : IMapper<UserEntity, UserPrivateProfileDTO>
+public class UserPrivateProfileMapper : IMapper<User, UserPrivateProfileDTO>
 {
-    public UserPrivateProfileDTO MapToDTO(UserEntity entity)
+    public UserPrivateProfileDTO MapToDTO(User entity)
     {
         return new UserPrivateProfileDTO
         {
-            UserID = entity.UserID,
+            Id = entity.Id,
             Username = entity.Username,
             Email = entity.Email,
             Firstname = entity.Firstname,
@@ -20,7 +20,7 @@ public class UserPrivateProfileMapper : IMapper<UserEntity, UserPrivateProfileDT
         };
     }
 
-    public UserEntity MapToEntity(UserPrivateProfileDTO dto)
+    public User MapToEntity(UserPrivateProfileDTO dto)
     {
         throw new NotImplementedException("Mapping from DTO to Entity is not required for this scenario.");
     }

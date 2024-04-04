@@ -4,11 +4,11 @@ namespace ReviewHubAPI.Repositories.Interface
 {
     public interface IUploadProfilePictureRepository
     {
-        public Task<String> AddProfilePicture(ProfilePictureEntity entity);
-        public Task<ICollection<ProfilePictureEntity>> GetAllProfilePicturesAsync(int PageSize, int PageNummer);
+        public Task<String> AddProfilePicture(ProfilePicture entity);
+        public Task<ICollection<ProfilePicture>> GetAllProfilePicturesAsync(int PageSize, int PageNummer);
 
-        public Task<ProfilePictureEntity> GetProfilePictureByUserIdAsync(int UserId);
+        public Task<ProfilePicture> GetProfilePictureByUserIdAsync(int UserId);
 
-        public Task<ProfilePictureEntity> DeleteProfilePictureByUserIdAsync(int UserId);
+        public Task<ProfilePicture> DeleteProfilePictureByUserIdAsync(int UserId);
     }
 }

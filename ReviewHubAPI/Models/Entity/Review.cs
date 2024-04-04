@@ -3,13 +3,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ReviewHubAPI.Models.Entity
 {
-    public class ReviewEntity
+    public class Review
     {
         [Key] 
         public int Id { get; set; }
-        [ForeignKey("MovieEntityId")]
+        [ForeignKey("MovieId")]
         public int MovieId { get; set; }
-        [ForeignKey("UserEntity")]
+        [ForeignKey("UserId")]
         public int UserId { get; set; }
         [Required]
         public string Title { get; set; }= string.Empty;
@@ -18,9 +18,8 @@ namespace ReviewHubAPI.Models.Entity
         [Required]
         public string Text { get; set; } = string.Empty;
 
-        public virtual UserEntity? UserEntity { get; set; }
-        public virtual ICollection<CommentEntity>? CommentEntities { get; set; }
-        public virtual ReviewPictureEntity? ReviewPictureEntity { get; set; }
+        public virtual User? UserEntity { get; set; }
+        public virtual ICollection<Comment>? Comment { get; set; }
 
     }
 }

@@ -9,9 +9,9 @@ namespace ReviewHubAPI.Services
     public class ReviewService : IReviewService
     {
         private readonly IReviewRespository _reviewrep;
-        private readonly IMapper<ReviewEntity, ReviewDTO> _reviewmapper;
+        private readonly IMapper<Review, ReviewDTO> _reviewmapper;
 
-        public ReviewService(IReviewRespository ReviewRep , IMapper<ReviewEntity, ReviewDTO> Reviewmapper)
+        public ReviewService(IReviewRespository ReviewRep , IMapper<Review, ReviewDTO> Reviewmapper)
         {
             _reviewrep = ReviewRep;
             _reviewmapper = Reviewmapper;
@@ -62,7 +62,7 @@ namespace ReviewHubAPI.Services
             {
                 reviewtoupdate.Id = id;
                 reviewtoupdate.MovieId = dto.MovieId;
-                reviewtoupdate.UserId = dto.Userid;
+                reviewtoupdate.UserId = dto.UserId;
                 reviewtoupdate.Text = dto.Text;
                 reviewtoupdate.Title = dto.Title;
              

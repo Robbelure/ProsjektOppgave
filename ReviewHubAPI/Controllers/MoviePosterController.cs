@@ -18,12 +18,12 @@ namespace ReviewHubAPI.Controllers
             _logger = logger;
         }
 
-        [HttpPost]
+        [HttpPost (Name ="AddMoviePoster")]
         public async Task<ActionResult<string>> AddMoviePoster(IFormFile file, int MovieID)
         {
             try
             {
-                var message = _movieposterservice.AddMoviePoster(file, MovieID);
+                var message = await _movieposterservice.AddMoviePoster(file, MovieID);
 
                 return Ok(message);
             }
@@ -62,7 +62,7 @@ namespace ReviewHubAPI.Controllers
            
         }
 
-        [HttpGet("UserId/{UserId}", Name = "GetMoviePostereByMovieId")]
+        [HttpGet("Id={Id}", Name = "GetMoviePostereByMovieId")]
          public async Task<ActionResult<MoviePosterDTO>> GetMoviePostereByMovieIdAsync(int MovieId)
         {
             try
@@ -84,7 +84,7 @@ namespace ReviewHubAPI.Controllers
             }
          }
 
-        [HttpDelete("UserId/{UserId}", Name = "DeleteMoviePosterMovieId")]
+        [HttpDelete("Id={Id}", Name = "DeleteMoviePosterMovieId")]
         public async Task<ActionResult<MoviePosterDTO>> DeleteMoviePosterMovieIdAsync(int MovieId)
         {
             try

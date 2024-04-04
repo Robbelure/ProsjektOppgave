@@ -4,11 +4,11 @@ namespace ReviewHubAPI.Repositories.Interface
 {
     public interface IMoviePosterRepository
     {
-        public Task<string> AddMoviePoster(MoviePosterEntity entity);
-        public Task<ICollection<MoviePosterEntity>> GetAllMoviePostersAsync(int PageSize, int PageNummer);
+        public Task<string> AddMoviePoster(MoviePoster entity);
+        public Task<ICollection<MoviePoster>> GetAllMoviePostersAsync(int PageSize, int PageNummer);
 
-        public Task<MoviePosterEntity> GetMoviePostereByMovieIdAsync(int MovieId);
+        public Task<MoviePoster> GetMoviePostereByMovieIdAsync(int MovieId);
 
-        public Task<MoviePosterEntity> DeleteMoviePosterMovieIdAsync(int MovieId);
+        public Task<MoviePoster> DeleteMoviePosterMovieIdAsync(int MovieId);
     }
 }

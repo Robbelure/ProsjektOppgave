@@ -2,9 +2,8 @@
 
 namespace ReviewHubAPI.Models.Entity
 {
-    public class MovieEntity
+    public class Movie
     {
-        //TODO: Legg til ReviewId
         [Required]
         public int Id { get; set; }
         [Required]
@@ -27,8 +26,6 @@ namespace ReviewHubAPI.Models.Entity
         [Required]
         public DateTime DateUpdated { get; set; }
 
-
-        public virtual MoviePosterEntity? MoviePosterEntity { get; set; }
-        public virtual ICollection<ReviewEntity>? ReviewEntities { get; set; }
+        public virtual ICollection<Review>? Review { get; set; }
     }
 }

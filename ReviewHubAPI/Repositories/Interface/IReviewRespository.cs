@@ -4,12 +4,12 @@ namespace ReviewHubAPI.Repositories.Interface
 {
     public interface IReviewRespository
     {
-        public Task<ICollection<ReviewEntity>> GetAllReviews(int pagesize, int pagenummer);
+        public Task<ICollection<Review>> GetAllReviews(int pagesize, int pagenummer);
 
-        public Task<ReviewEntity> GetReviewById(int id);
-        public Task<ReviewEntity> AddReview(ReviewEntity entity);
-        public Task<ReviewEntity> UpdateReviewById(ReviewEntity entity);
-        public Task<ReviewEntity> DeleteReviewById(int id);
+        public Task<Review> GetReviewById(int id);
+        public Task<Review> AddReview(Review entity);
+        public Task<Review> UpdateReviewById(Review entity);
+        public Task<Review> DeleteReviewById(int id);
 
     }
 }

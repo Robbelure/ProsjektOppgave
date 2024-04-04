@@ -12,8 +12,8 @@ using ReviewHubAPI.Data;
 namespace ReviewHubAPI.Data.Migrations
 {
     [DbContext(typeof(ReviewHubDbContext))]
-    [Migration("20240403214920_migration-rog")]
-    partial class migrationrog
+    [Migration("20240404123737_Mygration-Rig")]
+    partial class MygrationRig
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,7 +25,7 @@ namespace ReviewHubAPI.Data.Migrations
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
 
-            modelBuilder.Entity("ReviewHubAPI.Models.Entity.CommentEntity", b =>
+            modelBuilder.Entity("ReviewHubAPI.Models.Entity.Comment", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -33,15 +33,12 @@ namespace ReviewHubAPI.Data.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Comment")
+                    b.Property<string>("CommentText")
                         .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("Created")
                         .HasColumnType("datetime(6)");
-
-                    b.Property<int?>("ReviewEntityId")
-                        .HasColumnType("int");
 
                     b.Property<int>("ReviewId")
                         .HasColumnType("int");
@@ -53,22 +50,19 @@ namespace ReviewHubAPI.Data.Migrations
                     b.Property<DateTime>("Updated")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int?>("UserEntityUserID")
-                        .HasColumnType("int");
-
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ReviewEntityId");
+                    b.HasIndex("ReviewId");
 
-                    b.HasIndex("UserEntityUserID");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Comments");
                 });
 
-            modelBuilder.Entity("ReviewHubAPI.Models.Entity.MovieEntity", b =>
+            modelBuilder.Entity("ReviewHubAPI.Models.Entity.Movie", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -109,7 +103,7 @@ namespace ReviewHubAPI.Data.Migrations
                     b.ToTable("Movies");
                 });
 
-            modelBuilder.Entity("ReviewHubAPI.Models.Entity.MoviePosterEntity", b =>
+            modelBuilder.Entity("ReviewHubAPI.Models.Entity.MoviePoster", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -117,21 +111,20 @@ namespace ReviewHubAPI.Data.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("MovieEntityId")
+                    b.Property<int>("MovieId")
                         .HasColumnType("int");
 
-                    b.Property<byte[]>("MoviePoster")
+                    b.Property<byte[]>("Poster")
                         .HasColumnType("longblob");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MovieEntityId")
-                        .IsUnique();
+                    b.HasIndex("MovieId");
 
                     b.ToTable("MoviePoster");
                 });
 
-            modelBuilder.Entity("ReviewHubAPI.Models.Entity.ProfilePictureEntity", b =>
+            modelBuilder.Entity("ReviewHubAPI.Models.Entity.ProfilePicture", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -139,32 +132,27 @@ namespace ReviewHubAPI.Data.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<byte[]>("ProfilePicture")
+                    b.Property<byte[]>("Picture")
                         .HasColumnType("longblob");
 
-                    b.Property<int?>("UserEntityUserID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserID")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserEntityUserID");
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("ProfilePicture");
                 });
 
-            modelBuilder.Entity("ReviewHubAPI.Models.Entity.ReviewEntity", b =>
+            modelBuilder.Entity("ReviewHubAPI.Models.Entity.Review", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("MovieEntityId")
-                        .HasColumnType("int");
 
                     b.Property<int>("MovieId")
                         .HasColumnType("int");
@@ -185,14 +173,14 @@ namespace ReviewHubAPI.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MovieEntityId");
+                    b.HasIndex("MovieId");
 
                     b.HasIndex("UserId");
 
                     b.ToTable("Reviews");
                 });
 
-            modelBuilder.Entity("ReviewHubAPI.Models.Entity.ReviewPictureEntity", b =>
+            modelBuilder.Entity("ReviewHubAPI.Models.Entity.ReviewPicture", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -200,27 +188,26 @@ namespace ReviewHubAPI.Data.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<byte[]>("Picture")
+                        .HasColumnType("longblob");
+
                     b.Property<int>("ReviewId")
                         .HasColumnType("int");
 
-                    b.Property<byte[]>("ReviewPicture")
-                        .HasColumnType("longblob");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("ReviewId")
-                        .IsUnique();
+                    b.HasIndex("ReviewId");
 
                     b.ToTable("ReviewPicture");
                 });
 
-            modelBuilder.Entity("ReviewHubAPI.Models.Entity.UserEntity", b =>
+            modelBuilder.Entity("ReviewHubAPI.Models.Entity.User", b =>
                 {
-                    b.Property<int>("UserID")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("UserID"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime(6)");
@@ -248,66 +235,74 @@ namespace ReviewHubAPI.Data.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.HasKey("UserID");
+                    b.HasKey("Id");
 
                     b.ToTable("Users");
 
                     b.HasData(
                         new
                         {
-                            UserID = -1,
-                            DateCreated = new DateTime(2024, 4, 3, 21, 49, 20, 240, DateTimeKind.Utc).AddTicks(4181),
+                            Id = -1,
+                            DateCreated = new DateTime(2024, 4, 4, 12, 37, 37, 61, DateTimeKind.Utc).AddTicks(964),
                             Email = "admin@proton.me",
                             Firstname = "Admin",
                             IsAdmin = true,
                             Lastname = "User",
-                            PasswordHash = "$2a$11$2vrP5Ku13EF/6eVGYb7p0.0syg5AZmbEFUF/jviqHWbpSZd5TBhx.",
+                            PasswordHash = "$2a$11$gm3VlOUvj.MLSCJsFiWiUuP4GLS.vSqXyTIxZr3z.SWiNeJj2iHxq",
                             Username = "TheOne"
                         });
                 });
 
-            modelBuilder.Entity("ReviewHubAPI.Models.Entity.CommentEntity", b =>
+            modelBuilder.Entity("ReviewHubAPI.Models.Entity.Comment", b =>
                 {
-                    b.HasOne("ReviewHubAPI.Models.Entity.ReviewEntity", "ReviewEntity")
-                        .WithMany("CommentEntities")
-                        .HasForeignKey("ReviewEntityId");
-
-                    b.HasOne("ReviewHubAPI.Models.Entity.UserEntity", "UserEntity")
-                        .WithMany("comments")
-                        .HasForeignKey("UserEntityUserID");
-
-                    b.Navigation("ReviewEntity");
-
-                    b.Navigation("UserEntity");
-                });
-
-            modelBuilder.Entity("ReviewHubAPI.Models.Entity.MoviePosterEntity", b =>
-                {
-                    b.HasOne("ReviewHubAPI.Models.Entity.MovieEntity", "MovieEntity")
-                        .WithOne("MoviePosterEntity")
-                        .HasForeignKey("ReviewHubAPI.Models.Entity.MoviePosterEntity", "MovieEntityId")
+                    b.HasOne("ReviewHubAPI.Models.Entity.Review", "Review")
+                        .WithMany("Comment")
+                        .HasForeignKey("ReviewId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("MovieEntity");
+                    b.HasOne("ReviewHubAPI.Models.Entity.User", "User")
+                        .WithMany("comments")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Review");
+
+                    b.Navigation("User");
                 });
 
-            modelBuilder.Entity("ReviewHubAPI.Models.Entity.ProfilePictureEntity", b =>
+            modelBuilder.Entity("ReviewHubAPI.Models.Entity.MoviePoster", b =>
                 {
-                    b.HasOne("ReviewHubAPI.Models.Entity.UserEntity", "UserEntity")
+                    b.HasOne("ReviewHubAPI.Models.Entity.Movie", "Movie")
                         .WithMany()
-                        .HasForeignKey("UserEntityUserID");
+                        .HasForeignKey("MovieId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("UserEntity");
+                    b.Navigation("Movie");
                 });
 
-            modelBuilder.Entity("ReviewHubAPI.Models.Entity.ReviewEntity", b =>
+            modelBuilder.Entity("ReviewHubAPI.Models.Entity.ProfilePicture", b =>
                 {
-                    b.HasOne("ReviewHubAPI.Models.Entity.MovieEntity", null)
-                        .WithMany("ReviewEntities")
-                        .HasForeignKey("MovieEntityId");
+                    b.HasOne("ReviewHubAPI.Models.Entity.User", "User")
+                        .WithOne("ProfilePicture")
+                        .HasForeignKey("ReviewHubAPI.Models.Entity.ProfilePicture", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("ReviewHubAPI.Models.Entity.UserEntity", "UserEntity")
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("ReviewHubAPI.Models.Entity.Review", b =>
+                {
+                    b.HasOne("ReviewHubAPI.Models.Entity.Movie", null)
+                        .WithMany("Review")
+                        .HasForeignKey("MovieId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ReviewHubAPI.Models.Entity.User", "UserEntity")
                         .WithMany("Reviews")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -316,33 +311,31 @@ namespace ReviewHubAPI.Data.Migrations
                     b.Navigation("UserEntity");
                 });
 
-            modelBuilder.Entity("ReviewHubAPI.Models.Entity.ReviewPictureEntity", b =>
+            modelBuilder.Entity("ReviewHubAPI.Models.Entity.ReviewPicture", b =>
                 {
-                    b.HasOne("ReviewHubAPI.Models.Entity.ReviewEntity", "ReviewEntity")
-                        .WithOne("ReviewPictureEntity")
-                        .HasForeignKey("ReviewHubAPI.Models.Entity.ReviewPictureEntity", "ReviewId")
+                    b.HasOne("ReviewHubAPI.Models.Entity.Review", "Review")
+                        .WithMany()
+                        .HasForeignKey("ReviewId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("ReviewEntity");
+                    b.Navigation("Review");
                 });
 
-            modelBuilder.Entity("ReviewHubAPI.Models.Entity.MovieEntity", b =>
+            modelBuilder.Entity("ReviewHubAPI.Models.Entity.Movie", b =>
                 {
-                    b.Navigation("MoviePosterEntity");
-
-                    b.Navigation("ReviewEntities");
+                    b.Navigation("Review");
                 });
 
-            modelBuilder.Entity("ReviewHubAPI.Models.Entity.ReviewEntity", b =>
+            modelBuilder.Entity("ReviewHubAPI.Models.Entity.Review", b =>
                 {
-                    b.Navigation("CommentEntities");
-
-                    b.Navigation("ReviewPictureEntity");
+                    b.Navigation("Comment");
                 });
 
-            modelBuilder.Entity("ReviewHubAPI.Models.Entity.UserEntity", b =>
+            modelBuilder.Entity("ReviewHubAPI.Models.Entity.User", b =>
                 {
+                    b.Navigation("ProfilePicture");
+
                     b.Navigation("Reviews");
 
                     b.Navigation("comments");

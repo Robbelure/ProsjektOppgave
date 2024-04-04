@@ -11,13 +11,13 @@ namespace ReviewHubAPI.Services;
 public class UserService : IUserService
 {
     private readonly IUserRepository _userRepository;
-    private readonly IMapper<UserEntity, UserDTO> _userMapper;
-    private readonly IMapper<UserEntity, UserPublicProfileDTO> _userPublicProfileMapper;
+    private readonly IMapper<User, UserDTO> _userMapper;
+    private readonly IMapper<User, UserPublicProfileDTO> _userPublicProfileMapper;
     private readonly ILogger<UserService> _logger;
 
     public UserService(IUserRepository userRepository, 
-        IMapper<UserEntity, UserDTO> userMapper, 
-        IMapper<UserEntity, UserPublicProfileDTO> userPublicProfileMapper,
+        IMapper<User, UserDTO> userMapper, 
+        IMapper<User, UserPublicProfileDTO> userPublicProfileMapper,
         ILogger<UserService> logger)
     {
         _userRepository = userRepository;
