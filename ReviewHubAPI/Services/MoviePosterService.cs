@@ -9,9 +9,9 @@ namespace ReviewHubAPI.Services
     public class MoviePosterService : IMoviePosterService
     {
         private readonly IMoviePosterRepository _movieposterrep;
-        private readonly IMapper<MoviePosterEntity, MoviePosterDTO> _moviepostermapper;
+        private readonly IMapper<MoviePoster, MoviePosterDTO> _moviepostermapper;
      
-        public MoviePosterService(IMoviePosterRepository movieposterRep, IMapper<MoviePosterEntity,MoviePosterDTO> moviepostermapper)
+        public MoviePosterService(IMoviePosterRepository movieposterRep, IMapper<MoviePoster,MoviePosterDTO> moviepostermapper)
         {
             _movieposterrep = movieposterRep;
             _moviepostermapper = moviepostermapper;
@@ -20,7 +20,7 @@ namespace ReviewHubAPI.Services
         public async Task<string> AddMoviePoster(IFormFile file, int MovieID)
         {
             var pic = await GetPictureBytesAsync(file);
-            var movieposter = new MoviePosterEntity { MovieEntityId = MovieID, MoviePoster = pic };
+            var movieposter = new MoviePoster { MovieId = MovieID, Poster = pic };
             var addedposter = await _movieposterrep.AddMoviePoster(movieposter);
 
             return addedposter;

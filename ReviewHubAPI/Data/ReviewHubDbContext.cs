@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ReviewHubAPI.Models.Entity;
 using ReviewHubAPI.Utilities;
+using System.Reflection.Metadata;
 
 namespace ReviewHubAPI.Data;
 
@@ -11,24 +12,30 @@ public class ReviewHubDbContext : DbContext
     {
     }
 
-    public DbSet<UserEntity> Users { get; set; }
-    public DbSet<MovieEntity> Movies { get; set; }
-    public DbSet<ReviewEntity> Reviews { get; set; }
-    public DbSet<CommentEntity> Comments { get; set; }
+    public DbSet<User> Users { get; set; }
+    public DbSet<Movie> Movies { get; set; }
+    public DbSet<Review> Reviews { get; set; }
+    public DbSet<Comment> Comments { get; set; }
 
-    public DbSet<MoviePosterEntity> MoviePoster { get; set; }
-    public DbSet<ProfilePictureEntity> ProfilePicture { get; set; }
-    public DbSet<ReviewPictureEntity> ReviewPicture { get; set; }
+    public DbSet<MoviePoster> MoviePoster { get; set; }
+    public DbSet<ProfilePicture> ProfilePicture { get; set; }
+    public DbSet<ReviewPicture> ReviewPicture { get; set; }
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+       //modelBuilder.Entity<ProfilePicture>()
+       //     .HasOne(e => e.User)
+       //     .WithOne(e => e.ProfilePicture)
+       //     .HasForeignKey<User>(e => e.Id)
+       //     .IsRequired();
+
         base.OnModelCreating(modelBuilder);
 
         // Seeding av admin-bruker
-        modelBuilder.Entity<UserEntity>().HasData(new UserEntity
+        modelBuilder.Entity<User>().HasData(new User
         {
-            UserID = -1,
+            Id = -1,
             Username = "TheOne",
             PasswordHash = PasswordHelper.HashPassword("AdminPassword123!"),
             Email = "admin@proton.me",
@@ -37,5 +44,8 @@ public class ReviewHubDbContext : DbContext
             DateCreated = DateTime.UtcNow,
             IsAdmin = true
         });
+
+
+       
     }
 }

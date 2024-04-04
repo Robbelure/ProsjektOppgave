@@ -15,18 +15,18 @@ public class UserRepository : IUserRepository
         _dbContext = dbContext;
     }
 
-    public async Task RegisterUserAsync(UserEntity user)
+    public async Task RegisterUserAsync(User user)
     {
         _dbContext.Users.Add(user);
         await _dbContext.SaveChangesAsync();
     }
 
-    public async Task<IEnumerable<UserEntity>> GetAllUsersAsync()
+    public async Task<IEnumerable<User>> GetAllUsersAsync()
     {
         return await _dbContext.Users.ToListAsync();
     }
 
-    public async Task<UserEntity?> GetUserByIdAsync(int userId)
+    public async Task<User?> GetUserByIdAsync(int userId)
     {
         var user = await _dbContext.Users.FindAsync(userId);
         if (user == null)
@@ -36,12 +36,12 @@ public class UserRepository : IUserRepository
         return user;
     }
 
-    public async Task<UserEntity?> GetUserByUsernameAsync(string username)
+    public async Task<User?> GetUserByUsernameAsync(string username)
     {
         return await _dbContext.Users.FirstOrDefaultAsync(u => u.Username == username);
     }
 
-    public async Task UpdateUserAsync(UserEntity user)
+    public async Task UpdateUserAsync(User user)
     {
         _dbContext.Users.Update(user);
         await _dbContext.SaveChangesAsync();

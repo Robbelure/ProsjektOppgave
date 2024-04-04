@@ -40,7 +40,7 @@ namespace ReviewHubAPI.Controllers
         }
 
 
-        [HttpGet("movieid:{Id}", Name = "GetMovieById")]
+        [HttpGet("movieId={Id}", Name = "GetMovieById")]
 
         public async Task<ActionResult<MovieDTO>> GetMovieById(int Id)
         {
@@ -60,7 +60,7 @@ namespace ReviewHubAPI.Controllers
             }
         }
 
-        [HttpGet("{name}", Name = "GetMovieByName")]
+        [HttpGet("name={name}", Name = "GetMovieByName")]
 
         public async Task<ActionResult<MovieDTO>> GetMovieByName(string name)
         {
@@ -83,7 +83,7 @@ namespace ReviewHubAPI.Controllers
         }
 
 
-        [HttpPut("{Id}", Name = "UpdateMovieById")]
+        [HttpPut("Id={Id}", Name = "UpdateMovieById")]
 
         public async Task<ActionResult<MovieDTO>> UpdateMovieById(int Id, MovieDTO dto)
         {
@@ -105,7 +105,7 @@ namespace ReviewHubAPI.Controllers
         }
 
 
-        [HttpDelete("{Id}", Name = "DeleteMovieById")]
+        [HttpDelete("Id={Id}", Name = "DeleteMovieById")]
         public async Task<ActionResult<MovieDTO>> DeleteMovieById(int Id)
         {
             try 

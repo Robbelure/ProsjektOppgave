@@ -4,26 +4,26 @@ using ReviewHubAPI.Models.Entity;
 
 namespace ReviewHubAPI.Mappers
 {
-    public class ProfilePictureMapper : IMapper<ProfilePictureEntity, ProfilePictureDTO>
+    public class ProfilePictureMapper : IMapper<ProfilePicture, ProfilePictureDTO>
     {
-        public ProfilePictureDTO MapToDTO(ProfilePictureEntity entity)
+        public ProfilePictureDTO MapToDTO(ProfilePicture entity)
         {
             return new ProfilePictureDTO
             {
                 Id = entity.Id,
-                UserID = entity.UserID,
-                ProfilePicture = entity.ProfilePicture
+                UserId = entity.UserId,
+                ProfilePicture = entity.Picture
 
             };
         }
 
-        public ProfilePictureEntity MapToEntity(ProfilePictureDTO dto)
+        public ProfilePicture MapToEntity(ProfilePictureDTO dto)
         {
-            return new ProfilePictureEntity
+            return new ProfilePicture
             {
                 Id = dto.Id,
-                UserID = dto.UserID,
-                ProfilePicture = dto.ProfilePicture
+                UserId = dto.UserId,
+                Picture = dto.ProfilePicture
             };
         }
     }

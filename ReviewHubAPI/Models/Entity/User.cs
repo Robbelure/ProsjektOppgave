@@ -3,11 +3,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ReviewHubAPI.Models.Entity;
 
-public class UserEntity
+public class User
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int UserID { get; set; }
+    public int Id { get; set; }
 
     [Required]
     public string Username { get; set; } = string.Empty;
@@ -29,6 +29,7 @@ public class UserEntity
 
     public bool IsAdmin { get; set; } = false;
 
-    public virtual ICollection<ReviewEntity>? Reviews { get; set; }
-    public virtual ICollection<CommentEntity>? comments { get; set; }
+    public virtual ProfilePicture? ProfilePicture { get; set; }
+    public virtual ICollection<Review>? Reviews { get; set; }
+    public virtual ICollection<Comment>? comments { get; set; }
 }

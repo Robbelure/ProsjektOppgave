@@ -65,7 +65,7 @@ namespace ReviewHubAPI.Controllers
 
         }
 
-        [HttpGet("Userid={UserId}", Name = "GetAllComentsByUserId")]
+        [HttpGet("Id={Id}", Name = "GetAllComentsByUserId")]
         public async Task<ActionResult<ICollection<CommentDTO>>> GetAllComentsByUserId(int UserId)
         {
             try

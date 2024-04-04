@@ -4,26 +4,26 @@ using ReviewHubAPI.Models.Entity;
 
 namespace ReviewHubAPI.Mappers
 {
-    public class MoviePosterMapper : IMapper<MoviePosterEntity, MoviePosterDTO>
+    public class MoviePosterMapper : IMapper<MoviePoster, MoviePosterDTO>
     {
-        public MoviePosterDTO MapToDTO(MoviePosterEntity entity)
+        public MoviePosterDTO MapToDTO(MoviePoster entity)
         {
             return new MoviePosterDTO
             {
                 Id = entity.Id,
-                MovieEntityId = entity.MovieEntityId,
-                MoviePoster = entity.MoviePoster
+                MovieId = entity.MovieId,
+                MoviePoster = entity.Poster
 
             };
         }
 
-        public MoviePosterEntity MapToEntity(MoviePosterDTO dto)
+        public MoviePoster MapToEntity(MoviePosterDTO dto)
         {
-            return new MoviePosterEntity
+            return new MoviePoster
             {
                 Id = dto.Id,
-                MovieEntityId = dto.MovieEntityId,
-                MoviePoster = dto.MoviePoster
+                MovieId = dto.MovieId,
+                Poster = dto.MoviePoster
             };
         }
     }

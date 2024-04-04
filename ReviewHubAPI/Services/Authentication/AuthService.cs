@@ -13,16 +13,16 @@ namespace ReviewHubAPI.Services.Authentication
     public class AuthService : IAuthService
     {
         private readonly IUserRepository _userRepository;
-        private readonly IMapper<UserEntity, UserDTO> _userMapper;
-        private readonly IMapper<UserEntity, UserRegistrationDTO> _userRegMapper;
-        private readonly IMapper<UserEntity, UserRegistrationResponseDTO> _userRegResponseMapper;
+        private readonly IMapper<User, UserDTO> _userMapper;
+        private readonly IMapper<User, UserRegistrationDTO> _userRegMapper;
+        private readonly IMapper<User, UserRegistrationResponseDTO> _userRegResponseMapper;
         private readonly IConfiguration _configuration;
         private readonly ILogger<AuthService> _logger;
 
         public AuthService(IUserRepository userRepository,
-            IMapper<UserEntity, UserDTO> userMapper,
-            IMapper<UserEntity, UserRegistrationDTO> userRegMapper,
-            IMapper<UserEntity, UserRegistrationResponseDTO> userRegResponseMapper,
+            IMapper<User, UserDTO> userMapper,
+            IMapper<User, UserRegistrationDTO> userRegMapper,
+            IMapper<User, UserRegistrationResponseDTO> userRegResponseMapper,
             IConfiguration configuration,
             ILogger<AuthService> logger)
         {
@@ -66,14 +66,14 @@ namespace ReviewHubAPI.Services.Authentication
             return new AuthResponseDTO
             {
                 Token = token,
-                UserId = userDto.UserID,
+                UserId = userDto.Id,
                 Username = userDto.Username
             };
         }
 
         public string GenerateJwtToken(UserDTO user)
         {
-            _logger.LogInformation($"Generating JWT token for user: {user.Username}, UserID: {user.UserID}");
+            _logger.LogInformation($"Generating JWT token for user: {user.Username}, Id: {user.Id}");
 
             var jwtKey = _configuration["Jwt:Key"] ?? throw new InvalidOperationException("JWT Key is not configured properly.");
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey));
@@ -83,7 +83,7 @@ namespace ReviewHubAPI.Services.Authentication
             {
                 new Claim(JwtRegisteredClaimNames.Sub, user.Username),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(ClaimTypes.NameIdentifier, user.UserID.ToString()),
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Role, user.IsAdmin ? "Admin" : "User")
             };
 

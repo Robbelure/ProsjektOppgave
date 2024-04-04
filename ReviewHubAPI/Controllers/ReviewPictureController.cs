@@ -19,12 +19,12 @@ namespace ReviewHubAPI.Controllers
             _reviewpictureservice = Ireviewpictureservice;
             _logger = logger;
         }
-        [HttpPost]
-        public async Task<ActionResult<string>> AddReviewPictures(IFormFile file, int userId)
+        [HttpPost("Id={ReviewId}", Name = "AddNewReviewPicture")]
+        public async Task<ActionResult<string>> AddReviewPictures(IFormFile file, int ReviewId)
         {
             try
             {
-                var message = await _reviewpictureservice.AddReviewPicture(file, userId);
+                var message = await _reviewpictureservice.AddReviewPicture(file, ReviewId);
 
                 return Ok(message);
             }
@@ -64,7 +64,7 @@ namespace ReviewHubAPI.Controllers
             }
         }
 
-        [HttpDelete ("ReviewId:{ReviewId}", Name = "DeleteReviewPictureByReviewId")]
+        [HttpDelete ("ReviewId={ReviewId}", Name = "DeleteReviewPictureByReviewId")]
 
         public async Task<ActionResult<ReviewPictureDTO>> DeleteReviewPictureByReviewIdAsync(int ReviewId)
         {
@@ -87,7 +87,7 @@ namespace ReviewHubAPI.Controllers
             }
         }
 
-        [HttpGet("{ReviewId}", Name = "GetReviewPictureByReviewId")]
+        [HttpGet("Id={ReviewId}", Name = "GetReviewPictureByReviewId")]
             public async Task<ActionResult<ReviewPictureDTO>> GetReviewPictureByReviewIddAsync(int ReviewId)
             {
                 try { 

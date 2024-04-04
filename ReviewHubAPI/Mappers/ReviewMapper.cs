@@ -4,28 +4,28 @@ using ReviewHubAPI.Models.Entity;
 
 namespace ReviewHubAPI.Mappers
 {
-    public class ReviewMapper : IMapper<ReviewEntity, ReviewDTO>
+    public class ReviewMapper : IMapper<Review, ReviewDTO>
     {
-        public ReviewDTO MapToDTO(ReviewEntity entity)
+        public ReviewDTO MapToDTO(Review entity)
         {
             return new ReviewDTO
             {
                 Id = entity.Id,
                 MovieId = entity.MovieId,
-                Userid = entity.UserId,
+                UserId = entity.UserId,
                 Title = entity.Title,
                 Rating = entity.Rating,
                 Text = entity.Text
             };
         }
 
-        public ReviewEntity MapToEntity(ReviewDTO dto)
+        public Review MapToEntity(ReviewDTO dto)
         {
-            return new ReviewEntity
+            return new Review
             {
                 Id = dto.Id,
                 MovieId = dto.MovieId,
-                UserId = dto.Userid,
+                UserId = dto.UserId,
                 Title = dto.Title,
                 Rating = dto.Rating,
                 Text = dto.Text

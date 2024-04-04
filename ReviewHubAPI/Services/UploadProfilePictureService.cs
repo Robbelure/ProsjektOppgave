@@ -9,9 +9,9 @@ namespace ReviewHubAPI.Services
     public class UploadProfilePictureService : IUploadProfilePictureService
     {
         private readonly IUploadProfilePictureRepository _uploadprofilepicture;
-        private readonly IMapper<ProfilePictureEntity, ProfilePictureDTO> _profilepicturemapper;
+        private readonly IMapper<ProfilePicture, ProfilePictureDTO> _profilepicturemapper;
 
-        public UploadProfilePictureService( IUploadProfilePictureRepository uploadProfilePicture,IMapper<ProfilePictureEntity, ProfilePictureDTO> profilepicturemapper)
+        public UploadProfilePictureService( IUploadProfilePictureRepository uploadProfilePicture,IMapper<ProfilePicture, ProfilePictureDTO> profilepicturemapper)
         {
             _uploadprofilepicture = uploadProfilePicture;
             _profilepicturemapper = profilepicturemapper;
@@ -20,10 +20,10 @@ namespace ReviewHubAPI.Services
         public async Task<string> AddNewProfilePicture(IFormFile file, int UserId)
         {
             var userpic = await GetPictureBytesAsync(file);
-            ProfilePictureEntity entity = new ProfilePictureEntity
+            ProfilePicture entity = new ProfilePicture
             {
-                UserID = UserId,
-                ProfilePicture = userpic
+                UserId = UserId,
+                Picture = userpic
             };
             var message = await _uploadprofilepicture.AddProfilePicture(entity);
 

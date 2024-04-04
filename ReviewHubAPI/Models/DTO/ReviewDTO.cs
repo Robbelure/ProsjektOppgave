@@ -8,7 +8,7 @@ namespace ReviewHubAPI.Models.DTO
         
         public int MovieId { get; set; }
         
-        public int Userid { get; set; }
+        public int UserId { get; set; }
       
         public string Title { get; set; } = string.Empty;
                                                                 

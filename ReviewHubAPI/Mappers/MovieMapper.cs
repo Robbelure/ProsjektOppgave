@@ -4,9 +4,9 @@ using ReviewHubAPI.Models.Entity;
 
 namespace ReviewHubAPI.Mappers
 {
-    public class MovieMapper : IMapper<MovieEntity, MovieDTO>
+    public class MovieMapper : IMapper<Movie, MovieDTO>
     {
-        public MovieDTO MapToDTO(MovieEntity entity)
+        public MovieDTO MapToDTO(Movie entity)
         {
             return new MovieDTO
             {
@@ -22,9 +22,9 @@ namespace ReviewHubAPI.Mappers
             };
         }
 
-        public MovieEntity MapToEntity(MovieDTO dto)
+        public Movie MapToEntity(MovieDTO dto)
         {
-            return new MovieEntity
+            return new Movie
             {
                 Id = dto.Id,
                 MovieName = dto.MovieName,

@@ -3,16 +3,16 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ReviewHubAPI.Models.Entity
 {
-    public class ReviewPictureEntity
+    public class ReviewPicture
     {
         [Key]
         public int Id { get; set; }
 
-        [ForeignKey("ReviewEntity")]
+        [ForeignKey("ReviewId")]
         public int ReviewId { get; set; }
 
-        public byte[]? ReviewPicture { get; set; }
+        public byte[]? Picture { get; set; }
 
-        public virtual ReviewEntity? ReviewEntity { get; set; }
+        public virtual Review? Review { get; set; }
     }
 }

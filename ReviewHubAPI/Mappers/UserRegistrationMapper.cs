@@ -5,16 +5,16 @@ using ReviewHubAPI.Utilities;
 
 namespace ReviewHubAPI.Mappers;
 
-public class UserRegistrationMapper : IMapper<UserEntity, UserRegistrationDTO>
+public class UserRegistrationMapper : IMapper<User, UserRegistrationDTO>
 {
-    public UserRegistrationDTO MapToDTO(UserEntity entity)
+    public UserRegistrationDTO MapToDTO(User entity)
     {
         throw new NotImplementedException();
     }
 
-    public UserEntity MapToEntity(UserRegistrationDTO dto)
+    public User MapToEntity(UserRegistrationDTO dto)
     {
-        return new UserEntity
+        return new User
         {
             Username = dto.Username,
             Email = dto.Email,

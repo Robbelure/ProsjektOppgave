@@ -9,8 +9,8 @@ namespace ReviewHubAPI.Services
     public class CommentService : IcommentService
     {
         private ICommentRepository _commentRep;
-        private IMapper<CommentEntity, CommentDTO> _commentmapper;
-        public CommentService(ICommentRepository commentRep, IMapper<CommentEntity,CommentDTO> commentmapper)
+        private IMapper<Comment, CommentDTO> _commentmapper;
+        public CommentService(ICommentRepository commentRep, IMapper<Comment,CommentDTO> commentmapper)
         {
             _commentRep = commentRep;
             _commentmapper = commentmapper;
@@ -94,7 +94,7 @@ namespace ReviewHubAPI.Services
             {
                 comment.Updated = updatedate;
                 comment.Title = dto.Title;
-                comment.Comment = dto.Comment;
+                comment.CommentText = dto.Comment;
 
             }
 

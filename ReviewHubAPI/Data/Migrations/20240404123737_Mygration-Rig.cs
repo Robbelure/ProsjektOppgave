@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ReviewHubAPI.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class migrationrog : Migration
+    public partial class MygrationRig : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -44,7 +44,7 @@ namespace ReviewHubAPI.Data.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    UserID = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Username = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -61,7 +61,7 @@ namespace ReviewHubAPI.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Users", x => x.UserID);
+                    table.PrimaryKey("PK_Users", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -71,15 +71,15 @@ namespace ReviewHubAPI.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    MovieEntityId = table.Column<int>(type: "int", nullable: false),
-                    MoviePoster = table.Column<byte[]>(type: "longblob", nullable: true)
+                    MovieId = table.Column<int>(type: "int", nullable: false),
+                    Poster = table.Column<byte[]>(type: "longblob", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_MoviePoster", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_MoviePoster_Movies_MovieEntityId",
-                        column: x => x.MovieEntityId,
+                        name: "FK_MoviePoster_Movies_MovieId",
+                        column: x => x.MovieId,
                         principalTable: "Movies",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -92,18 +92,18 @@ namespace ReviewHubAPI.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    UserID = table.Column<int>(type: "int", nullable: false),
-                    ProfilePicture = table.Column<byte[]>(type: "longblob", nullable: true),
-                    UserEntityUserID = table.Column<int>(type: "int", nullable: true)
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    Picture = table.Column<byte[]>(type: "longblob", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ProfilePicture", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ProfilePicture_Users_UserEntityUserID",
-                        column: x => x.UserEntityUserID,
+                        name: "FK_ProfilePicture_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "UserID");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -119,22 +119,22 @@ namespace ReviewHubAPI.Data.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Rating = table.Column<int>(type: "int", nullable: false),
                     Text = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    MovieEntityId = table.Column<int>(type: "int", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Reviews", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Reviews_Movies_MovieEntityId",
-                        column: x => x.MovieEntityId,
+                        name: "FK_Reviews_Movies_MovieId",
+                        column: x => x.MovieId,
                         principalTable: "Movies",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Reviews_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "UserID",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
@@ -149,26 +149,26 @@ namespace ReviewHubAPI.Data.Migrations
                     ReviewId = table.Column<int>(type: "int", nullable: false),
                     Title = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Comment = table.Column<string>(type: "longtext", nullable: false)
+                    CommentText = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Created = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    Updated = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    UserEntityUserID = table.Column<int>(type: "int", nullable: true),
-                    ReviewEntityId = table.Column<int>(type: "int", nullable: true)
+                    Updated = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Comments", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Comments_Reviews_ReviewEntityId",
-                        column: x => x.ReviewEntityId,
+                        name: "FK_Comments_Reviews_ReviewId",
+                        column: x => x.ReviewId,
                         principalTable: "Reviews",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Comments_Users_UserEntityUserID",
-                        column: x => x.UserEntityUserID,
+                        name: "FK_Comments_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "UserID");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -179,7 +179,7 @@ namespace ReviewHubAPI.Data.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     ReviewId = table.Column<int>(type: "int", nullable: false),
-                    ReviewPicture = table.Column<byte[]>(type: "longblob", nullable: true)
+                    Picture = table.Column<byte[]>(type: "longblob", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -195,40 +195,39 @@ namespace ReviewHubAPI.Data.Migrations
 
             migrationBuilder.InsertData(
                 table: "Users",
-                columns: new[] { "UserID", "DateCreated", "Email", "Firstname", "IsAdmin", "Lastname", "PasswordHash", "Username" },
-                values: new object[] { -1, new DateTime(2024, 4, 3, 21, 49, 20, 240, DateTimeKind.Utc).AddTicks(4181), "admin@proton.me", "Admin", true, "User", "$2a$11$2vrP5Ku13EF/6eVGYb7p0.0syg5AZmbEFUF/jviqHWbpSZd5TBhx.", "TheOne" });
+                columns: new[] { "Id", "DateCreated", "Email", "Firstname", "IsAdmin", "Lastname", "PasswordHash", "Username" },
+                values: new object[] { -1, new DateTime(2024, 4, 4, 12, 37, 37, 61, DateTimeKind.Utc).AddTicks(964), "admin@proton.me", "Admin", true, "User", "$2a$11$gm3VlOUvj.MLSCJsFiWiUuP4GLS.vSqXyTIxZr3z.SWiNeJj2iHxq", "TheOne" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Comments_ReviewEntityId",
+                name: "IX_Comments_ReviewId",
                 table: "Comments",
-                column: "ReviewEntityId");
+                column: "ReviewId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Comments_UserEntityUserID",
+                name: "IX_Comments_UserId",
                 table: "Comments",
-                column: "UserEntityUserID");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MoviePoster_MovieEntityId",
+                name: "IX_MoviePoster_MovieId",
                 table: "MoviePoster",
-                column: "MovieEntityId",
-                unique: true);
+                column: "MovieId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProfilePicture_UserEntityUserID",
+                name: "IX_ProfilePicture_UserId",
                 table: "ProfilePicture",
-                column: "UserEntityUserID");
+                column: "UserId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_ReviewPicture_ReviewId",
                 table: "ReviewPicture",
-                column: "ReviewId",
-                unique: true);
+                column: "ReviewId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Reviews_MovieEntityId",
+                name: "IX_Reviews_MovieId",
                 table: "Reviews",
-                column: "MovieEntityId");
+                column: "MovieId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Reviews_UserId",

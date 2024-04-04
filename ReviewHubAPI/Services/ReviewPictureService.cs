@@ -9,9 +9,9 @@ namespace ReviewHubAPI.Services
     public class ReviewPictureService : IReviewPictureService
     {
         private readonly IReviewPictureRepository _reviewpicturerepository;
-        private readonly IMapper<ReviewPictureEntity, ReviewPictureDTO> _reviewpicmapper;
+        private readonly IMapper<ReviewPicture, ReviewPictureDTO> _reviewpicmapper;
 
-        public ReviewPictureService(IReviewPictureRepository reviewpicturerepository, IMapper<ReviewPictureEntity, ReviewPictureDTO> reviewpicmapper)
+        public ReviewPictureService(IReviewPictureRepository reviewpicturerepository, IMapper<ReviewPicture, ReviewPictureDTO> reviewpicmapper)
         {
             _reviewpicturerepository = reviewpicturerepository;
             _reviewpicmapper = reviewpicmapper;
@@ -20,10 +20,10 @@ namespace ReviewHubAPI.Services
         public async Task<string> AddReviewPicture(IFormFile file, int ReviewId)
         {
             var pic = await GetPictureBytesAsync(file);
-            ReviewPictureEntity rewpicture = new ReviewPictureEntity 
+            ReviewPicture rewpicture = new ReviewPicture 
             { 
                 ReviewId = ReviewId,
-                ReviewPicture = pic,
+                Picture = pic,
             
             };
             var addedRewPic = await  _reviewpicturerepository.AddReviewPicture(rewpicture);

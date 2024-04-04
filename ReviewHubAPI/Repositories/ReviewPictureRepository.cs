@@ -5,22 +5,22 @@ namespace ReviewHubAPI.Repositories
 {
     public class ReviewPictureRepository : IReviewPictureRepository
     {
-        public Task<string> AddReviewPicture(ReviewPictureEntity entity)
+        public Task<string> AddReviewPicture(ReviewPicture entity)
         {
             throw new NotImplementedException();
         }
 
-        public Task<ReviewPictureEntity> DeleteReviewPictureByReviewIdAsync(int ReviewId)
+        public Task<ReviewPicture> DeleteReviewPictureByReviewIdAsync(int ReviewId)
         {
             throw new NotImplementedException();
         }
 
-        public Task<ICollection<ReviewPictureEntity>> GetAllReviewPicturesAsync(int PageSize, int PageNummer)
+        public Task<ICollection<ReviewPicture>> GetAllReviewPicturesAsync(int PageSize, int PageNummer)
         {
             throw new NotImplementedException();
         }
 
-        public Task<ReviewPictureEntity> GetReviewPictureByReviewIdAsync(int ReviewId)
+        public Task<ReviewPicture> GetReviewPictureByReviewIdAsync(int ReviewId)
         {
             throw new NotImplementedException();
         }

@@ -4,9 +4,9 @@ using ReviewHubAPI.Models.Entity;
 
 namespace ReviewHubAPI.Mappers
 {
-    public class CommentMapper : IMapper<CommentEntity, CommentDTO>
+    public class CommentMapper : IMapper<Comment, CommentDTO>
     {
-        public CommentDTO MapToDTO(CommentEntity entity)
+        public CommentDTO MapToDTO(Comment entity)
         {
             return new CommentDTO
             {
@@ -14,21 +14,21 @@ namespace ReviewHubAPI.Mappers
                 UserId = entity.UserId,
                 ReviewId = entity.ReviewId,
                 Title = entity.Title,
-                Comment = entity.Comment,
+                Comment = entity.CommentText,
                 Created = entity.Created,
                 Updated = entity.Updated,
             };
         }
 
-        public CommentEntity MapToEntity(CommentDTO dto)
+        public Comment MapToEntity(CommentDTO dto)
         {
-            return new CommentEntity
+            return new Comment
             {
                 Id = dto.Id,
                 UserId = dto.UserId,
                 ReviewId = dto.ReviewId,
                 Title = dto.Title,
-                Comment = dto.Comment,
+                CommentText = dto.Comment,
                 Created = dto.Created,
                 Updated = dto.Updated,
             };

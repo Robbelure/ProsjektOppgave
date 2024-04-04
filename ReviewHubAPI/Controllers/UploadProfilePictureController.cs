@@ -21,7 +21,7 @@ namespace ReviewHubAPI.Controllers
             _logger = logger;
         }
 
-        [HttpPost]
+        [HttpPost("Id={userId}",Name = "AddNewProfilePicture")]
         public async Task<ActionResult<string>> AddProfilePicture(IFormFile file, int userId)
         {
             try
@@ -41,8 +41,8 @@ namespace ReviewHubAPI.Controllers
 
         }
 
-        [HttpGet(Name = "GetPictureAllProfilePictures")]
-        public async Task<ActionResult<ICollection<ProfilePictureDTO>>> GetPictureAllProfilePicturesAsync(int PageSize, int PageNummer)
+        [HttpGet(Name = "GetAllProfilePictures")]
+        public async Task<ActionResult<ICollection<ProfilePictureDTO>>> GetAllProfilePicturesAsync(int PageSize, int PageNummer)
         {
             try
             {
@@ -65,7 +65,7 @@ namespace ReviewHubAPI.Controllers
             }
         }
 
-        [HttpGet ("UserId:{UserId}", Name = "GetProfilePictureByUserId")]
+        [HttpGet ("Id={UserId}", Name = "GetProfilePictureByUserId")]
         public async Task<ActionResult<ProfilePictureDTO>> GetProfilePictureByUserIdAsync(int UserId)
         {
             try
@@ -88,7 +88,7 @@ namespace ReviewHubAPI.Controllers
 
         }
 
-        [HttpDelete ("UserId:{UserId}",Name = "DeleteProfilePictureByUserId")]
+        [HttpDelete ("Id={UserId}",Name = "DeleteProfilePictureByUserId")]
 
         public async Task<ActionResult<ProfilePictureDTO>> DeleteProfilePictureByUserIdAsync(int UserId)
         {
