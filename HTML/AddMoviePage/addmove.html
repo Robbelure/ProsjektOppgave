@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Add Movie</title>
+    
+</head>
+<body>
+    <form class="movieform" id="movieform">
+        <input type="text" id="MovieName" class="input-field" placeholder="Name of movie" required>
+        <input type="number" id="ReleaseYear" class="input-field" placeholder="Release Year" required>
+        <input type="text" id="Director" class="input-field" placeholder="Director" required>
+        <input type="text" id="Genre" class="input-field" placeholder="Genre" required>
+        <div class="poster">
+            <p>Upload a poster</p>
+            <input type="file" id="poster" class="input-field" placeholder="upload poster" required>
+    </div>
+    <input type="text" id="summary" class="summary" placeholder="plot of the move" required>
+    </form>
+
+    <script src="app.js"></script>
+    
+</body>
+</html>

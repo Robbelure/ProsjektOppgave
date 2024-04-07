@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap");
 
 *{
     margin: 0;
@@ -105,7 +106,7 @@
 
 .hero-content{
     position: relative;
-    top: 50px;
+    top: 100px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -118,7 +119,6 @@
 
 .hero-content h1{
     width: 500px;
-    display: inline;
     text-align: center;
     color: white;
     font-size: 3rem;
@@ -136,7 +136,29 @@
     align-self: center;
 }
 
+.hero-content a{
+    align-self: center;
+    margin-top: 50px;
+    background: linear-gradient( red, rgb(250, 105, 61)) ;
+    height: 2.7rem;
+    width: 300px;
+    padding-top: 7px;
+    border: 0;
+    box-shadow: none;
+    border-radius: 36px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    color: white;
+    font-family: "Bebas Neue", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 1.6rem;
+
+}
+
 .Container-NewReviews{
+    padding-top: 30px;
     overflow: hidden;
     position: relative;
     background: radial-gradient(circle, rgba(0,0,0,1) 44%, rgba(15,15,15,1) 97%, rgba(14,14,14,0.9607492655265231) 100%); 
