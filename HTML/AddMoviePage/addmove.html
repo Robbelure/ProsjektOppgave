@@ -9,15 +9,18 @@
 </head>
 <body>
     <form class="movieform" id="movieform">
-        <input type="text" id="MovieName" class="input-field" placeholder="Name of movie" required>
-        <input type="number" id="ReleaseYear" class="input-field" placeholder="Release Year" required>
-        <input type="text" id="Director" class="input-field" placeholder="Director" required>
-        <input type="text" id="Genre" class="input-field" placeholder="Genre" required>
+        <input type="text" name="MovieName" class="input-field" placeholder="Name of movie" required>
+        <input type="number" name="ReleaseYear" class="input-field" placeholder="Release Year" required>
+        <input type="text" name="Director" class="input-field" placeholder="Director" required>
+        <input type="text" name="Genre" class="input-field" placeholder="Genre" required>
+        <input type="text" name="summary" class="summary" placeholder="plot of the move" required>
         <div class="poster">
             <p>Upload a poster</p>
             <input type="file" id="poster" class="input-field" placeholder="upload poster" required>
     </div>
-    <input type="text" id="summary" class="summary" placeholder="plot of the move" required>
+    <button class="summit">Summit
+
+    </button>
     </form>
 
     <script src="app.js"></script>
