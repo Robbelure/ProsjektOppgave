@@ -3,6 +3,7 @@ using ReviewHubAPI.Models.DTO;
 using ReviewHubAPI.Models.Entity;
 using ReviewHubAPI.Repositories.Interface;
 using ReviewHubAPI.Services.Interface;
+using System.IO;
 
 namespace ReviewHubAPI.Services
 {
@@ -15,6 +16,25 @@ namespace ReviewHubAPI.Services
         {
             _movierep = movierep;
             _moviemapper = moviemapper;
+        }
+
+        public async Task<MovieDTO> AddMovie(MovieDTO DTO)
+        {
+
+            var movie = new Movie
+            {
+                MovieName = DTO.MovieName,
+                Summary = DTO.Summary,
+                ReleaseYear = DTO.ReleaseYear,
+                Director = DTO.Director,
+                Genre = DTO.Genre,
+                DateCreated = DateTime.Now,
+                DateUpdated = DateTime.Now
+            };
+
+           var movieToAdd = await  _movierep.AddMovie(movie);
+
+            return _moviemapper.MapToDTO(movieToAdd) ?? null!;
         }
         public async Task<MovieDTO> DeleteMovieById(int Id)
         {
@@ -77,5 +97,7 @@ namespace ReviewHubAPI.Services
             return _moviemapper.MapToDTO(foundmovie!);
                         
         }
+
+       
     }
 }

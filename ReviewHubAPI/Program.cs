@@ -20,6 +20,7 @@ using ReviewHubAPI.Validators;
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 
+
 #region CORS
 builder.Services.AddCors(options =>
 {

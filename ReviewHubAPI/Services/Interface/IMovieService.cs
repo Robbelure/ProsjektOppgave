@@ -5,7 +5,7 @@ namespace ReviewHubAPI.Services.Interface
 {
     public interface IMovieService
     {
-        
+        public Task<MovieDTO> AddMovie(MovieDTO DTO);
         public Task<ICollection<MovieDTO>> GetAllMovies(int pagesize, int pagenummer);
 
         public Task<MovieDTO> GetMovieByName(string name);
