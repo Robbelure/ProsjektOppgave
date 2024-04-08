@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ReviewHubAPI.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class MygrationRig : Migration
+    public partial class MigrationKont : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -196,7 +196,7 @@ namespace ReviewHubAPI.Data.Migrations
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "DateCreated", "Email", "Firstname", "IsAdmin", "Lastname", "PasswordHash", "Username" },
-                values: new object[] { -1, new DateTime(2024, 4, 4, 12, 37, 37, 61, DateTimeKind.Utc).AddTicks(964), "admin@proton.me", "Admin", true, "User", "$2a$11$gm3VlOUvj.MLSCJsFiWiUuP4GLS.vSqXyTIxZr3z.SWiNeJj2iHxq", "TheOne" });
+                values: new object[] { -1, new DateTime(2024, 4, 8, 9, 29, 56, 852, DateTimeKind.Utc).AddTicks(7092), "admin@proton.me", "Admin", true, "User", "$2a$11$vm353BdbjasMaPx7pgWjQuyE6H5KeeGZWMhwnroobTcdPd3ejcxSC", "TheOne" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Comments_ReviewId",

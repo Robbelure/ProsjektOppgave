@@ -19,6 +19,32 @@ namespace ReviewHubAPI.Controllers
             _logger = logger;
         }
 
+        [HttpPost(Name = "AddMovie")]
+
+        public async Task<ActionResult<MovieDTO>> AddMovie(MovieDTO DTO) 
+        {
+            try
+            {
+                var movie = await _movieservice.AddMovie(DTO);
+
+                if(movie == null)
+                {
+                    return BadRequest("Movie was not added");
+
+                }
+
+                return Ok(movie);   
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("An Error occurred on get Add movie in the MovieController:{ex}", ex);
+                return StatusCode(500, $"An error occurred while trying to add the movie");
+
+            }
+        
+        }
+
         [HttpGet(Name = "GetAllMovies")]
 
         public async Task<ActionResult<ICollection<MovieDTO>>> GetAllMovies(int pagesize, int pagenummer)

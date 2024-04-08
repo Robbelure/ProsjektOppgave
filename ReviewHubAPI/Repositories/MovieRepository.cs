@@ -1,33 +1,68 @@
-﻿using ReviewHubAPI.Models.Entity;
+﻿using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
+using ReviewHubAPI.Data;
+using ReviewHubAPI.Models.Entity;
 using ReviewHubAPI.Repositories.Interface;
 
 namespace ReviewHubAPI.Repositories
 {
     public class MovieRepository : IMovieRepository
     {
+        private readonly ReviewHubDbContext _dbcontext;
+
+        public MovieRepository(ReviewHubDbContext dbContext)
+        {
+            _dbcontext = dbContext;
+        }
+
+        async Task<Movie> IMovieRepository.AddMovie(Movie model)
+        {
+            var movie = await _dbcontext.Movies.AddAsync(model);
+            await _dbcontext.SaveChangesAsync();
+
+            return movie.Entity;
+        }
         public Task<Movie> DeleteMovieById(int Id)
         {
             throw new NotImplementedException();
         }
-
-        public Task<ICollection<Movie>> GetAllMovies(int pagesize, int pagenummer)
+       
+        public async Task<ICollection<Movie>> GetAllMovies(int pagesize, int pagenummer)
         {
-            throw new NotImplementedException();
+            var movies = await _dbcontext.Movies
+                .OrderBy( x => x.Id)
+                  .Skip((pagenummer - 1) * pagesize)
+                 .Take(pagesize).
+                 ToListAsync();
+
+            return movies;
         }
 
-        public Task<Movie> GetMovieById(int Id)
+        public async Task<Movie> GetMovieById(int Id)
         {
-            throw new NotImplementedException();
+            var movie = await _dbcontext.Movies.FirstOrDefaultAsync(x => x.Id == Id);
+
+            return movie ?? null!;
         }
 
-        public Task<Movie> GetMovieByName(string name)
+        public async Task<Movie> GetMovieByName(string name)
         {
-            throw new NotImplementedException();
+            var movie = await _dbcontext.Movies.FirstOrDefaultAsync(x => x.MovieName == name);
+
+            return movie ?? null!;
         }
 
-        public Task<Movie> UpdateMovieById(int Id, Movie entity)
+        public async Task<Movie> UpdateMovieById(Movie model)
         {
-            throw new NotImplementedException();
+            var movie = await _dbcontext.Movies.AddAsync(model);
+            await _dbcontext.SaveChangesAsync();
+
+            return movie.Entity ?? null!;
+
         }
+
+       
+
+      
     }
 }
