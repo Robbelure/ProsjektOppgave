@@ -1,10 +1,9 @@
 document.addEventListener('DOMContentLoaded', function () {
-    var movieurl = 'https://localhost:7033/api/Movie';
-    var posterurl = 'https://localhost:7033/api/MoviePoster';
     const form = document.getElementById('movieform');
     form.addEventListener('submit', function (event) {
         event.preventDefault(); // prevent the default form submission
-
+        const movieurl = 'https://localhost:7033/api/Movie';
+        const movieposterurl = 'https://localhost:7033/api/MoviePoster';
         // Get form data
         const formData = new FormData(form);
         const movieData = {
@@ -23,35 +22,38 @@ document.addEventListener('DOMContentLoaded', function () {
             },
             body: JSON.stringify(movieData),
         })
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to upload movie data');
+            }
+            return response.json();
+        })
         .then(data => {
-            // Once movie is uploaded, upload the poster image
-            const movieId = data.Id; // assuming the API returns the movie ID
+            // Extract movie ID from the response
+            const movieId = data.id;
+
+            // Prepare movie poster data
             const posterFile = formData.get('poster');
             const posterData = new FormData();
-            posterData.append('MovieId', movieId);
-            posterData.append('MoviePoster', posterFile);
+            posterData.append('MovieID', movieId);
+            posterData.append('file', posterFile);
 
-            // Upload poster image
-            fetch(posterurl, {
+            // Upload poster data
+            return fetch(movieposterurl, {
                 method: 'POST',
                 body: posterData,
-            })
-            .then(response => {
-                if (response.ok) {
-                    alert('Movie and Poster uploaded successfully!');
-                    // Clear the form
-                    form.reset();
-                } 
-            })
-            .catch(error => {
-                console.error('Failed to upload poster image', error);
-                alert('Failed to upload poster image');
             });
         })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to upload poster image');
+            }
+            alert('Movie and poster uploaded successfully!');
+            form.reset(); // Reset the form after successful submission
+        })
         .catch(error => {
-            console.error('Failed to upload movie data', error);
-            alert('Failed to upload movie data');
+            console.error('Error:', error);
+            alert('Failed to submit form');
         });
     });
 });
