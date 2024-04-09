@@ -17,10 +17,10 @@ namespace ReviewHubAPI.Services
             _moviepostermapper = moviepostermapper;
         }
 
-        public async Task<string> AddMoviePoster(IFormFile file)
+        public async Task<string> AddMoviePoster(int movieID, IFormFile file)
         {
             var pic = await GetPictureBytesAsync(file);
-            var movieposter = new MoviePoster {  Poster = pic };
+            var movieposter = new MoviePoster { MovieId= movieID, Poster = pic };
             var addedposter = await _movieposterrep.AddMoviePoster(movieposter);
 
             return addedposter;

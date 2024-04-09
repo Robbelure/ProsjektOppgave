@@ -19,11 +19,11 @@ namespace ReviewHubAPI.Controllers
         }
 
         [HttpPost (Name ="AddMoviePoster")]
-        public async Task<ActionResult<string>> AddMoviePoster(IFormFile file)
+        public async Task<ActionResult<string>> AddMoviePoster([FromForm] int MovieID, IFormFile file)
         {
             try
             {
-                var message = await _movieposterservice.AddMoviePoster(file);
+                var message = await _movieposterservice.AddMoviePoster(MovieID, file);
 
                 return Ok(message);
             }
