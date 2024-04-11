@@ -38,7 +38,7 @@
 
   <ItemGroup>
     <Folder Include="Data\Migrations\" />
-    <Folder Include="SQL script\" />
+    <Folder Include="SQL script\DumpFile\" />
   </ItemGroup>
 
 </Project>
