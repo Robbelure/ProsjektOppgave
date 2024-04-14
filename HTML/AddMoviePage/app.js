@@ -1,3 +1,30 @@
+
+const endpointURL = "https://localhost:7033/api/MoviePoster?PageSize=30&PageNummer=1";
+
+
+function GetMovies()
+{
+    fetch(endpointURL)
+    .then(response =>{
+        if(!response.ok)
+        {
+            throw new Error('Network response was not ok')
+        }
+        return response.json();
+    })
+    .then(data => {
+        movies = data;
+        console.log('Movies:', movies);
+        var moviecount = movies.length;
+        var randommovie = Math.floor(Math.random() * moviecount);
+        const movie = movies[randommovie]
+        var poster = `data:image/jpeg;base64,${movie.moviePoster}`;
+        var background = document.getElementById("hero");
+        background.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.7),rgba(255,0,0,0.7)),url('${poster}')`;
+    })
+};
+
+
 document.addEventListener('DOMContentLoaded', function () {
     const form = document.getElementById('movieform');
     form.addEventListener('submit', function (event) {
@@ -57,3 +84,12 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 });
+
+
+
+
+
+window.onload = function() {
+    GetMovies();
+};
+
