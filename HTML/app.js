@@ -1,21 +1,48 @@
-var images = [
-    'assets/Background/1.JPG',
-    'assets/Background/2.JPG',
-    'assets/Background/3.JPG',
-    'assets/Background/4.JPG',
-    'assets/Background/5.JPG',
-    'assets/Background/6.JPEG',
-    'assets/Background/7.png'
-];
+// var images = [
+//     'assets/Background/1.JPG',
+//     'assets/Background/2.JPG',
+//     'assets/Background/3.JPG',
+//     'assets/Background/4.JPG',
+//     'assets/Background/5.JPG',
+//     'assets/Background/6.JPEG',
+//     'assets/Background/7.png'
+// ];
+
+const endpointURL = "https://localhost:7033/api/MoviePoster?PageSize=10&PageNummer=1";
+
+let posterArray = [];
+
+
+function getposters() {
+    return fetch(endpointURL)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            posterArray = data.map(item => `data:image/jpeg;base64,${item.moviePoster}`);
+            console.log(posterArray);
+            return posterArray;
+        })
+        .catch(error => {
+            console.error('There was a problem with the fetch operation:', error);
+            throw error; // re-throw the error to be caught in the caller
+        });
+}
+
 
 function loadImage(index) {
     var img = new Image();
     img.onload = function() {
         var randomchange = document.getElementById("background");
-        randomchange.style.backgroundImage = 'linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.8)),url(' + images[index] + ')';
+        randomchange.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.8)),url('${posterArray[index]}')`;
     };
-    img.src = images[index];
+    img.src = posterArray[index];
 }
+
+
 
 // Initialiserer applikasjonen
 function initialize() {
@@ -23,6 +50,7 @@ function initialize() {
         localStorage.removeItem('jwtToken');
         localStorage.removeItem('userId');
         localStorage.removeItem('username');
+        
     }
 }
 
@@ -55,9 +83,16 @@ function fetchUserData() {
 
 window.onload = function() {
     initialize();
-    var imgCount = images.length;
-    var randomIndex = Math.floor(Math.random() * imgCount);
-    loadImage(randomIndex);
+    getposters()
+    .then(() => {
+        var imgCount = posterArray.length;
+        var randomIndex = Math.floor(Math.random() * imgCount);
+        loadImage(randomIndex);
+    })
+    .catch(error => {
+        console.error('Error initializing:', error);
+    });
+    
 
     const userToken = localStorage.getItem('jwtToken');
     const signInButton = document.querySelector('.signinn');
