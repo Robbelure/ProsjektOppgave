@@ -27,7 +27,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowSpecificOrigin",
         builder =>
         {
-            builder.WithOrigins("http://127.0.0.1:5500") // Eller hvilken som helst annen spesifikk URL
+            builder.WithOrigins("http://127.0.0.1:5500") 
                    .AllowAnyHeader()
                    .AllowAnyMethod();
         });

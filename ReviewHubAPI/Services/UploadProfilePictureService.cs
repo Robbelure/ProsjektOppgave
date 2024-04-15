@@ -1,6 +1,7 @@
 ﻿using ReviewHubAPI.Mappers.Interface;
 using ReviewHubAPI.Models.DTO;
 using ReviewHubAPI.Models.Entity;
+using ReviewHubAPI.Repositories;
 using ReviewHubAPI.Repositories.Interface;
 using ReviewHubAPI.Services.Interface;
 
@@ -17,17 +18,20 @@ namespace ReviewHubAPI.Services
             _profilepicturemapper = profilepicturemapper;
         }
 
-        public async Task<string> AddNewProfilePicture(IFormFile file, int UserId)
+        public async Task<string> AddOrUpdateProfilePictureAsync(int userId, IFormFile file)
         {
-            var userpic = await GetPictureBytesAsync(file);
-            ProfilePicture entity = new ProfilePicture
+            if (file == null || file.Length == 0)
             {
-                UserId = UserId,
-                Picture = userpic
-            };
-            var message = await _uploadprofilepicture.AddProfilePicture(entity);
+                throw new ArgumentException("File is empty");
+            }
 
-            return message;
+            var pictureBytes = await GetPictureBytesAsync(file); // Hjelpemetode for å konvertere IFormFile til byte-array.
+
+            ProfilePicture entity = await _uploadprofilepicture.GetProfilePictureByUserIdAsync(userId) ?? new ProfilePicture { UserId = userId };
+            entity.Picture = pictureBytes;
+
+            var result = await _uploadprofilepicture.AddOrUpdateProfilePictureAsync(entity);
+            return result;
         }
 
         public async Task<ProfilePictureDTO> DeleteProfilePictureByUserIdAsync(int UserId)
