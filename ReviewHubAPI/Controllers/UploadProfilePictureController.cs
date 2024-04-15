@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using ReviewHubAPI.Mappers.Interface;
 using ReviewHubAPI.Models.DTO;
@@ -12,33 +13,28 @@ namespace ReviewHubAPI.Controllers
     [ApiController]
     public class UploadProfilePictureController : Controller
     {
-        private readonly IUploadProfilePictureService _porfilepictureservice;
+        private readonly IUploadProfilePictureService _profilePictureService;
         private readonly ILogger<UploadProfilePictureController> _logger;
 
         public UploadProfilePictureController(IUploadProfilePictureService porfilePictureService, ILogger<UploadProfilePictureController> logger)
         {
-            _porfilepictureservice = porfilePictureService;
+            _profilePictureService = porfilePictureService;
             _logger = logger;
         }
 
-        [HttpPost("Id={userId}",Name = "AddNewProfilePicture")]
-        public async Task<ActionResult<string>> AddProfilePicture(IFormFile file, int userId)
+        [HttpPost("Id={userId}")]
+        [Authorize]  // Sikrer at kun autentiserte brukere kan tilgang til denne metoden
+        public async Task<ActionResult<string>> AddProfilePicture([FromRoute] int userId, [FromForm] IFormFile file)
         {
-            try
+            if (file == null || file.Length == 0)
             {
-                var message = await _porfilepictureservice.AddNewProfilePicture(file, userId);
-
-                return Ok(message);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError("An Error occurred on add profile pictur in the UploadProfilePictureController : {ex}", ex);
-
-                return StatusCode(500, $"An error occurred while trying to add profile picture");
-
+                _logger.LogError("No file received or file is empty.");
+                return BadRequest("Please upload a non-empty file.");
             }
 
-
+            var message = await _profilePictureService.AddOrUpdateProfilePictureAsync(userId, file);
+            _logger.LogInformation("Profile picture uploaded successfully for user ID: {UserId}", userId);
+            return Ok(message);
         }
 
         [HttpGet(Name = "GetAllProfilePictures")]
@@ -46,7 +42,7 @@ namespace ReviewHubAPI.Controllers
         {
             try
             {
-                var alleprofilepictures = await _porfilepictureservice.GetAllProfilePicturesAsync(PageSize, PageNummer);
+                var alleprofilepictures = await _profilePictureService.GetAllProfilePicturesAsync(PageSize, PageNummer);
 
                 if (alleprofilepictures == null)
                 {
@@ -70,7 +66,7 @@ namespace ReviewHubAPI.Controllers
         {
             try
             {
-                var profilepicture = await _porfilepictureservice.GetProfilePictureByUserIdAsync(UserId);
+                var profilepicture = await _profilePictureService.GetProfilePictureByUserIdAsync(UserId);
 
                 if(profilepicture ==null)
                 {
@@ -93,7 +89,7 @@ namespace ReviewHubAPI.Controllers
         public async Task<ActionResult<ProfilePictureDTO>> DeleteProfilePictureByUserIdAsync(int UserId)
         {
             try { 
-            var profilePictureToDelete = await _porfilepictureservice.DeleteProfilePictureByUserIdAsync(UserId);
+            var profilePictureToDelete = await _profilePictureService.DeleteProfilePictureByUserIdAsync(UserId);
 
             if( profilePictureToDelete == null )
             {
