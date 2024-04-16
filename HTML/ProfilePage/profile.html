@@ -8,26 +8,19 @@
 </head>
 <body>
     <div class="navigation">
-        <a href="../index.html" class="home-link">Forsiden</a>
+        <a href="../index.html" class="home-link">Home</a>
     </div>
-    <div class="container" id="container">
-        <div class="container-image">
-            <img src="../assets/Logo/logo.png">
+
+    <div class="container">
+        <div class="profile-image-section">
+            <img id="profilePicture" class="profile-picture" src="placeholder-profile-image.png" alt="Profilbilde" onclick="document.getElementById('profileImage').click();">
+            <input type="file" id="profileImage" name="profileImage" accept="image/*" style="display:none;" onchange="uploadProfilePicture()">
+            <div id="imageUploadFeedback" class="image-upload-feedback"></div>
         </div>
+
         <div class="form-container">
             <form class="profile-section">
                 <h1 id="welcomeMessage"></h1> <!-- Her vil velkomstmeldingen vises -->
-
-                <!-- Seksjon for profilbildevisning og opplasting -->
-                <div class="inputgroup">
-                    <label for="profilePicture">Profilbilde:</label>
-                    <!-- Stedet hvor profilbildet vises -->
-                    <img id="profilePicture" src="placeholder-profile-image.png" alt="Profilbilde">
-                    <!-- Input for å velge et bilde for opplasting -->
-                    <input type="file" id="profileImage" name="profileImage" accept="image/*">
-                    <!-- Knapp for å utløse opplastningsfunksjon -->
-                    <button type="button" id="uploadButton" class="submit-btn">Last opp bilde</button>
-                </div>
                 
                 <div class="inputgroup">
                     <label for="firstName">First Name:</label>

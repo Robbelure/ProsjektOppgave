@@ -1,4 +1,4 @@
-// var images = [
+//var images = [
 //     'assets/Background/1.JPG',
 //     'assets/Background/2.JPG',
 //     'assets/Background/3.JPG',
@@ -6,7 +6,7 @@
 //     'assets/Background/5.JPG',
 //     'assets/Background/6.JPEG',
 //     'assets/Background/7.png'
-// ];
+//];
 
 const endpointURL = "https://localhost:7033/api/MoviePoster?PageSize=10&PageNummer=1";
 
@@ -31,7 +31,6 @@ function getposters() {
             throw error; // re-throw the error to be caught in the caller
         });
 }
-
 
 function loadImage(index) {
     var img = new Image();

@@ -4,10 +4,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const token = localStorage.getItem('jwtToken');
 
     if (username) {
-        document.getElementById('welcomeMessage').textContent = `Velkommen, ${username}`;
+        document.getElementById('welcomeMessage').textContent = `Welcome, ${username}`;
     }
 
     const profilePictureElement = document.getElementById('profilePicture');
+    const feedbackElement = document.getElementById('imageUploadFeedback');
 
     // Henter og viser profilbilde
     const fetchAndDisplayProfilePicture = () => {
@@ -18,15 +19,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 'Authorization': `Bearer ${token}`,
             }
         })
-        .then(response => {
-            if (!response.ok) {
+        .then(response => response.json())
+        .then(data => {
+            if (data.profilePicture) {
+                const imageDataUrl = `data:image/jpeg;base64,${data.profilePicture}`;
+                profilePictureElement.src = imageDataUrl;
+            } else {
                 throw new Error('Profilbilde ikke funnet, kan laste opp et nytt.');
             }
-            return response.json();
-        })
-        .then(data => {
-            const imageDataUrl = `data:image;base64,${data.profilePicture}`;
-            profilePictureElement.src = imageDataUrl;
         })
         .catch(error => {
             console.error('Error fetching profile picture:', error);
@@ -35,15 +35,33 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // Opplasting av nytt profilbilde
-    const uploadProfilePicture = () => {
+    document.getElementById('profileImage').addEventListener('change', uploadProfilePicture);
+
+    // Funksjon for å laste opp profilbilde
+    function uploadProfilePicture() {
         const fileInput = document.getElementById('profileImage');
+
         if (fileInput.files.length === 0) {
-            alert('Vennligst velg en fil først.');
+            feedbackElement.textContent = 'Ingen fil valgt.';
+            feedbackElement.style.color = '#dc3545'; // Feilfarge
             return;
         }
 
+        const file = fileInput.files[0];
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+            profilePictureElement.src = e.target.result;
+        };
+
+        reader.readAsDataURL(file); // Leser filen som Data URL for å vise et forhåndsvisningsbilde
+
+        // Tilbakemelding før opplastingen er fullført
+        feedbackElement.textContent = 'Laster opp...';
+        feedbackElement.style.color = '#ffc107'; // Advarselsfarge (gul)
+
         const formData = new FormData();
-        formData.append('file', fileInput.files[0]);
+        formData.append('file', file);
 
         fetch(`https://localhost:7033/api/UploadProfilePicture/Id=${userId}`, {
             method: 'POST',
@@ -56,19 +74,18 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!response.ok) {
                 throw new Error('Opplasting av profilbilde feilet.');
             }
-            return response.json();
+            return response.text();
         })
         .then(() => {
-            fetchAndDisplayProfilePicture();
-            alert('Profilbildet ble lastet opp.');
+            feedbackElement.textContent = 'Opplastning av profilbilde vellykket!';
+            feedbackElement.style.color = '#28a745'; // Suksessfarge
         })
         .catch(error => {
             console.error('Error uploading profile picture:', error);
-            alert(error.message);
+            feedbackElement.textContent = 'Feil ved opplasting av bildet.';
+            feedbackElement.style.color = '#dc3545'; // Feilfarge
         });
-    };
-
-    document.getElementById('uploadButton').addEventListener('click', uploadProfilePicture);
+    }
 
     fetchAndDisplayProfilePicture();
 });

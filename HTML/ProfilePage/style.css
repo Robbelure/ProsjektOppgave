@@ -17,27 +17,30 @@ body {
     width: 100%;
 }
 
-.container-image {
-    /* Fjern position absolute og relaterte stiler */
-    width: 100%; /* Tilpass etter behov */
+/* Ny stil for profilbilde-seksjonen */
+.profile-image-section {
     display: flex;
-    justify-content: center; /* Sentrerer bildet horisontalt */
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    margin-bottom: 20px;
 }
 
-.container img {
-    position: relative;
-    height: 120px;
-    width: 120px;
-    left: 190px;
-    top: -10px;
-    z-index: 6;
-    background-color: white;
-    border-top-right-radius: 50%;
-    border-top-left-radius: 50%;
+.profile-picture {
+    width: 150px; /* Juster etter behov */
+    height: 150px; /* Juster etter behov */
+    border-radius: 50%; /* Gjør bildet rundt */
+    object-fit: cover; /* Sikrer at bildet dekker hele området */
+    border: 2px solid #ddd; /* Tilføyer en border */
+    margin-bottom: 10px;
+}
+
+.image-upload-feedback {
+    color: #28a745; /* En suksessfarge, bytt til #dc3545 for feil */
+    font-size: 0.9em;
 }
 
 .form-container {
-    /* Fjern position absolute og relaterte stiler */
     width: 380px; /* Eksisterende bredde */
     margin: 0 auto; /* Legger til margin på toppen og bunnen, sentrerer horisontalt */
     padding: 5px; /* Eksisterende padding */
@@ -76,6 +79,7 @@ body {
     width: 100%;
     padding: 10px; /* Juster padding etter behov for plassering */
     box-sizing: border-box;
+    
 }
 
 .home-link {
