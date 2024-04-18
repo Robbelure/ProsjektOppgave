@@ -70,7 +70,7 @@ public class UserController : ControllerBase
         }
 
         _logger.LogInformation($"User with ID {userId} updated successfully.");
-        return NoContent();
+        return Ok(updateResult);
     }
 
     [Authorize]

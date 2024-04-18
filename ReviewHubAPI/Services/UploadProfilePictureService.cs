@@ -41,6 +41,21 @@ namespace ReviewHubAPI.Services
             return _profilepicturemapper.MapToDTO(profilepic) ?? null!;
         }
 
+        public async Task<ICollection<ProfilePictureDTO>> GetAllProfilePicturesAsync(int pageSize, int pageNumber)
+        {
+            var profilePictures = await _uploadprofilepicture.GetAllProfilePicturesAsync(pageSize, pageNumber);
+
+            // Sjekk om listen er tom og håndter dette tilfellet
+            if (profilePictures.Count == 0)
+                return new List<ProfilePictureDTO>();  // Returner en tom DTO liste
+
+            // Mapper hver entitet til en DTO
+            var profilePictureDTOs = profilePictures.Select(picture => _profilepicturemapper.MapToDTO(picture)).ToList();
+
+            return profilePictureDTOs;
+        }
+
+        /*
         public async Task<ICollection<ProfilePictureDTO>> GetAllProfilePicturesAsync(int PageSize, int PageNummer)
         {
             var allpics = await _uploadprofilepicture.GetAllProfilePicturesAsync(PageSize, PageNummer);
@@ -58,6 +73,7 @@ namespace ReviewHubAPI.Services
 
             return returnpics;
         }
+        */
 
         public async Task<ProfilePictureDTO> GetProfilePictureByUserIdAsync(int UserId)
         {

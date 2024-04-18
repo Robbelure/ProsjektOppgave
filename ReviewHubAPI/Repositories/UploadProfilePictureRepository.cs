@@ -37,9 +37,15 @@ namespace ReviewHubAPI.Repositories
             throw new NotImplementedException();
         }
 
-        public async Task<ICollection<ProfilePicture>> GetAllProfilePicturesAsync(int PageSize, int PageNummer)
+        public async Task<ICollection<ProfilePicture>> GetAllProfilePicturesAsync(int pageSize, int pageNumber)
         {
-            throw new NotImplementedException();
+            // Bruk pagination til å hente data
+            var profilePictures = await _context.ProfilePicture
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            return profilePictures;  // Returnerer en tom liste hvis det ikke finnes noen bilder
         }
 
         public async Task<ProfilePicture> GetProfilePictureByUserIdAsync(int userId)
