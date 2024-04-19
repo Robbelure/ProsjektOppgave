@@ -1,0 +1,10 @@
+@import url('../style.css');
+
+/* Stil for bekreftelsesmeldingen */
+.confirmation-message {
+    text-align: center;
+    margin-top: 20vh; /* Juster som nødvendig */
+}
+
+
+
