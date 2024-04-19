@@ -74,5 +74,37 @@ namespace ReviewHubAPI.Services
 
             return null!;
         }
+
+        public async Task<ICollection<ReviewDTO>> GetReviewByMovieId(int ByMovieId)
+        {
+            var reviewsentity = await _reviewrep.GetReviewByMovieId(ByMovieId);
+            var reviews = new List<ReviewDTO>();
+
+            if (reviewsentity != null)
+            {
+                foreach (var review in reviewsentity)
+                {
+                    reviews.Add(_reviewmapper.MapToDTO(review));
+                }
+            }
+
+            return reviews;
+        }
+
+        public async Task<ICollection<ReviewDTO>> GetReviewByUserId(int UserId)
+        {
+            var reviewsentity = await _reviewrep.GetReviewByUserId(UserId);
+            var reviews = new List<ReviewDTO>();
+
+            if (reviewsentity != null)
+            {
+                foreach (var review in reviewsentity)
+                {
+                    reviews.Add(_reviewmapper.MapToDTO(review));
+                }
+            }
+
+            return reviews;
+        }
     }
 }

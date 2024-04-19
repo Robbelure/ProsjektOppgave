@@ -13,7 +13,6 @@ function GetMovies() {
         })
         .then(data => {
             movies = data;
-            console.log('Movies:', movies);
             var moviecount = movies.length;
             var randommovie = Math.floor(Math.random() * moviecount);
             const movie = movies[randommovie]
@@ -47,7 +46,7 @@ function GetMovies() {
                     }
                     latestaddedmoviesection += 
                     `
-                    <div  class="Container-poster">
+                    <div  class="Container-poster" onclick="redirectToReviewspage(${movie.id})">
                         <img src="${posterURL}" alt="${movieName} Poster">
                         <h3>${movieName}</h3>
                         <div class="Container-Star">
@@ -86,3 +85,7 @@ window.onload = function() {
     GetMovies();
 
 };
+
+function redirectToReviewspage(movieId) {
+    window.location.href = `../Reviewspage/Reviews.html?movieId=${movieId}`;
+}

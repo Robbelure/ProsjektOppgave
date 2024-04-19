@@ -21,13 +21,13 @@ namespace ReviewHubAPI.Controllers
         [HttpGet(Name = "GetALlReviews")]
         public async Task<ActionResult<ICollection<ReviewDTO>>> GetAllReviews(int pagesize, int pagenummer)
         {
-            try 
-            { 
-                var reviews =await  _reviewser.GetAllReviews(pagesize,pagenummer);
+            try
+            {
+                var reviews = await _reviewser.GetAllReviews(pagesize, pagenummer);
 
-                if(reviews != null)
+                if (reviews != null)
                 {
-                return Ok(reviews);
+                    return Ok(reviews);
 
                 }
                 return NotFound("There were no reviews in the database");
@@ -40,13 +40,13 @@ namespace ReviewHubAPI.Controllers
             }
         }
 
-        
 
-        [HttpGet("Id={id}", Name ="GetReviewById")]
+
+        [HttpGet("Id={id}", Name = "GetReviewById")]
         public async Task<ActionResult<ReviewDTO?>> GetReviewById(int id)
         {
-            try 
-            { 
+            try
+            {
                 var review = await _reviewser.GetReviewById(id);
                 if (review != null)
                 {
@@ -55,7 +55,7 @@ namespace ReviewHubAPI.Controllers
 
                 return NotFound("Not reviews with that id was found");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError("An Error occurred on get review by id in the ReviewController:{ex}", ex);
 
@@ -67,10 +67,11 @@ namespace ReviewHubAPI.Controllers
 
         [HttpPost(Name = "AddNewReview")]
 
+        //TODO Her trenger vi ikke å få tilbake ReviewDTO kun string
         public async Task<ActionResult<ReviewDTO>> AddReview(ReviewDTO dto)
         {
-            try 
-            { 
+            try
+            {
                 var review = await _reviewser.AddReview(dto);
                 if (review != null)
                 {
@@ -89,11 +90,11 @@ namespace ReviewHubAPI.Controllers
 
         }
 
-        [HttpPut("Id={id}",Name = "UpdateReview")]
+        [HttpPut("Id={id}", Name = "UpdateReview")]
         public async Task<ActionResult<ReviewDTO>> UpdateReviewById(int id, ReviewDTO dto)
         {
-            try 
-            { 
+            try
+            {
                 var review = await _reviewser.UpdateReviewById(id, dto);
                 if (review != null)
                 {
@@ -112,11 +113,11 @@ namespace ReviewHubAPI.Controllers
 
         }
 
-        [HttpDelete ("Id={id}", Name = "DeleteReviewById")]
+        [HttpDelete("Id={id}", Name = "DeleteReviewById")]
         public async Task<ActionResult<ReviewDTO>> DeleteReviewById(int id)
         {
-            try 
-            { 
+            try
+            {
                 var review = await _reviewser.DeleteReviewById(id);
                 if (review != null)
                 {
@@ -134,6 +135,51 @@ namespace ReviewHubAPI.Controllers
             }
         }
 
+        [HttpGet("MovieId={movieId}", Name = "GetReviewByMovieId")]
+        public async Task<ActionResult<ReviewDTO?>> GetReviewByMovieID(int movieId)
+        {
+            try
+            {
+                var review = await _reviewser.GetReviewByMovieId(movieId);
+                if (review != null)
+                {
+                    return Ok(review);
+                }
+
+                return BadRequest("There were no reviews with that movieid");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("An Error occurred on get reviews by movie id in the ReviewController: {ex}", ex);
+
+                return StatusCode(500, $"An error occurred while trying to get reviews by movie id");
+
+            }
+
+
+        }
+
+        [HttpGet("UserId={userId}", Name = "GetReviewByUserId")]
+        public async Task<ActionResult<ReviewDTO?>> GetReviewByUserID(int userId)
+        {
+            try
+            {
+                var review = await _reviewser.GetReviewByUserId(userId);
+                if (review != null)
+                {
+                    return Ok(review);
+                }
+
+                return BadRequest("There were no reviews with that user id");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("An Error occurred on get reviews by user id in the ReviewController: {ex}", ex);
+
+                return StatusCode(500, $"An error occurred while trying to get reviews by user id");
+
+            }
+        }
+
     }
-        
 }

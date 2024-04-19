@@ -10,5 +10,7 @@ namespace ReviewHubAPI.Services.Interface
         public Task<ReviewDTO> AddReview(ReviewDTO dto);
         public Task<ReviewDTO> UpdateReviewById(int id, ReviewDTO dto);
         public Task<ReviewDTO> DeleteReviewById(int id);
+        public Task<ICollection<ReviewDTO>> GetReviewByMovieId(int ByMovieId);
+        public Task<ICollection<ReviewDTO>> GetReviewByUserId(int UserId);
     }
 }

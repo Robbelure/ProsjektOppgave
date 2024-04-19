@@ -11,11 +11,13 @@ namespace ReviewHubAPI.Services
     {
         private readonly IMovieRepository _movierep;
         private readonly IMapper<Movie, MovieDTO> _moviemapper;
+        private readonly IReviewService _reviewsservice;
 
-        public MovieService(IMovieRepository movierep, IMapper<Movie, MovieDTO> moviemapper)
+        public MovieService(IMovieRepository movierep, IMapper<Movie, MovieDTO> moviemapper, IReviewService reviewsService)
         {
             _movierep = movierep;
             _moviemapper = moviemapper;
+            _reviewsservice = reviewsService;
         }
 
         public async Task<MovieDTO> AddMovie(MovieDTO DTO)
@@ -24,6 +26,7 @@ namespace ReviewHubAPI.Services
             var movie = new Movie
             {
                 MovieName = DTO.MovieName,
+                AverageRating = 0,
                 Summary = DTO.Summary,
                 ReleaseYear = DTO.ReleaseYear,
                 Director = DTO.Director,
@@ -55,9 +58,23 @@ namespace ReviewHubAPI.Services
             var movies = await  _movierep.GetAllMovies(pagesize, pagenummer);
             ICollection<MovieDTO> moviesdto = new List<MovieDTO>();
 
-            foreach (var movie in movies)
-            {
-                moviesdto.Add(_moviemapper.MapToDTO(movie));
+            if(movies.Count > 0) 
+            { 
+                foreach (var movie in movies)
+                {
+                    int avaragerating = 0;
+                    var reviews = await  _reviewsservice.GetReviewByMovieId(movie.Id);
+                    int reviewsCount = reviews.Count();
+                    foreach (var review in reviews)
+                    {
+                    avaragerating += review.Rating;
+                    }
+
+                    var movierating = avaragerating / reviewsCount;
+
+                    movie.AverageRating = (int)movierating;
+                    moviesdto.Add(_moviemapper.MapToDTO(movie));
+                }
             }
 
             return moviesdto ?? null!;
@@ -73,6 +90,16 @@ namespace ReviewHubAPI.Services
         public async Task<MovieDTO> GetMovieById(int Id)
         {
             var movie = await _movierep.GetMovieById(Id);
+            if(movie != null) { 
+            int avaragerating = 0;
+            var reviews = await _reviewsservice.GetReviewByMovieId(Id);
+            foreach (var review in reviews)
+            {
+                avaragerating += review.Rating;
+            }
+
+               movie.AverageRating = (int)Math.Round((double)avaragerating / reviews.Count());
+            }
 
             return _moviemapper.MapToDTO(movie) ?? null!;   
         }
