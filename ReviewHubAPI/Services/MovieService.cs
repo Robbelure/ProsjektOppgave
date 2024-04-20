@@ -64,15 +64,19 @@ namespace ReviewHubAPI.Services
                 {
                     int avaragerating = 0;
                     var reviews = await  _reviewsservice.GetReviewByMovieId(movie.Id);
-                    int reviewsCount = reviews.Count();
-                    foreach (var review in reviews)
+                    if(reviews.Count > 0)
                     {
-                    avaragerating += review.Rating;
+                        int reviewsCount = reviews.Count();
+                        foreach (var review in reviews)
+                        {
+                            avaragerating += review.Rating;
+                        }
+
+                        var movierating = avaragerating / reviewsCount;
+
+                        movie.AverageRating = (int)movierating;
                     }
-
-                    var movierating = avaragerating / reviewsCount;
-
-                    movie.AverageRating = (int)movierating;
+                   
                     moviesdto.Add(_moviemapper.MapToDTO(movie));
                 }
             }
@@ -90,16 +94,16 @@ namespace ReviewHubAPI.Services
         public async Task<MovieDTO> GetMovieById(int Id)
         {
             var movie = await _movierep.GetMovieById(Id);
-            if(movie != null) { 
-            int avaragerating = 0;
-            var reviews = await _reviewsservice.GetReviewByMovieId(Id);
-            foreach (var review in reviews)
-            {
-                avaragerating += review.Rating;
-            }
+            //if(movie != null) { 
+            //int avaragerating = 0;
+            //var reviews = await _reviewsservice.GetReviewByMovieId(Id);
+            //foreach (var review in reviews)
+            //{
+            //    avaragerating += review.Rating;
+            //}
 
-               movie.AverageRating = (int)Math.Round((double)avaragerating / reviews.Count());
-            }
+            //   movie.AverageRating = (int)Math.Round((double)avaragerating / reviews.Count());
+            //}
 
             return _moviemapper.MapToDTO(movie) ?? null!;   
         }
