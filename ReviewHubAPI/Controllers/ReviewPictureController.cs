@@ -88,7 +88,7 @@ namespace ReviewHubAPI.Controllers
         }
 
         [HttpGet("Id={ReviewId}", Name = "GetReviewPictureByReviewId")]
-            public async Task<ActionResult<ReviewPictureDTO>> GetReviewPictureByReviewIddAsync(int ReviewId)
+            public async Task<ActionResult<ReviewPictureDTO?>> GetReviewPictureByReviewIddAsync(int ReviewId)
             {
                 try { 
                 var pic = await _reviewpictureservice.GetReviewPictureByReviewIdAsync(ReviewId);
