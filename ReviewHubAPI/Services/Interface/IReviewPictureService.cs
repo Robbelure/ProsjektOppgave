@@ -8,7 +8,7 @@ namespace ReviewHubAPI.Services.Interface
         public Task<string> AddReviewPicture(IFormFile file, int ReviewId);
         public Task<ICollection<ReviewPictureDTO>> GetAllReviewPicturesAsync(int PageSize, int PageNummer);
 
-        public Task<ReviewPictureDTO> GetReviewPictureByReviewIdAsync(int ReviewId);
+        public Task<ReviewPictureDTO?> GetReviewPictureByReviewIdAsync(int ReviewId);
 
         public Task<ReviewPictureDTO> DeleteReviewPictureByReviewIdAsync(int ReviewId);
     }

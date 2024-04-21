@@ -58,11 +58,13 @@ namespace ReviewHubAPI.Services
 
         }
 
-        public async Task<ReviewPictureDTO> GetReviewPictureByReviewIdAsync(int ReviewId)
+        public async Task<ReviewPictureDTO?> GetReviewPictureByReviewIdAsync(int ReviewId)
         {
             var pic = await _reviewpicturerepository.GetReviewPictureByReviewIdAsync(ReviewId);
+            if(pic == null)
+            {  return null!; }
 
-            return _reviewpicmapper.MapToDTO(pic) ?? null!; 
+            return _reviewpicmapper.MapToDTO(pic);
         }
 
         private async Task<byte[]> GetPictureBytesAsync(IFormFile picture)

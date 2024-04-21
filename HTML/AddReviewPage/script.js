@@ -122,11 +122,14 @@ function upload() {
   const reviewUrl = 'https://localhost:7033/api/Review';
   const reviewPictureUrl = 'https://localhost:7033/api/ReviewPicture/Id=';
 
-  const movieId = 7;
-  const userId = -1;
+  const userId = localStorage.getItem('userId');
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  const movieId = urlParams.get('movieId');
   const rating = 4;
   const title = document.querySelector('.title input').value;
   const text = document.getElementById('text-input').textContent;
+  console.log(userId , movieId);
 
   const reviewData = {
     movieId: movieId,
