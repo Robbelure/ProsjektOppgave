@@ -31,27 +31,23 @@ public class UserService : IUserService
     public async Task<IEnumerable<UserDTO?>> GetAllUsersAsync()
     {
         var users = await _userRepository.GetAllUsersAsync();
-        return users.Select(user => _userMapper.MapToDTO(user)).ToList();
+        return users.Select(_userMapper.MapToDTO).ToList();
     }
-
     public async Task<UserDTO?> GetUserByIdAsync(int userId)
     {
         var userEntity = await _userRepository.GetUserByIdAsync(userId);
         return userEntity == null ? null : _userMapper.MapToDTO(userEntity);
     }
-
     public async Task<UserPublicProfileDTO?> GetUserPublicProfileByUsernameAsync(string username)
     {
         var userEntity = await _userRepository.GetUserByUsernameAsync(username);
         return userEntity == null ? null : _userPublicProfileMapper.MapToDTO(userEntity);
     }
-
     public async Task<UserPublicProfileDTO?> GetUserPublicProfileByIdAsync(int userId)
     {
         var user = await _userRepository.GetUserByIdAsync(userId);
         return user == null ? null : _userPublicProfileMapper.MapToDTO(user);
     }
-
     public async Task DeleteUserAsync(int userId)
     {
         var userEntity = await _userRepository.GetUserByIdAsync(userId);
@@ -64,7 +60,6 @@ public class UserService : IUserService
         await _userRepository.DeleteUserAsync(userId);
         _logger.LogInformation($"User with ID {userId} has been successfully deleted.");
     }
-
     public async Task<UserDTO?> UpdateUserAsync(int userId, UserUpdateDTO userUpdateDto)
     {
         var user = await _userRepository.GetUserByIdAsync(userId);
@@ -119,7 +114,14 @@ public class UserService : IUserService
 
         return _userMapper.MapToDTO(user);
     }
+    public async Task<bool> IsUserAdminAsync(int userId)
+    {
+        var user = await _userRepository.GetUserByIdAsync(userId);
+        return user?.IsAdmin ?? false;
+    }
 
+    // trenger vi patch?
+    /*
     public async Task<UserDTO?> PatchUserAsync(int userId, JsonPatchDocument<UserUpdateDTO> patchDoc)
     {
         _logger.LogInformation($"Starting patch process for user with ID {userId}.");
@@ -145,6 +147,7 @@ public class UserService : IUserService
 
         return _userMapper.MapToDTO(user); // Returnerer den oppdaterte UserDTO.
     }
+    
 
     private void MapUpdateDtoToEntity(UserUpdateDTO dto, User user)
     {
@@ -157,12 +160,6 @@ public class UserService : IUserService
         if (!string.IsNullOrWhiteSpace(dto.Lastname))
             user.Lastname = dto.Lastname;
     }
-
-    public async Task<bool> IsUserAdminAsync(int userId)
-    {
-        var user = await _userRepository.GetUserByIdAsync(userId);
-        return user?.IsAdmin ?? false;
-    }
-
+    */
 }
 

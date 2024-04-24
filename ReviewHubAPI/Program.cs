@@ -20,7 +20,6 @@ using ReviewHubAPI.Validators;
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 
-
 #region CORS
 builder.Services.AddCors(options =>
 {
@@ -130,7 +129,7 @@ builder.Services.AddDbContext<ReviewHubDbContext>(options =>
 
 builder.Services.AddEndpointsApiExplorer();
 
-#region JWT Authorization header SWAGGER
+#region Swagger Configuration
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "ReviewHubAPI", Version = "v1" });
