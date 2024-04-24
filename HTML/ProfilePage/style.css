@@ -75,27 +75,26 @@ body {
     border-radius: 30px;
 }
 
-.navigation {
-    width: 100%;
-    padding: 10px; /* Juster padding etter behov for plassering */
-    box-sizing: border-box;
-    
+.home-button-container {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 10; /* Sørger for at knappen ikke blir skjult av andre elementer */
 }
 
-.home-link {
-    display: inline-block;
-    padding: 5px 10px;
-    margin-bottom: 20px;
-    font-size: 1.2em;
-    color: #ff0026;
-    text-decoration: none;
-    background-color: #f8f9fa;
-    border: 1px solid #dee2e6;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
+.home-btn {
+    padding: 10px 20px;
+    background: linear-gradient(red, rgb(250, 105, 61)); /* Bruker samme gradient som andre knapper */
+    color: white;
+    border: none;
+    border-radius: 30px; /* Gjør hjørnene rundt for å matche design */
+    text-decoration: none; /* Fjerner understreking */
+    font-size: 16px;
+    cursor: pointer; /* Endrer musepekeren til en peker */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Legger til en subtil skygge for dybde */
+    transition: background-color 0.3s; /* Gjør hover-effekten glattere */
 }
 
-.home-link:hover {
-    background-color: #e2e6ea;
-    text-decoration: none;
+.home-btn:hover {
+    background: linear-gradient(rgb(255, 100, 100), rgb(255, 0, 0)); /* Lysere rød til en sterkere rød gradient */
 }
