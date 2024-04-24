@@ -67,7 +67,6 @@ public class UserController : ControllerBase
     {
         _logger.LogInformation($"Starting update process for user with ID {userId}.");
 
-        // Valider at innlogget bruker er eieren av kontoen eller har adminrettigheter
         if (User.GetUserId() != userId && !User.IsInRole("Admin"))
         {
             _logger.LogWarning($"User with ID {User.GetUserId()} does not have permission to update user with ID {userId}.");
@@ -85,6 +84,8 @@ public class UserController : ControllerBase
         return Ok(updateResult);
     }
 
+    // trenger vi patch?
+    /*
     [HttpPatch("{userId}", Name = "PatchUser")]
     public async Task<ActionResult> PatchUser(int userId, [FromBody] JsonPatchDocument<UserUpdateDTO> patchDoc)
     {
@@ -107,6 +108,7 @@ public class UserController : ControllerBase
         _logger.LogInformation($"User with ID {userId} patched successfully.");
         return Ok(updatedUserDto);
     }
+    */
 
     [Authorize]
     [HttpDelete("{id}")]

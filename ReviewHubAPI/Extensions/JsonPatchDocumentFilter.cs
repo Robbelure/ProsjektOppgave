@@ -3,21 +3,23 @@ using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace ReviewHubAPI.Extensions
+namespace ReviewHubAPI.Extensions;
+
+//trenger vi patch?
+/*
+public class JsonPatchDocumentFilter : IOperationFilter
 {
-    public class JsonPatchDocumentFilter : IOperationFilter
+    public void Apply(OpenApiOperation operation, OperationFilterContext context)
     {
-        public void Apply(OpenApiOperation operation, OperationFilterContext context)
+        if (operation.OperationId == "PatchUser") // Endre til faktisk OperationId fra din Swagger konfig
         {
-            if (operation.OperationId == "PatchUser") // Endre til faktisk OperationId fra din Swagger konfig
+            operation.RequestBody = new OpenApiRequestBody
             {
-                operation.RequestBody = new OpenApiRequestBody
+                Content = new Dictionary<string, OpenApiMediaType>
                 {
-                    Content = new Dictionary<string, OpenApiMediaType>
+                    ["application/json-patch+json"] = new OpenApiMediaType
                     {
-                        ["application/json-patch+json"] = new OpenApiMediaType
-                        {
-                            Example = new OpenApiString(@"[
+                        Example = new OpenApiString(@"[
                             {
                                 ""op"": ""replace"",
                                 ""path"": ""/Firstname"",
@@ -29,10 +31,10 @@ namespace ReviewHubAPI.Extensions
                                 ""value"": ""NyttEtternavn""
                             }
                         ]")
-                        }
                     }
-                };
-            }
+                }
+            };
         }
     }
 }
+*/

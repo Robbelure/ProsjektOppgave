@@ -24,6 +24,4 @@ public class UserRegistrationMapper : IMapper<User, UserRegistrationDTO>
             DateCreated = DateTime.UtcNow
         };
     }
-
-
 }
