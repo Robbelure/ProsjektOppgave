@@ -13,8 +13,8 @@
 
     <div class="container">
         <div class="profile-image-section">
-            <img id="profilePicture" class="profile-picture" src="placeholder-profile-image.png" alt="Profile Picture" onclick="document.getElementById('profileImage').click();">
-            <input type="file" id="profileImage" name="profileImage" accept="image/*" style="display:none;" onchange="uploadProfilePicture()">
+            <img id="profilePicture" class="profile-picture" src="https://localhost:7033/images/profile-icon.jpg" alt="Profile Picture" onclick="document.getElementById('profileImage').click();">
+            <input type="file" id="profileImage" name="profileImage" accept="image/*" style="display:none;">
             <div id="imageUploadFeedback" class="image-upload-feedback"></div>
         </div>
 
@@ -24,11 +24,11 @@
                 
                 <div class="inputgroup">
                     <label for="firstName">First Name:</label>
-                    <input type="text" id="firstName" class="input-field" placeholder="First Name" required>
+                    <input type="text" id="firstName" class="input-field" placeholder="First Name">
                 </div>
                 <div class="inputgroup">
                     <label for="lastName">Last Name:</label>
-                    <input type="text" id="lastName" class="input-field" placeholder="Last Name" required>
+                    <input type="text" id="lastName" class="input-field" placeholder="Last Name">
                 </div>
                 <div class="inputgroup">
                     <label for="email">Email:</label>

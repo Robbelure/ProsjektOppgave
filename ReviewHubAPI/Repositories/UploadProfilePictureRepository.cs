@@ -31,7 +31,6 @@ namespace ReviewHubAPI.Repositories
             return "Profile picture updated successfully";
         }
 
-
         public async Task<ProfilePicture> DeleteProfilePictureByUserIdAsync(int UserId)
         {
             throw new NotImplementedException();

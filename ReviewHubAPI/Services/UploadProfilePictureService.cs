@@ -20,14 +20,20 @@ namespace ReviewHubAPI.Services
 
         public async Task<string> AddOrUpdateProfilePictureAsync(int userId, IFormFile file)
         {
+            byte[] pictureBytes;
+
             if (file == null || file.Length == 0)
             {
-                throw new ArgumentException("File is empty");
+                // Hent standard profilbilde bytes asynkront
+                pictureBytes = await GetDefaultProfilePictureBytesAsync();
+            }
+            else
+            {
+                // Konverter mottatt fil til bytes
+                pictureBytes = await GetPictureBytesAsync(file);
             }
 
-            var pictureBytes = await GetPictureBytesAsync(file); // Hjelpemetode for å konvertere IFormFile til byte-array.
-
-            ProfilePicture entity = await _uploadprofilepicture.GetProfilePictureByUserIdAsync(userId) ?? new ProfilePicture { UserId = userId };
+            var entity = await _uploadprofilepicture.GetProfilePictureByUserIdAsync(userId) ?? new ProfilePicture { UserId = userId };
             entity.Picture = pictureBytes;
 
             var result = await _uploadprofilepicture.AddOrUpdateProfilePictureAsync(entity);
@@ -90,6 +96,12 @@ namespace ReviewHubAPI.Services
                 await picture.CopyToAsync(memoryStream);
                 return memoryStream.ToArray();
             }
+        }
+
+        private async Task<byte[]> GetDefaultProfilePictureBytesAsync()
+        {
+            var pathToDefaultImage = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "profile-icon.jpg");
+            return await File.ReadAllBytesAsync(pathToDefaultImage);
         }
     }
 }

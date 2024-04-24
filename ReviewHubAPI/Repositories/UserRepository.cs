@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ReviewHubAPI.Data;
 using ReviewHubAPI.Middleware;
+using ReviewHubAPI.Models.DTO;
 using ReviewHubAPI.Models.Entity;
 using ReviewHubAPI.Repositories.Interface;
 
