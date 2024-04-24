@@ -11,7 +11,7 @@ public interface IUserService
     Task<UserPublicProfileDTO?> GetUserPublicProfileByUsernameAsync(string username);
     Task<UserPublicProfileDTO?> GetUserPublicProfileByIdAsync(int userId);
     Task<UserDTO?> UpdateUserAsync(int userId, UserUpdateDTO userUpdateDto);
-    Task<UserDTO?> PatchUserAsync(int userId, JsonPatchDocument<UserUpdateDTO> patchDoc);
+    //Task<UserDTO?> PatchUserAsync(int userId, JsonPatchDocument<UserUpdateDTO> patchDoc);
     Task DeleteUserAsync(int userId);
     Task<bool> IsUserAdminAsync(int userId);
 }

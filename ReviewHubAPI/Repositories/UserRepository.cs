@@ -21,12 +21,10 @@ public class UserRepository : IUserRepository
         _dbContext.Users.Add(user);
         await _dbContext.SaveChangesAsync();
     }
-
     public async Task<IEnumerable<User>> GetAllUsersAsync()
     {
         return await _dbContext.Users.ToListAsync();
     }
-
     public async Task<User?> GetUserByIdAsync(int userId)
     {
         var user = await _dbContext.Users.FindAsync(userId);
@@ -36,18 +34,15 @@ public class UserRepository : IUserRepository
         }
         return user;
     }
-
     public async Task<User?> GetUserByUsernameAsync(string username)
     {
         return await _dbContext.Users.FirstOrDefaultAsync(u => u.Username == username);
     }
-
     public async Task UpdateUserAsync(User user)
     {
         _dbContext.Users.Update(user);
         await _dbContext.SaveChangesAsync();
     }
-
     public async Task DeleteUserAsync(int userId)
     {
         var userToDelete = await _dbContext.Users.FindAsync(userId);
@@ -57,12 +52,10 @@ public class UserRepository : IUserRepository
             await _dbContext.SaveChangesAsync();
         }
     }
-
     public async Task<bool> UsernameExistsAsync(string username)
     {
         return await _dbContext.Users.AnyAsync(user => user.Username == username);
     }
-
     public async Task<bool> EmailExistsAsync(string email)
     {
         return await _dbContext.Users.AnyAsync(user => user.Email == email);

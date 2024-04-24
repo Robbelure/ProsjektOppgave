@@ -1,15 +1,12 @@
 ﻿using ReviewHubAPI.Models.DTO;
 using ReviewHubAPI.Models.Entity;
 
-namespace ReviewHubAPI.Services.Interface
+namespace ReviewHubAPI.Services.Interface;
+
+public interface IReviewPictureService
 {
-    public interface IReviewPictureService
-    {
-        public Task<string> AddReviewPicture(IFormFile file, int ReviewId);
-        public Task<ICollection<ReviewPictureDTO>> GetAllReviewPicturesAsync(int PageSize, int PageNummer);
-
-        public Task<ReviewPictureDTO?> GetReviewPictureByReviewIdAsync(int ReviewId);
-
-        public Task<ReviewPictureDTO> DeleteReviewPictureByReviewIdAsync(int ReviewId);
-    }
+    public Task<string> AddReviewPicture(IFormFile file, int ReviewId);
+    public Task<ICollection<ReviewPictureDTO>> GetAllReviewPicturesAsync(int PageSize, int PageNummer);
+    public Task<ReviewPictureDTO?> GetReviewPictureByReviewIdAsync(int ReviewId);
+    public Task<ReviewPictureDTO> DeleteReviewPictureByReviewIdAsync(int ReviewId);
 }

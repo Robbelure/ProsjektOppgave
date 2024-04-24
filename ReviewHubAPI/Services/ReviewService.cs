@@ -4,107 +4,104 @@ using ReviewHubAPI.Models.Entity;
 using ReviewHubAPI.Repositories.Interface;
 using ReviewHubAPI.Services.Interface;
 
-namespace ReviewHubAPI.Services
+namespace ReviewHubAPI.Services;
+
+public class ReviewService : IReviewService
 {
-    public class ReviewService : IReviewService
+    private readonly IReviewRespository _reviewrep;
+    private readonly IMapper<Review, ReviewDTO> _reviewmapper;
+
+    public ReviewService(IReviewRespository ReviewRep , IMapper<Review, ReviewDTO> Reviewmapper)
     {
-        private readonly IReviewRespository _reviewrep;
-        private readonly IMapper<Review, ReviewDTO> _reviewmapper;
+        _reviewrep = ReviewRep;
+        _reviewmapper = Reviewmapper;
+    }
 
-        public ReviewService(IReviewRespository ReviewRep , IMapper<Review, ReviewDTO> Reviewmapper)
+    public async Task<ICollection<ReviewDTO>> GetAllReviews(int pagesize, int pagenummer)
+    {
+        var reviewsentity = await _reviewrep.GetAllReviews(pagenummer,pagesize);
+        var reviews = new List<ReviewDTO>();
+
+        if (reviewsentity != null)
         {
-            _reviewrep = ReviewRep;
-            _reviewmapper = Reviewmapper;
-        }
-
-        public async Task<ICollection<ReviewDTO>> GetAllReviews(int pagesize, int pagenummer)
-        {
-            var reviewsentity = await _reviewrep.GetAllReviews(pagenummer,pagesize);
-            var reviews = new List<ReviewDTO>();
-
-            if (reviewsentity != null)
+            foreach (var review in reviewsentity)
             {
-                foreach (var review in reviewsentity)
-                {
-                    reviews.Add(_reviewmapper.MapToDTO(review));
-                }
+                reviews.Add(_reviewmapper.MapToDTO(review));
             }
-
-            return reviews;
         }
 
-        public async Task<ReviewDTO?> GetReviewById(int id)
+        return reviews;
+    }
+
+    public async Task<ReviewDTO?> GetReviewById(int id)
+    {
+        var review = await _reviewrep.GetReviewById(id);
+
+        return _reviewmapper.MapToDTO(review) ?? null;
+    }
+
+    public async Task<ReviewDTO> AddReview(ReviewDTO dto)
+    {
+        var reviewtoadd = await _reviewrep.AddReview(_reviewmapper.MapToEntity(dto));
+
+        return _reviewmapper.MapToDTO(reviewtoadd)?? null!;
+
+    }
+
+    public async Task<ReviewDTO> DeleteReviewById(int id)
+    {
+        var reviewtodelete = await _reviewrep.DeleteReviewById(id);
+
+        return _reviewmapper.MapToDTO(reviewtodelete) ?? null!;
+    }
+
+    public async Task<ReviewDTO> UpdateReviewById(int id, ReviewDTO dto)
+    {
+        var reviewtoupdate = await _reviewrep.GetReviewById(id);
+         if (reviewtoupdate != null)
+         {
+            reviewtoupdate.Id = id;
+            reviewtoupdate.MovieId = dto.MovieId;
+            reviewtoupdate.UserId = dto.UserId;
+            reviewtoupdate.Text = dto.Text;
+            reviewtoupdate.Title = dto.Title;
+         
+            await _reviewrep.UpdateReviewById(reviewtoupdate);
+            return _reviewmapper.MapToDTO(reviewtoupdate);
+         }
+
+        return null!;
+    }
+
+    public async Task<ICollection<ReviewDTO>> GetReviewByMovieId(int ByMovieId)
+    {
+        var reviewsentity = await _reviewrep.GetReviewByMovieId(ByMovieId);
+        var reviews = new List<ReviewDTO>();
+
+        if (reviewsentity != null)
         {
-            var review = await _reviewrep.GetReviewById(id);
-
-            return _reviewmapper.MapToDTO(review) ?? null;
-        }
-
-        public async Task<ReviewDTO> AddReview(ReviewDTO dto)
-        {
-            var reviewtoadd = await _reviewrep.AddReview(_reviewmapper.MapToEntity(dto));
-
-            return _reviewmapper.MapToDTO(reviewtoadd)?? null!;
-
-        }
-
-        public async Task<ReviewDTO> DeleteReviewById(int id)
-        {
-            var reviewtodelete = await _reviewrep.DeleteReviewById(id);
-
-            return _reviewmapper.MapToDTO(reviewtodelete) ?? null!;
-        }
-
-        public async Task<ReviewDTO> UpdateReviewById(int id, ReviewDTO dto)
-        {
-            var reviewtoupdate = await _reviewrep.GetReviewById(id);
-             if (reviewtoupdate != null)
+            foreach (var review in reviewsentity)
             {
-                reviewtoupdate.Id = id;
-                reviewtoupdate.MovieId = dto.MovieId;
-                reviewtoupdate.UserId = dto.UserId;
-                reviewtoupdate.Text = dto.Text;
-                reviewtoupdate.Title = dto.Title;
-             
-
-                await _reviewrep.UpdateReviewById(reviewtoupdate);
-                return _reviewmapper.MapToDTO(reviewtoupdate);
-
+                reviews.Add(_reviewmapper.MapToDTO(review));
             }
-
-            return null!;
         }
 
-        public async Task<ICollection<ReviewDTO>> GetReviewByMovieId(int ByMovieId)
+        return reviews;
+    }
+
+    public async Task<ICollection<ReviewDTO>> GetReviewByUserId(int UserId)
+    {
+        var reviewsentity = await _reviewrep.GetReviewByUserId(UserId);
+        var reviews = new List<ReviewDTO>();
+
+        if (reviewsentity != null)
         {
-            var reviewsentity = await _reviewrep.GetReviewByMovieId(ByMovieId);
-            var reviews = new List<ReviewDTO>();
-
-            if (reviewsentity != null)
+            foreach (var review in reviewsentity)
             {
-                foreach (var review in reviewsentity)
-                {
-                    reviews.Add(_reviewmapper.MapToDTO(review));
-                }
+                reviews.Add(_reviewmapper.MapToDTO(review));
             }
-
-            return reviews;
         }
 
-        public async Task<ICollection<ReviewDTO>> GetReviewByUserId(int UserId)
-        {
-            var reviewsentity = await _reviewrep.GetReviewByUserId(UserId);
-            var reviews = new List<ReviewDTO>();
-
-            if (reviewsentity != null)
-            {
-                foreach (var review in reviewsentity)
-                {
-                    reviews.Add(_reviewmapper.MapToDTO(review));
-                }
-            }
-
-            return reviews;
-        }
+        return reviews;
     }
 }

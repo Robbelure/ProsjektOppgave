@@ -3,155 +3,154 @@ using Microsoft.AspNetCore.Mvc;
 using ReviewHubAPI.Models.DTO;
 using ReviewHubAPI.Services.Interface;
 
-namespace ReviewHubAPI.Controllers
+namespace ReviewHubAPI.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public class MovieController : Controller
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class MovieController : Controller
+    private readonly IMovieService _movieservice;
+
+    public ILogger<MovieController> _logger;
+
+    public MovieController(IMovieService movieservice, ILogger<MovieController> logger)
     {
-        private readonly IMovieService _movieservice;
+        _movieservice = movieservice;
+        _logger = logger;
+    }
 
-        public ILogger<MovieController> _logger;
+    [HttpPost(Name = "AddMovie")]
 
-        public MovieController(IMovieService movieservice, ILogger<MovieController> logger)
+    public async Task<ActionResult<MovieDTO>> AddMovie(MovieDTO DTO) 
+    {
+        try
         {
-            _movieservice = movieservice;
-            _logger = logger;
+            var movie = await _movieservice.AddMovie(DTO);
+
+            if(movie == null)
+            {
+                return BadRequest("Movie was not added");
+
+            }
+
+            return Ok(movie);   
+
         }
-
-        [HttpPost(Name = "AddMovie")]
-
-        public async Task<ActionResult<MovieDTO>> AddMovie(MovieDTO DTO) 
+        catch (Exception ex)
         {
-            try
-            {
-                var movie = await _movieservice.AddMovie(DTO);
+            _logger.LogError("An Error occurred on get Add movie in the MovieController:{ex}", ex);
+            return StatusCode(500, $"An error occurred while trying to add the movie");
 
-                if(movie == null)
-                {
-                    return BadRequest("Movie was not added");
-
-                }
-
-                return Ok(movie);   
-
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError("An Error occurred on get Add movie in the MovieController:{ex}", ex);
-                return StatusCode(500, $"An error occurred while trying to add the movie");
-
-            }
-        
         }
+    
+    }
 
-        [HttpGet(Name = "GetAllMovies")]
+    [HttpGet(Name = "GetAllMovies")]
 
-        public async Task<ActionResult<ICollection<MovieDTO>>> GetAllMovies(int pagesize, int pagenummer)
+    public async Task<ActionResult<ICollection<MovieDTO>>> GetAllMovies(int pagesize, int pagenummer)
+    {
+        try
         {
-            try
+            var movies = await _movieservice.GetAllMovies(pagesize, pagenummer);
+            if (movies == null)
             {
-                var movies = await _movieservice.GetAllMovies(pagesize, pagenummer);
-                if (movies == null)
-                {
-                    return NotFound("There are no movies in the database");
-                }
-                return Ok(movies);
+                return NotFound("There are no movies in the database");
             }
-            catch (Exception ex)
-            {
-                _logger.LogError("An Error occurred on get all movies in the MovieController:{ex}", ex);
-                return StatusCode(500, $"An error occurred while trying to get all movies");
-            }
+            return Ok(movies);
         }
-
-
-        [HttpGet("movieId={Id}", Name = "GetMovieById")]
-
-        public async Task<ActionResult<MovieDTO>> GetMovieById(int Id)
+        catch (Exception ex)
         {
-            try
-            {
-                var movie = await _movieservice.GetMovieById(Id);
-                if (movie == null)
-                {
-                    return NotFound("No movie with that id was found");
-                }
-                return Ok(movie);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError("An Error occurred on get movie by id in the MovieController:{ex}", ex);
-                return StatusCode(500, $"An error occurred while trying to get the movie by id");
-            }
+            _logger.LogError("An Error occurred on get all movies in the MovieController:{ex}", ex);
+            return StatusCode(500, $"An error occurred while trying to get all movies");
         }
+    }
 
-        [HttpGet("name={name}", Name = "GetMovieByName")]
 
-        public async Task<ActionResult<MovieDTO>> GetMovieByName(string name)
+    [HttpGet("movieId={Id}", Name = "GetMovieById")]
+
+    public async Task<ActionResult<MovieDTO>> GetMovieById(int Id)
+    {
+        try
         {
-            try 
-            { 
-                var movie = await _movieservice.GetMovieByName(name);
-
-                if (movie == null)
-                {
-                    return NotFound("No movie with that name was found");
-                }
-                return Ok(movie);
-            }
-            catch (Exception ex)
+            var movie = await _movieservice.GetMovieById(Id);
+            if (movie == null)
             {
-                _logger.LogError("An Error occurred on get movies by name in the MovieController: {ex}",ex);
-                return StatusCode(500, $"An error occurred while trying to get movie by name");
-
+                return NotFound("No movie with that id was found");
             }
+            return Ok(movie);
         }
-
-
-        [HttpPut("Id={Id}", Name = "UpdateMovieById")]
-
-        public async Task<ActionResult<MovieDTO>> UpdateMovieById(int Id, MovieDTO dto)
+        catch (Exception ex)
         {
-            try 
-            { 
-                var movie = await _movieservice.UpdateMovieById(Id, dto);
-                if (movie == null)
-                {
-                    return BadRequest("The movie could not be updated");
-                }   
-                return Ok(movie);
-            }
-            catch(Exception ex)
-            {
-                _logger.LogError("An Error occurred on update movie in the MovieController:{ex}", ex);
-                return StatusCode(500, $"An error occurred while trying to update the movie");
-
-            }
+            _logger.LogError("An Error occurred on get movie by id in the MovieController:{ex}", ex);
+            return StatusCode(500, $"An error occurred while trying to get the movie by id");
         }
+    }
 
+    [HttpGet("name={name}", Name = "GetMovieByName")]
 
-        [HttpDelete("Id={Id}", Name = "DeleteMovieById")]
-        public async Task<ActionResult<MovieDTO>> DeleteMovieById(int Id)
-        {
-            try 
-            { 
-            var movie = await _movieservice.DeleteMovieById(Id);
+    public async Task<ActionResult<MovieDTO>> GetMovieByName(string name)
+    {
+        try 
+        { 
+            var movie = await _movieservice.GetMovieByName(name);
 
             if (movie == null)
             {
-                return BadRequest("The movie could not be deleted");
+                return NotFound("No movie with that name was found");
             }
             return Ok(movie);
-            }
-            catch(Exception ex)
-            {
-                _logger.LogError("An Error occurred on delete movie in the MovieController: {ex}",ex);
-                return StatusCode(500, $"An error occurred while trying to delete the movie");
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError("An Error occurred on get movies by name in the MovieController: {ex}",ex);
+            return StatusCode(500, $"An error occurred while trying to get movie by name");
 
-            }
+        }
+    }
+
+
+    [HttpPut("Id={Id}", Name = "UpdateMovieById")]
+
+    public async Task<ActionResult<MovieDTO>> UpdateMovieById(int Id, MovieDTO dto)
+    {
+        try 
+        { 
+            var movie = await _movieservice.UpdateMovieById(Id, dto);
+            if (movie == null)
+            {
+                return BadRequest("The movie could not be updated");
+            }   
+            return Ok(movie);
+        }
+        catch(Exception ex)
+        {
+            _logger.LogError("An Error occurred on update movie in the MovieController:{ex}", ex);
+            return StatusCode(500, $"An error occurred while trying to update the movie");
+
+        }
+    }
+
+
+    [HttpDelete("Id={Id}", Name = "DeleteMovieById")]
+    public async Task<ActionResult<MovieDTO>> DeleteMovieById(int Id)
+    {
+        try 
+        { 
+        var movie = await _movieservice.DeleteMovieById(Id);
+
+        if (movie == null)
+        {
+            return BadRequest("The movie could not be deleted");
+        }
+        return Ok(movie);
+        }
+        catch(Exception ex)
+        {
+            _logger.LogError("An Error occurred on delete movie in the MovieController: {ex}",ex);
+            return StatusCode(500, $"An error occurred while trying to delete the movie");
 
         }
 
     }
+
 }

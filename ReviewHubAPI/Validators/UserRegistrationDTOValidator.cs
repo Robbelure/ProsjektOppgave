@@ -9,7 +9,7 @@ public class UserRegistrationDTOValidator : AbstractValidator<UserRegistrationDT
     {
         RuleFor(x => x.Username)
             .NotEmpty().WithMessage("Username is required")
-            .MinimumLength(4).WithMessage("Username must have at least 4 characters")
+            .MinimumLength(1).WithMessage("Username must have at least 1 characters")
             .MaximumLength(30).WithMessage("Username can not be longer than 30 signs");
 
         RuleFor(x => x.Email)
