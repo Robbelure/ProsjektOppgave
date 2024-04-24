@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using ReviewHubAPI.Extensions;
+using ReviewHubAPI.Mappers.Interface;
 using ReviewHubAPI.Models.DTO;
 using ReviewHubAPI.Services.Interface;
 
@@ -49,6 +51,16 @@ public class UserController : ControllerBase
         return Ok(user);
     }
 
+    [HttpGet("public/{userId:int}")]
+    public async Task<ActionResult<UserPublicProfileDTO>> GetUserPublicProfileById(int userId)
+    {
+        var userPublicProfile = await _userService.GetUserPublicProfileByIdAsync(userId);
+        if (userPublicProfile == null)
+            return NotFound($"User with ID {userId} not found.");
+
+        return Ok(userPublicProfile);
+    }
+
     [Authorize]
     [HttpPut("{userId:int}")]
     public async Task<ActionResult> UpdateUser(int userId, [FromBody] UserUpdateDTO updateDto)
@@ -71,6 +83,29 @@ public class UserController : ControllerBase
 
         _logger.LogInformation($"User with ID {userId} updated successfully.");
         return Ok(updateResult);
+    }
+
+    [HttpPatch("{userId}", Name = "PatchUser")]
+    public async Task<ActionResult> PatchUser(int userId, [FromBody] JsonPatchDocument<UserUpdateDTO> patchDoc)
+    {
+        _logger.LogInformation($"Received PATCH request for user with ID {userId}.");
+
+        if (patchDoc == null)
+        {
+            _logger.LogWarning("Patch document is empty.");
+            return BadRequest("Patch document is empty.");
+        }
+
+        var updatedUserDto = await _userService.PatchUserAsync(userId, patchDoc);
+
+        if (updatedUserDto == null)
+        {
+            _logger.LogWarning($"User with ID {userId} not found or failed to apply patch.");
+            return NotFound($"User with ID {userId} not found.");
+        }
+
+        _logger.LogInformation($"User with ID {userId} patched successfully.");
+        return Ok(updatedUserDto);
     }
 
     [Authorize]

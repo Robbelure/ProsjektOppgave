@@ -1,4 +1,5 @@
-﻿using ReviewHubAPI.Models.Entity;
+﻿using ReviewHubAPI.Models.DTO;
+using ReviewHubAPI.Models.Entity;
 
 namespace ReviewHubAPI.Repositories.Interface;
 

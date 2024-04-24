@@ -7,103 +7,95 @@ using ReviewHubAPI.Models.Entity;
 using ReviewHubAPI.Services;
 using ReviewHubAPI.Services.Interface;
 
-namespace ReviewHubAPI.Controllers
+namespace ReviewHubAPI.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public class UploadProfilePictureController : Controller
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class UploadProfilePictureController : Controller
+    private readonly IUploadProfilePictureService _profilePictureService;
+    private readonly ILogger<UploadProfilePictureController> _logger;
+
+    public UploadProfilePictureController(IUploadProfilePictureService porfilePictureService, ILogger<UploadProfilePictureController> logger)
     {
-        private readonly IUploadProfilePictureService _profilePictureService;
-        private readonly ILogger<UploadProfilePictureController> _logger;
+        _profilePictureService = porfilePictureService;
+        _logger = logger;
+    }
 
-        public UploadProfilePictureController(IUploadProfilePictureService porfilePictureService, ILogger<UploadProfilePictureController> logger)
+    [HttpPost("Id={userId}")]
+    public async Task<ActionResult<string>> AddProfilePicture([FromRoute] int userId, [FromForm] IFormFile file)
+    {
+        var message = await _profilePictureService.AddOrUpdateProfilePictureAsync(userId, file);
+        _logger.LogInformation("Profile picture uploaded successfully for user ID: {UserId}", userId);
+        return Ok(message);
+    }
+
+    [HttpGet(Name = "GetAllProfilePictures")]
+    public async Task<ActionResult<ICollection<ProfilePictureDTO>>> GetAllProfilePicturesAsync(int PageSize, int PageNummer)
+    {
+        try
         {
-            _profilePictureService = porfilePictureService;
-            _logger = logger;
-        }
+            var alleprofilepictures = await _profilePictureService.GetAllProfilePicturesAsync(PageSize, PageNummer);
 
-        [HttpPost("Id={userId}")]
-        [Authorize]  // Sikrer at kun autentiserte brukere kan tilgang til denne metoden
-        public async Task<ActionResult<string>> AddProfilePicture([FromRoute] int userId, [FromForm] IFormFile file)
-        {
-            if (file == null || file.Length == 0)
+            if (alleprofilepictures == null)
             {
-                _logger.LogError("No file received or file is empty.");
-                return BadRequest("Please upload a non-empty file.");
+                return NotFound("There are no profilepictures on the server");
             }
 
-            var message = await _profilePictureService.AddOrUpdateProfilePictureAsync(userId, file);
-            _logger.LogInformation("Profile picture uploaded successfully for user ID: {UserId}", userId);
-            return Ok(message);
-        }
-
-        [HttpGet(Name = "GetAllProfilePictures")]
-        public async Task<ActionResult<ICollection<ProfilePictureDTO>>> GetAllProfilePicturesAsync(int PageSize, int PageNummer)
-        {
-            try
-            {
-                var alleprofilepictures = await _profilePictureService.GetAllProfilePicturesAsync(PageSize, PageNummer);
-
-                if (alleprofilepictures == null)
-                {
-                    return NotFound("There are no profilepictures on the server");
-                }
-
-                return Ok(alleprofilepictures);
-
-            }
-            catch(Exception ex)
-            {
-
-                _logger.LogError("An Error occurred on get all profile pictures in the UploadProfilePictureController : {ex}", ex);
-
-                return StatusCode(500, $"An error occurred while trying to get all of the profile pictures ");
-            }
-        }
-
-        [HttpGet ("Id={UserId}", Name = "GetProfilePictureByUserId")]
-        public async Task<ActionResult<ProfilePictureDTO>> GetProfilePictureByUserIdAsync(int UserId)
-        {
-            try
-            {
-                var profilepicture = await _profilePictureService.GetProfilePictureByUserIdAsync(UserId);
-
-                if(profilepicture ==null)
-                {
-                    return NotFound($"A profilepicture with that userId {UserId}");
-                }
-
-                return Ok(profilepicture);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError("An Error occurred on get profile picture by user id in the UploadProfilePictureController : {ex}", ex);
-
-                return StatusCode(500, $"An error occurred while trying to get profile picture by user id ");
-            }
+            return Ok(alleprofilepictures);
 
         }
-
-        [HttpDelete ("Id={UserId}",Name = "DeleteProfilePictureByUserId")]
-
-        public async Task<ActionResult<ProfilePictureDTO>> DeleteProfilePictureByUserIdAsync(int UserId)
+        catch(Exception ex)
         {
-            try { 
-            var profilePictureToDelete = await _profilePictureService.DeleteProfilePictureByUserIdAsync(UserId);
 
-            if( profilePictureToDelete == null )
+            _logger.LogError("An Error occurred on get all profile pictures in the UploadProfilePictureController : {ex}", ex);
+
+            return StatusCode(500, $"An error occurred while trying to get all of the profile pictures ");
+        }
+    }
+
+    [HttpGet ("Id={UserId}", Name = "GetProfilePictureByUserId")]
+    public async Task<ActionResult<ProfilePictureDTO>> GetProfilePictureByUserIdAsync(int UserId)
+    {
+        try
+        {
+            var profilepicture = await _profilePictureService.GetProfilePictureByUserIdAsync(UserId);
+
+            if(profilepicture ==null)
             {
-                return BadRequest("Profile picture could not be deleted");
+                return NotFound($"A profilepicture with that userId {UserId}");
             }
 
-            return Ok(profilePictureToDelete);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError("An Error occurred on delete profile picture by user id in the UploadProfilePictureController : {ex}", ex);
+            return Ok(profilepicture);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError("An Error occurred on get profile picture by user id in the UploadProfilePictureController : {ex}", ex);
 
-                return StatusCode(500, $"An error occurred while trying to delete profile picture by user id ");
-            }
+            return StatusCode(500, $"An error occurred while trying to get profile picture by user id ");
+        }
+
+    }
+
+    [HttpDelete ("Id={UserId}",Name = "DeleteProfilePictureByUserId")]
+
+    public async Task<ActionResult<ProfilePictureDTO>> DeleteProfilePictureByUserIdAsync(int UserId)
+    {
+        try { 
+        var profilePictureToDelete = await _profilePictureService.DeleteProfilePictureByUserIdAsync(UserId);
+
+        if( profilePictureToDelete == null )
+        {
+            return BadRequest("Profile picture could not be deleted");
+        }
+
+        return Ok(profilePictureToDelete);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError("An Error occurred on delete profile picture by user id in the UploadProfilePictureController : {ex}", ex);
+
+            return StatusCode(500, $"An error occurred while trying to delete profile picture by user id ");
         }
     }
 }
