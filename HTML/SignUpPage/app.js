@@ -70,7 +70,7 @@ document.getElementById('register').addEventListener('submit', function(event){
         return data; // data inneholder nå JSON responsen for vellykkede forespørsler
     }))
     .then(data => {
-        window.location.href = '../SignInnPage/index.html'; // Eller din bekreftelsesside
+        window.location.href = '../SignInnPage/index.html';
     })
     .catch(error => {
         const errorElement = document.getElementById('error-container');

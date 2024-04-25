@@ -134,7 +134,11 @@ builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "ReviewHubAPI", Version = "v1" });
 
+<<<<<<< HEAD
    // c.OperationFilter<JsonPatchDocumentFilter>();
+=======
+    //c.OperationFilter<JsonPatchDocumentFilter>();
+>>>>>>> 26d4b1506f83603053c03e5966ef9cbb31bd82b9
 
     // Legger til JWT-st�tte i Swagger
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
