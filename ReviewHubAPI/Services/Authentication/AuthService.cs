@@ -67,7 +67,8 @@ namespace ReviewHubAPI.Services.Authentication
             {
                 Token = token,
                 UserId = userDto.Id,
-                Username = userDto.Username
+                Username = userDto.Username,
+                Email = userDto.Email
             };
         }
 

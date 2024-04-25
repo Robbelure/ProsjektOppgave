@@ -3,14 +3,23 @@ document.addEventListener('DOMContentLoaded', () => {
     const userId = localStorage.getItem('userId');
     const token = localStorage.getItem('jwtToken');
 
-    if (username) {
-        document.getElementById('welcomeMessage').textContent = `Welcome, ${username}`;
-        document.getElementById('username').value = username; // Viser brukernavnet
-    }
-
+    // Elementreferanser
+    const welcomeMessageElement = document.getElementById('welcomeMessage');
     const profilePictureElement = document.getElementById('profilePicture');
     const feedbackElement = document.getElementById('imageUploadFeedback');
+    const firstNameElement = document.getElementById('firstName'); 
+    const lastNameElement = document.getElementById('lastName'); 
+    const emailElement = document.getElementById('email');
+    //const usernameElement = document.getElementById('username'); 
+    const formElement = document.querySelector('.profile-section');
 
+    // Vis brukernavn i velkomstmelding
+    if (username) {
+        welcomeMessageElement.textContent = `Welcome, ${username}`;
+        document.getElementById('username').value = username;
+    }
+
+    // Hent og vis profilbilde
     const fetchAndDisplayProfilePicture = () => {
         const apiUrl = `https://localhost:7033/api/UploadProfilePicture/Id=${userId}`;
         fetch(apiUrl, {
@@ -40,6 +49,36 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
+    // Hent og vis brukerdata
+    const fetchAndDisplayUserData = () => {
+        const userDataApiUrl = `https://localhost:7033/api/User/${userId}`;
+        fetch(userDataApiUrl, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to fetch user data.');
+            }
+            return response.json();
+        })
+        .then(userData => {
+            // Vis fornavn og etternavn hvis de eksisterer
+            if (userData.firstname) {
+                firstNameElement.value = userData.firstname;
+            }
+            if (userData.lastname) {
+                lastNameElement.value = userData.lastname;
+            }
+            emailElement.value = localStorage.getItem('email');
+        })
+        .catch(error => {
+            console.error('Error fetching user data:', error);
+        });
+    };
+
+    // Opplastning av profilbilde
     const uploadProfilePicture = () => {
         const fileInput = document.getElementById('profileImage');
         if (fileInput.files.length === 0) {
@@ -73,6 +112,9 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(() => {
             feedbackElement.textContent = 'Profile picture uploaded successfully!';
             feedbackElement.style.color = '#28a745';
+            setTimeout(() => {
+                feedbackElement.textContent = '';
+            }, 3000);
         })
         .catch(error => {
             console.error('Error uploading profile picture:', error);
@@ -81,7 +123,47 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    document.getElementById('profileImage').addEventListener('change', uploadProfilePicture);
+    const updateUserData = (event) => {
+        event.preventDefault(); // Forhindre standard skjema innsendingsoppførsel
 
+        const updatedUserData = {
+            firstname: firstNameElement.value,
+            lastname: lastNameElement.value,
+            // ... inkluder andre felt om nødvendig
+        };
+
+        const updateApiUrl = `https://localhost:7033/api/User/${userId}`;
+        fetch(updateApiUrl, {
+            method: 'PUT', 
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(updatedUserData)
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to update user data.');
+            }
+            feedbackElement.textContent = 'User data updated successfully!';
+            feedbackElement.style.color = '#28a745';
+            setTimeout(() => {
+                feedbackElement.textContent = '';
+            }, 3000);
+        })
+        .catch(error => {
+            console.error('Error updating user data:', error);
+            feedbackElement.textContent = 'Failed to update user data.';
+            feedbackElement.style.color = '#dc3545';
+        });
+    };
+
+
+    // Event listeners
+    document.getElementById('profileImage').addEventListener('change', uploadProfilePicture);
+    formElement.addEventListener('submit', updateUserData);
+
+    // Første funksjonskall ved sideinnlasting
     fetchAndDisplayProfilePicture();
+    fetchAndDisplayUserData();
 });
