@@ -92,6 +92,20 @@ input[type="color"]::-moz-color-swatch {
   justify-content: space-between;
 }
 
+.Ratingblock{
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  width: 100%;
+  margin-top: 13px;
+  margin-bottom: 13px;
+}
+
+.Ratingblock h6{
+  font-size: 1.6rem;
+  margin-left: 30px;
+  margin-right: 50px;
+}
 .submit{
   margin-top: 10px;
   font-size: 1.2rem;

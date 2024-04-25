@@ -39,21 +39,23 @@ function GetReviews() {
                         .then(response => {
                             if (!response.ok) {
                                 // If the request fails, return a default image
-                                return '../assets/Logo/no-image-icon.png';
+                                const ImageUrl = '../assets/Logo/no-image-icon.png'
+                                return ImageUrl;
                             } else {
-                                return response.blob();
+                                // If the response is OK, proceed with parsing JSON
+                                return response.json().then(reviewPictureData => {
+                                    // Assuming reviewPictureData has the structure { reviewPicture: imageData }
+                                    const imageData = reviewPictureData.reviewPicture;
+                                    console.log('HERE', imageData);
+                                    const ImageUrl = `data:image/jpeg;base64,${imageData}`;
+                                    return ImageUrl;
+                                });
                             }
-                        })
-                        .then(blob => {
-                            if (typeof blob === 'string') {
-                                return blob; // Default image URL
-                            }
-                            // Convert blob to URL
-                            return URL.createObjectURL(blob);
                         }),
                     // Fetch user data
-                    //TODO! Vi trenger ny endepunkt her slike at vi vi kan hente opp brukernavnet 
-                    fetch(`https://localhost:7033/api/User/${review.userId}`)
+                    
+                    fetch(`https://localhost:7033/api/User/public/${review.userId}`)
+                        
                         .then(response => {
                             if (!response.ok) {
                                 return 'No Author'; // If the request fails, return 'No Author'
@@ -63,13 +65,13 @@ function GetReviews() {
                         })
                         .then(userData => {
                             if (userData === 'No Author') {
-                                return userData; // Return 'No Author' directly
+                                return userData; 
                             }
                             return userData.username;
                         })
-                ]).then(([reviewImageUrl, author]) => {
+                ]).then(([ImageUrl, author]) => {
                     // Return an object containing the review data
-                    return { review, reviewImageUrl, author };
+                    return { review, ImageUrl, author };
                 });
             });
         
@@ -79,7 +81,7 @@ function GetReviews() {
         .then(reviews => {
             // Now we have an array of review objects with image URLs and authors
             let review_container = "";
-            reviews.forEach(({ review, reviewImageUrl, author }) => {
+            reviews.forEach(({ review, ImageUrl, author }) => {
                 const title = review.title;
                 const reviewtext = review.text;
                 const rating = review.rating;
@@ -91,7 +93,7 @@ function GetReviews() {
                 review_container += `
                     <div class="review-box">
                         <div class="review-img">
-                            <img src="${reviewImageUrl}" alt="Review Image">
+                            <img src="${ImageUrl}" alt="review-picture">
                         </div>
                         <div class="review-text">
                             <div class="headerinfo">
