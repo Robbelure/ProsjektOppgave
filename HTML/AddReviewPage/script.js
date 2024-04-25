@@ -126,10 +126,9 @@ function upload() {
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
   const movieId = urlParams.get('movieId');
-  const rating = 4;
+  const rating = document.getElementById('rating').value;
   const title = document.querySelector('.title input').value;
   const text = document.getElementById('text-input').textContent;
-  console.log(userId , movieId);
 
   const reviewData = {
     movieId: movieId,
@@ -164,9 +163,9 @@ function upload() {
       method: 'POST',
       body: formData
     })
-    .then(response => response.json())
+    .then(response => response)
     .then(data => {
-      console.log('Picture upload successful:', data);
+      console.log('Picture upload successful: ', data);
     })
     .catch(error => {
       console.error('Error uploading picture:', error);

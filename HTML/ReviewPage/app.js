@@ -13,7 +13,7 @@ fetch(`https://localhost:7033/api/Review/Id=${reviewId}`)
         for (let i = 0; i < rating; i++) {
             starImages += `<img src="../assets/Logo/star.png" alt="Star">`;
         }
-
+//TODO!! Samme som add reviews 
         // Fetch review image
         const reviewImageURL = `https://localhost:7033/api/ReviewPicture/Id=${reviewId}`;
         fetch(reviewImageURL)

@@ -15,9 +15,17 @@ public class ReviewPictureRepository : IReviewPictureRepository
     {
         _context = context;
     }
-    public Task<string> AddReviewPicture(ReviewPicture entity)
+    public async Task<string> AddReviewPicture(ReviewPicture entity)
     {
-        throw new NotImplementedException();
+        var picture = await _context.ReviewPicture.AddAsync(entity);
+        await _context.SaveChangesAsync();
+
+        if (picture != null)
+        {
+            return "Upload success";
+        }
+
+        return "upload failed";
     }
 
     public Task<ReviewPicture> DeleteReviewPictureByReviewIdAsync(int ReviewId)
@@ -32,7 +40,7 @@ public class ReviewPictureRepository : IReviewPictureRepository
 
     public async Task<ReviewPicture> GetReviewPictureByReviewIdAsync(int ReviewId)
     {
-        var picture =  await _context.ReviewPicture.FirstOrDefaultAsync(x => x.Id == ReviewId);
+        var picture =  await _context.ReviewPicture.FirstOrDefaultAsync(x => x.ReviewId == ReviewId);
        
         return picture ?? null!;
     }
