@@ -1,6 +1,6 @@
 const endpointURL = "https://localhost:7033/api/Movie?pagesize=30&pagenummer=1";
 
-function GetMovies() {
+function GetLatestAddedMovies() {
     let movies = [];
     let herocontent = "";
     let latestaddedmoviesection = "";
@@ -80,9 +80,16 @@ function GetMovies() {
         });
 }
 
+function GetLatestReviewed()
+{
+    
+    
+}
+
 
 window.onload = function() {
-    GetMovies();
+    GetLatestAddedMovies();
+    GetLatestReviewed();
 
 };
 
