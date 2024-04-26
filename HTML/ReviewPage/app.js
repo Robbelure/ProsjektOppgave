@@ -4,7 +4,12 @@ const reviewId = urlParams.get('reviewID');
 
 // Fetch review data
 fetch(`https://localhost:7033/api/Review/Id=${reviewId}`)
-    .then(response => response.json())
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
     .then(review => {
         const { title, rating, text } = review;
 
@@ -13,26 +18,22 @@ fetch(`https://localhost:7033/api/Review/Id=${reviewId}`)
         for (let i = 0; i < rating; i++) {
             starImages += `<img src="../assets/Logo/star.png" alt="Star">`;
         }
-//TODO!! Samme som add reviews 
+
         // Fetch review image
         const reviewImageURL = `https://localhost:7033/api/ReviewPicture/Id=${reviewId}`;
         fetch(reviewImageURL)
             .then(imageResponse => {
                 if (!imageResponse.ok) {
-                    // If the request fails, return a default image URL
-                    return '../assets/Logo/no-image-icon.png';
+                    // If the request fails, return a default image
+                    throw new Error('Network response was not ok');
                 }
-                return imageResponse.blob();
+                return imageResponse.json();
             })
-            .then(blob => {
-                let imageURL;
-                if (typeof blob === 'string') {
-                    // If the response is already a string (default image URL), use it directly
-                    imageURL = blob;
-                } else {
-                    // If the response is a blob, create an object URL
-                    imageURL = URL.createObjectURL(blob);
-                }
+            .then(reviewPictureData => {
+                // reviewPictureData has the structure { reviewPicture: imageData }
+                const imageData = reviewPictureData.reviewPicture;
+                console.log('HERE', imageData);
+                const imageURL = `data:image/jpeg;base64,${imageData}`;
 
                 const reviewHTML = `
                     <div class="reviewimage">
