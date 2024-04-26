@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.JsonPatch;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using ReviewHubAPI.Models.DTO;
-using System.Security.Claims;
+﻿using ReviewHubAPI.Models.DTO;
 
 namespace ReviewHubAPI.Services.Interface;
 

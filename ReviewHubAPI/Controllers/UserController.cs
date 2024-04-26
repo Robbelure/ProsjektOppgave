@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using ReviewHubAPI.Extensions;
-using ReviewHubAPI.Mappers.Interface;
 using ReviewHubAPI.Models.DTO;
 using ReviewHubAPI.Services.Interface;
 
@@ -57,7 +55,6 @@ public class UserController : ControllerBase
         var userPublicProfile = await _userService.GetUserPublicProfileByIdAsync(userId);
         if (userPublicProfile == null)
             return NotFound($"User with ID {userId} not found.");
-
         return Ok(userPublicProfile);
     }
 
