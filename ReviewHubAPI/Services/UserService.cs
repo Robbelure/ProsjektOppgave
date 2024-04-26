@@ -7,6 +7,7 @@ using ReviewHubAPI.Models.DTO;
 using ReviewHubAPI.Models.Entity;
 using ReviewHubAPI.Repositories.Interface;
 using ReviewHubAPI.Services.Interface;
+using System.Security.Claims;
 
 namespace ReviewHubAPI.Services;
 
@@ -60,60 +61,33 @@ public class UserService : IUserService
         await _userRepository.DeleteUserAsync(userId);
         _logger.LogInformation($"User with ID {userId} has been successfully deleted.");
     }
-    public async Task<UserDTO?> UpdateUserAsync(int userId, UserUpdateDTO userUpdateDto)
+
+    public async Task<UserDTO> UpdateUserAsync(int userId, UserUpdateDTO userUpdateDto, ClaimsPrincipal currentUser)
     {
         var user = await _userRepository.GetUserByIdAsync(userId);
         if (user == null)
+            throw new InvalidOperationException($"User with ID {userId} not found.");
+
+        // Kun fornavn og etternavn kan endres, og kun admin kan endre andre felter
+        if (currentUser.IsInRole("Admin"))
         {
-            _logger.LogError($"User with ID {userId} not found for update.");
-            return null;
+            if (!string.IsNullOrWhiteSpace(userUpdateDto.Username))
+                user.Username = userUpdateDto.Username;
+
+            if (!string.IsNullOrWhiteSpace(userUpdateDto.Email))
+                user.Email = userUpdateDto.Email;
         }
 
-        bool isUpdated = false;
-
-        if (!string.IsNullOrWhiteSpace(userUpdateDto.Username) && userUpdateDto.Username != user.Username)
-        {
-            if (await _userRepository.UsernameExistsAsync(userUpdateDto.Username))
-            {
-                _logger.LogWarning($"Username {userUpdateDto.Username} already exists.");
-                return null;
-            }
-            user.Username = userUpdateDto.Username;
-            isUpdated = true;
-        }
-
-        if (!string.IsNullOrWhiteSpace(userUpdateDto.Email) && userUpdateDto.Email != user.Email)
-        {
-            if (await _userRepository.EmailExistsAsync(userUpdateDto.Email))
-            {
-                _logger.LogWarning($"Email {userUpdateDto.Email} already in use.");
-                return null;
-            }
-            user.Email = userUpdateDto.Email;
-            isUpdated = true;
-        }
-
-        if (!string.IsNullOrWhiteSpace(userUpdateDto.Firstname) && userUpdateDto.Firstname != user.Firstname)
-        {
+        if (!string.IsNullOrWhiteSpace(userUpdateDto.Firstname))
             user.Firstname = userUpdateDto.Firstname;
-            isUpdated = true;
-        }
 
-        if (!string.IsNullOrWhiteSpace(userUpdateDto.Lastname) && userUpdateDto.Lastname != user.Lastname)
-        {
+        if (!string.IsNullOrWhiteSpace(userUpdateDto.Lastname))
             user.Lastname = userUpdateDto.Lastname;
-            isUpdated = true;
-        }
 
-        if (isUpdated)
-        {
-            _logger.LogInformation($"Updating user with ID {userId}.");
-            await _userRepository.UpdateUserAsync(user);
-            _logger.LogInformation($"User with ID {userId} updated in database.");
-        }
-
+        await _userRepository.UpdateUserAsync(user);
         return _userMapper.MapToDTO(user);
     }
+
     public async Task<bool> IsUserAdminAsync(int userId)
     {
         var user = await _userRepository.GetUserByIdAsync(userId);
