@@ -45,12 +45,13 @@ public class UserRepository : IUserRepository
     }
     public async Task DeleteUserAsync(int userId)
     {
-        var userToDelete = await _dbContext.Users.FindAsync(userId);
-        if (userToDelete != null)
+        var user = await GetUserByIdAsync(userId);
+        if (user == null)
         {
-            _dbContext.Users.Remove(userToDelete);
-            await _dbContext.SaveChangesAsync();
+            throw new NotFoundException($"User with ID {userId} not found.");
         }
+        _dbContext.Users.Remove(user);
+        await _dbContext.SaveChangesAsync();
     }
     public async Task<bool> UsernameExistsAsync(string username)
     {
