@@ -73,7 +73,7 @@ public class UserController : ControllerBase
             return Forbid();
         }
 
-        var updateResult = await _userService.UpdateUserAsync(userId, updateDto);
+        var updateResult = await _userService.UpdateUserAsync(userId, updateDto, User);
         if (updateResult == null)
         {
             _logger.LogWarning($"User with ID {userId} update failed or no changes were made.");
