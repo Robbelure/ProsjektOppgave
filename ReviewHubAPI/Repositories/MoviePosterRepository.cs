@@ -3,50 +3,49 @@ using ReviewHubAPI.Data;
 using ReviewHubAPI.Models.Entity;
 using ReviewHubAPI.Repositories.Interface;
 
-namespace ReviewHubAPI.Repositories
+namespace ReviewHubAPI.Repositories;
+
+public class MoviePosterRepository : IMoviePosterRepository
 {
-    public class MoviePosterRepository : IMoviePosterRepository
+    private readonly ReviewHubDbContext _dbcontext;
+
+    public MoviePosterRepository(ReviewHubDbContext dbContext)
     {
-        private readonly ReviewHubDbContext _dbcontext;
+        _dbcontext = dbContext;
+    }
 
-        public MoviePosterRepository(ReviewHubDbContext dbContext)
+    public async Task<string> AddMoviePoster(MoviePoster entity)
+    {
+        var poster = await _dbcontext.MoviePoster.AddAsync(entity);
+        await _dbcontext.SaveChangesAsync();
+
+       if(poster == null)
         {
-            _dbcontext = dbContext;
+            return "Something went wrong and movieposter was not saved";
         }
 
-        public async Task<string> AddMoviePoster(MoviePoster entity)
-        {
-            var poster = await _dbcontext.MoviePoster.AddAsync(entity);
-            await _dbcontext.SaveChangesAsync();
+        return "Movieposter was save";
+    }
+    public Task<MoviePoster> DeleteMoviePosterMovieIdAsync(int MovieId)
+    {
+        throw new NotImplementedException();
+    }
 
-           if(poster == null)
-            {
-                return "Something went wrong and movieposter was not saved";
-            }
+    public async Task<ICollection<MoviePoster>> GetAllMoviePostersAsync(int PageSize, int PageNummer)
+    {
+        var posters = await _dbcontext.MoviePoster
+            .OrderBy(x => x.Id)
+              .Skip((PageNummer - 1) * PageSize)
+             .Take(PageSize)
+             .ToListAsync();
 
-            return "Movieposter was save";
-        }
-        public Task<MoviePoster> DeleteMoviePosterMovieIdAsync(int MovieId)
-        {
-            throw new NotImplementedException();
-        }
+        return posters;
+    }
 
-        public async Task<ICollection<MoviePoster>> GetAllMoviePostersAsync(int PageSize, int PageNummer)
-        {
-            var posters = await _dbcontext.MoviePoster
-                .OrderBy(x => x.Id)
-                  .Skip((PageNummer - 1) * PageSize)
-                 .Take(PageSize)
-                 .ToListAsync();
+    public async Task<MoviePoster> GetMoviePostereByMovieIdAsync(int MovieId)
+    {
+        var poster = await _dbcontext.MoviePoster.FirstOrDefaultAsync(x => x.MovieId == MovieId);
 
-            return posters;
-        }
-
-        public async Task<MoviePoster> GetMoviePostereByMovieIdAsync(int MovieId)
-        {
-            var poster = await _dbcontext.MoviePoster.FirstOrDefaultAsync(x => x.MovieId == MovieId);
-
-            return poster ?? null!;
-        }
+        return poster ?? null!;
     }
 }

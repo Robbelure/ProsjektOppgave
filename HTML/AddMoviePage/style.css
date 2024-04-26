@@ -1,22 +1,88 @@
 
+body{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-.movieform{
-    width:700px ;
+.hero{
+    height: 100vh;
+    width: 100%;
+    background-size: cover; 
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    height: 300px;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
 }
 
-.poster
-{
-    display: flex;
-    flex-direction: row;
 
+form{
+    width: 90%;
+    max-width: 600px;
 }
 
-.summary{
-    height: 150px;
+.input-field{
+    margin-bottom: 30px;
+}
+
+::placeholder {
+    color: #fff;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input , textarea {
+    width: 100%;
+    padding: 10px;
+    outline: 0;
+    border: 1px solid #fff;
+    columns: #fff;
+    background: transparent;
+    font-size: 1rem;
+    color: #fff;
+}
+
+.input-field p{
+    margin-top: 0px;
+    margin-bottom: 5px;
+    color: #fff;
+    font-size: 1.2rem;
+}
+
+.submit{
+    padding: 10px 0;
+    color: #fff;
+    outline: none;
+    background: transparent;
+    border: 1px solid #fff;
+    width: 100%;
+    cursor: pointer;
+    font-size: 1.5rem;
+}
+
+.home-button-container {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 10; 
+}
+
+.home-btn {
+    padding: 10px 20px;
+    background: linear-gradient(red, rgb(250, 105, 61)); 
+    color: white;
+    border: none;
+    border-radius: 30px; 
+    text-decoration: none; 
+    font-size: 16px;
+    cursor: pointer; 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+    transition: background-color 0.3s;
+}
+
+.home-btn:hover {
+    background: linear-gradient(rgb(255, 100, 100), rgb(255, 0, 0)); 
 }

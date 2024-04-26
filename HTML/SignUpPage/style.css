@@ -1,4 +1,3 @@
-
 @import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap");
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
 
@@ -27,16 +26,16 @@ body{
     background-size: cover;
     background-position: center;
     position: absolute;
-
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .container-image{
-    position: absolute;
-    width: 500px;
-    height: 700px;
-    position: relative;
-    margin: 6% auto;
-    z-index: 1;
+    width: 120px; /* Juster bredden som nødvendig for logoen */
+    height: 120px; /* Juster høyden som nødvendig for logoen */
+    margin-top: 2%; /* Tilpasse toppmarginen så logoen vises der du vil ha den */
+    z-index: 5; /* Sørg for at logoen har høyere z-index enn form-container */
 }
 .container img{
     position: relative;
@@ -53,10 +52,25 @@ body{
 }
 
 .form-container{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 380px;
+    height: 600px;
+    background: white;
+    padding: 5px;
+    /* fjern z-index for å unngå overlap over logoen */
+    margin-top: 70px; /* Juster denne verdien for å sikre at skjemaet starter etter logoen */
+}
+
+/*
+.form-container{
     overflow: hidden;
+    top: 50%;
     width: 380px ;
     height: 600px;
-    position: relative;
+    position: absolute;
     margin: 0 auto;
     background: white;
     padding: 5px;
@@ -64,6 +78,7 @@ body{
     top: -80px;
     
 }
+*/
 
 .buttonbox{
     top: 55px;
@@ -83,6 +98,8 @@ body{
     position: relative;
 
 }
+
+
 
 #btn{
     top:0;
@@ -144,4 +161,35 @@ body{
 
 #login{
     left: 450px
+}
+
+.error-message{
+    color: red;
+    display: none;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.home-button-container {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 10; 
+}
+
+.home-btn {
+    padding: 10px 20px;
+    background: linear-gradient(red, rgb(250, 105, 61)); 
+    color: white;
+    border: none;
+    border-radius: 30px; 
+    text-decoration: none;
+    font-size: 16px;
+    cursor: pointer; 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+    transition: background-color 0.3s; 
+}
+
+.home-btn:hover {
+    background: linear-gradient(rgb(255, 100, 100), rgb(255, 0, 0)); 
 }

@@ -1,5 +1,4 @@
 ﻿namespace ReviewHubAPI.Models.DTO;
-
 public class UserDTO
 {
     public int Id { get; set; }

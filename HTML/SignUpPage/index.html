@@ -7,38 +7,41 @@
     <title>Sign Up</title>
 </head>
 <body>
-    <div class="container" id="container" >
+    <div class="container" id="container">
+
+        <div class="home-button-container">
+            <a href="../index.html" class="home-btn">Home</a>
+        </div>
+
         <div class="container-image">
-            <img src="../assets/Logo/logo.png">
+            <img src="../assets/Logo/logo.png" alt="Logo">
+        </div>
         <div class="form-container">
+            <div id="error-container" class="error-message" style="display: none;"></div>
             <div class="buttonbox">
                 <div id="btn"></div>
                 <button type="button" class="toggle" onclick="register()">Register</button>
-                <button type="button" class="toggle"onclick="login()">Log In</button>
+                <button type="button" class="toggle" onclick="login()">Log In</button>
             </div>
-            <form id ="register" class="inputgroup">
-                <input type="firstname" class="input-field" placeholder="First Name" required>
-                <input type="lastname" class="input-field" placeholder="Last Name" required>
-                <input type="email" class="input-field" placeholder="Email" required>
-                <input type="text" class="input-field" placeholder="Enter a username" required>
-                <input type="text" class="input-field" placeholder="Enter a password" required>
-                <input type="checkbox" class="checkbox" required><span>I agree to the terms and services</span>
+            <form id="register" class="inputgroup">
+                <input type="text" name="firstname" class="input-field" placeholder="First Name">
+                <input type="text" name="lastname" class="input-field" placeholder="Last Name">
+                <input type="email" name="email" class="input-field" placeholder="Email" required>
+                <input type="text" name="username" class="input-field" placeholder="Enter a username" required>
+                <input type="password" name="password" class="input-field" placeholder="Enter a password" required>
+                <input type="checkbox" class="checkbox"><span>I agree to the terms and services</span>
                 <button type="submit" class="submit-btn">Register</button>
             </form>
-            <form id ="login" class="inputgroup">
+            <form id="login" class="inputgroup" style="display: none;">
                 <input type="text" class="input-field" placeholder="Username" required>
                 <input type="password" class="input-field" placeholder="Password" required>
-                <input type="checkbox" class="checkbox" placeholder="Password" required><span>Remember Passoword</span>
+                <input type="checkbox" class="checkbox"><span>Remember Password</span>
                 <button type="submit" class="submit-btn">Log in</button>
             </form>
-        </div >
-        
+        </div>
     </div>
-</div>
 
-
-    
-        
     <script src="app.js"></script>
 </body>
 </html>
+

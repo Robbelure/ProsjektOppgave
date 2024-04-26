@@ -1,0 +1,62 @@
+
+*{
+    margin: 0px;
+    padding: 0px;
+}
+
+.Review{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    justify-items: center;
+
+}
+
+.reviewimage{
+    margin-top: 50px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    justify-items: center;
+
+}
+
+.reviewimage img{
+    width: 95%;
+    height: 500px;
+    border-radius: 30px;
+}
+
+.reviewbody{
+    display: flex;
+    flex-direction: column;
+    margin: 1rem 20rem 1rem 20rem;
+    justify-content: center;
+    justify-items: center;
+}
+
+.reviewbody h1{
+    font-size: 4rem;
+    color: rgb(76, 76, 76);
+    line-height: 1.2;
+
+}
+
+.starscontainer{
+    margin: 2rem 0rem 2rem 0rem;
+    width: 300px;
+    display: flex;
+    flex-direction: row;
+    background-color: red;
+}
+
+.starscontainer img{
+    width: 45px;
+    height: 45px;
+}
+
+.textsection{
+    font-size: 1.9rem;
+    line-height: 1.7;
+    
+}

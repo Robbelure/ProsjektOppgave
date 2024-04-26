@@ -67,9 +67,10 @@ function loginUser(username, password) {
     })
     .then(data => {
         if(data.token) {
-            localStorage.setItem('jwtToken', data.token); // Lagrer brukerens jwt-token
-            localStorage.setItem('userId', data.userId); // Lagrer brukerens ID
+            localStorage.setItem('jwtToken', data.token);
+            localStorage.setItem('userId', data.userId); 
             localStorage.setItem('username', data.username);
+            localStorage.setItem('email', data.email);
             alert('Innlogging vellykket!');
             window.location.href = '../index.html';
         } else {

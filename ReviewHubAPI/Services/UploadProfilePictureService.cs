@@ -1,6 +1,7 @@
 ﻿using ReviewHubAPI.Mappers.Interface;
 using ReviewHubAPI.Models.DTO;
 using ReviewHubAPI.Models.Entity;
+using ReviewHubAPI.Repositories;
 using ReviewHubAPI.Repositories.Interface;
 using ReviewHubAPI.Services.Interface;
 
@@ -17,59 +18,62 @@ namespace ReviewHubAPI.Services
             _profilepicturemapper = profilepicturemapper;
         }
 
-        public async Task<string> AddNewProfilePicture(IFormFile file, int UserId)
+        public async Task<string> AddOrUpdateProfilePictureAsync(int userId, IFormFile file)
         {
-            var userpic = await GetPictureBytesAsync(file);
-            ProfilePicture entity = new ProfilePicture
+            byte[] pictureBytes;
+
+            if (file == null || file.Length == 0)
             {
-                UserId = UserId,
-                Picture = userpic
-            };
-            var message = await _uploadprofilepicture.AddProfilePicture(entity);
+                // Hent standard profilbilde bytes asynkront
+                pictureBytes = await GetDefaultProfilePictureBytesAsync();
+            }
+            else
+            {
+                // Konverter mottatt fil til bytes
+                pictureBytes = await GetPictureBytesAsync(file);
+            }
 
-            return message;
+            var entity = await _uploadprofilepicture.GetProfilePictureByUserIdAsync(userId) ?? new ProfilePicture { UserId = userId };
+            entity.Picture = pictureBytes;
+
+            var result = await _uploadprofilepicture.AddOrUpdateProfilePictureAsync(entity);
+            return result;
         }
-
         public async Task<ProfilePictureDTO> DeleteProfilePictureByUserIdAsync(int UserId)
         {
             var profilepic = await _uploadprofilepicture.DeleteProfilePictureByUserIdAsync(UserId);
 
             return _profilepicturemapper.MapToDTO(profilepic) ?? null!;
         }
-
-        public async Task<ICollection<ProfilePictureDTO>> GetAllProfilePicturesAsync(int PageSize, int PageNummer)
+        public async Task<ICollection<ProfilePictureDTO>> GetAllProfilePicturesAsync(int pageSize, int pageNumber)
         {
-            var allpics = await _uploadprofilepicture.GetAllProfilePicturesAsync(PageSize, PageNummer);
-            List<ProfilePictureDTO> returnpics = new ();
+            var profilePictures = await _uploadprofilepicture.GetAllProfilePicturesAsync(pageSize, pageNumber);
 
-            if (allpics != null)
-            {
-                return null!;
-            }
+            // Sjekk om listen er tom og håndter dette tilfellet
+            if (profilePictures.Count == 0)
+                return new List<ProfilePictureDTO>();  // Returner en tom DTO liste
 
-            foreach (var picture in allpics!)
-            {
-                returnpics.Add(_profilepicturemapper.MapToDTO(picture));
-            }
-
-            return returnpics;
+            // Mapper hver entitet til en DTO
+            var profilePictureDTOs = profilePictures.Select(_profilepicturemapper.MapToDTO).ToList();
+            return profilePictureDTOs;
         }
-
         public async Task<ProfilePictureDTO> GetProfilePictureByUserIdAsync(int UserId)
         {
             var picture = await _uploadprofilepicture.GetProfilePictureByUserIdAsync(UserId);
-
             return _profilepicturemapper.MapToDTO(picture) ?? null!;    
         }
-
         private async Task<byte[]> GetPictureBytesAsync(IFormFile picture)
         {
-
             using (var memoryStream = new System.IO.MemoryStream())
             {
                 await picture.CopyToAsync(memoryStream);
                 return memoryStream.ToArray();
             }
+        }
+        private async Task<byte[]> GetDefaultProfilePictureBytesAsync()
+        {
+            var pathToDefaultImage = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "profile-icon.jpg");
+            return await File.ReadAllBytesAsync(pathToDefaultImage);
         }
     }
 }

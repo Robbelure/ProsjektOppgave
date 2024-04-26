@@ -2,29 +2,33 @@
 using ReviewHubAPI.Models.DTO;
 using ReviewHubAPI.Models.Entity;
 
-namespace ReviewHubAPI.Mappers
+namespace ReviewHubAPI.Mappers;
+
+public class ProfilePictureMapper : IMapper<ProfilePicture, ProfilePictureDTO>
 {
-    public class ProfilePictureMapper : IMapper<ProfilePicture, ProfilePictureDTO>
+    public ProfilePictureDTO MapToDTO(ProfilePicture entity)
     {
-        public ProfilePictureDTO MapToDTO(ProfilePicture entity)
-        {
-            return new ProfilePictureDTO
-            {
-                Id = entity.Id,
-                UserId = entity.UserId,
-                ProfilePicture = entity.Picture
+        if (entity == null)
+            return null;
 
-            };
-        }
-
-        public ProfilePicture MapToEntity(ProfilePictureDTO dto)
+        return new ProfilePictureDTO
         {
-            return new ProfilePicture
-            {
-                Id = dto.Id,
-                UserId = dto.UserId,
-                Picture = dto.ProfilePicture
-            };
-        }
+            Id = entity.Id,
+            UserId = entity.UserId,
+            ProfilePicture = entity.Picture
+        };
+    }
+
+    public ProfilePicture MapToEntity(ProfilePictureDTO dto)
+    {
+        if (dto == null)        
+            return null;
+        
+        return new ProfilePicture
+        {
+            Id = dto.Id,
+            UserId = dto.UserId,
+            Picture = dto.ProfilePicture
+        };
     }
 }

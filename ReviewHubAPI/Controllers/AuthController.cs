@@ -1,10 +1,6 @@
-﻿using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using ReviewHubAPI.Models.DTO;
 using ReviewHubAPI.Services.Authentication;
-using ReviewHubAPI.Services.Interface;
-using System.Linq;
 
 namespace ReviewHubAPI.Controllers;
 
@@ -40,6 +36,7 @@ public class AuthController : ControllerBase
         var authResult = await _authService.AuthenticateAsync(loginDto);
         if (authResult == null)
             return Unauthorized("Invalid username or password.");
+
         return Ok(authResult);
     }
 }

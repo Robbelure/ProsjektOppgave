@@ -8,20 +8,25 @@
     
 </head>
 <body>
+    
+    <div class="home-button-container">
+        <a href="../index.html" class="home-btn">Home</a>
+    </div>
+
+    <div class="hero" id="hero">
     <form class="movieform" id="movieform">
         <input type="text" name="MovieName" class="input-field" placeholder="Name of movie" required>
         <input type="number" name="ReleaseYear" class="input-field" placeholder="Release Year" required>
         <input type="text" name="Director" class="input-field" placeholder="Director" required>
         <input type="text" name="Genre" class="input-field" placeholder="Genre" required>
-        <input type="text" name="summary" class="summary" placeholder="plot of the move" required>
-        <div class="poster">
+        <textarea rows="10" type="text" name="summary" class="input-field" placeholder="plot of the movie" required></textarea>
+        <div class="input-field">
             <p>Upload a poster</p>
-            <input type="file" name="poster" class="input-field" placeholder="upload poster" required>
+            <input type="file" name="poster" class="poster" placeholder="upload poster" required>
     </div>
-    <button class="summit">Summit
-
-    </button>
+    <button class="submit">submit</button>
     </form>
+</div>
 
     <script src="app.js"></script>
     

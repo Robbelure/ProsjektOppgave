@@ -16,11 +16,9 @@ public class ReviewHubDbContext : DbContext
     public DbSet<Movie> Movies { get; set; }
     public DbSet<Review> Reviews { get; set; }
     public DbSet<Comment> Comments { get; set; }
-
     public DbSet<MoviePoster> MoviePoster { get; set; }
     public DbSet<ProfilePicture> ProfilePicture { get; set; }
     public DbSet<ReviewPicture> ReviewPicture { get; set; }
-
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -43,9 +41,6 @@ public class ReviewHubDbContext : DbContext
             Lastname = "User",
             DateCreated = DateTime.UtcNow,
             IsAdmin = true
-        });
-
-
-       
+        });   
     }
 }

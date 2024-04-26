@@ -20,16 +20,16 @@ using ReviewHubAPI.Validators;
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 
-
 #region CORS
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowSpecificOrigin",
         builder =>
         {
-            builder.WithOrigins("http://127.0.0.1:5500") // Eller hvilken som helst annen spesifikk URL
+            builder.WithOrigins("http://127.0.0.1:5500")
                    .AllowAnyHeader()
                    .AllowAnyMethod();
+      
         });
 });
 #endregion
@@ -129,10 +129,12 @@ builder.Services.AddDbContext<ReviewHubDbContext>(options =>
 
 builder.Services.AddEndpointsApiExplorer();
 
-#region JWT Authorization header SWAGGER
+#region Swagger Configuration
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "ReviewHubAPI", Version = "v1" });
+
+   // c.OperationFilter<JsonPatchDocumentFilter>();
 
     // Legger til JWT-st�tte i Swagger
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
@@ -172,6 +174,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseSerilogRequestLogging();
+app.UseStaticFiles();
 app.UseMiddleware<GlobalExceptionMiddleware>();
 
 app.UseHttpsRedirection();

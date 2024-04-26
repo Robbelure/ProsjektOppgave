@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
 namespace ReviewHubAPI.Models.DTO;
-
 public class UserRegistrationDTO
 {
     [Required]
@@ -13,8 +12,6 @@ public class UserRegistrationDTO
 
     [Required]
     public string Password { get; set; } = string.Empty;
-
     public string Firstname { get; set; } = string.Empty;
-
     public string Lastname { get; set; } = string.Empty;
 }

@@ -4,34 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <title>Brukerprofil</title>
+    <title>User Profile</title>
 </head>
 <body>
-    <div class="navigation">
-        <a href="../index.html" class="home-link">Forsiden</a>
+    <div class="home-button-container">
+        <a href="../index.html" class="home-btn">Home</a>
     </div>
-    <div class="container" id="container">
-        <div class="container-image">
-            <img src="../assets/Logo/logo.png">
+
+    <div class="container">
+        <div class="profile-image-section">
+            <img id="profilePicture" class="profile-picture" src="https://localhost:7033/images/profile-icon.jpg" alt="Profile Picture" onclick="document.getElementById('profileImage').click();">
+            <input type="file" id="profileImage" name="profileImage" accept="image/*" style="display:none;">
+            <div id="imageUploadFeedback" class="image-upload-feedback"></div>
         </div>
+
         <div class="form-container">
             <form class="profile-section">
-                <h1 id="welcomeMessage"></h1> <!-- Her vil velkomstmeldingen vises -->
+                <h1 id="welcomeMessage"></h1>
+                
                 <div class="inputgroup">
                     <label for="firstName">First Name:</label>
-                    <input type="text" id="firstName" class="input-field" placeholder="First Name" required>
+                    <input type="text" id="firstName" class="input-field" placeholder="First Name">
                 </div>
                 <div class="inputgroup">
                     <label for="lastName">Last Name:</label>
-                    <input type="text" id="lastName" class="input-field" placeholder="Last Name" required>
+                    <input type="text" id="lastName" class="input-field" placeholder="Last Name">
                 </div>
                 <div class="inputgroup">
                     <label for="email">Email:</label>
-                    <input type="email" id="email" class="input-field" placeholder="Email" required>
+                    <input type="email" id="email" class="input-field" placeholder="Email" disabled>
                 </div>
                 <div class="inputgroup">
                     <label for="username">Username:</label>
-                    <input type="text" id="username" class="input-field" placeholder="Username" required>
+                    <input type="text" id="username" class="input-field" placeholder="Username" disabled>
                 </div>
                 <button type="submit" class="submit-btn">Save Changes</button>
             </form>
@@ -41,3 +46,4 @@
     <script src="app.js"></script>
 </body>
 </html>
+

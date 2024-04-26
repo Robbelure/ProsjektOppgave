@@ -17,10 +17,12 @@
     overflow-x: hidden;
 }
 .background{
+
     justify-items: center;
     height: 600px;
     max-height: 900px;
     width: 100vw;
+    background-size: cover;
 
 }
 .nav{
@@ -105,6 +107,7 @@
 }
 
 .hero-content{
+    overflow: hidden;
     position: relative;
     top: 100px;
     display: flex;
@@ -112,9 +115,7 @@
     justify-content: center;
     margin: 0 2rem ;
     margin-left: 30px;
-    background-color:rgba(255, 255, 255, 0.04);
-    height: 400px;
-    width: 95%;
+    height: 500px;
 }
 
 .hero-content h1{
@@ -127,18 +128,20 @@
 } 
 
 .hero-content p{
+    margin-top: 8px;
+    overflow: hidden;
     width: 500px;
     display: inline;
     text-align: center;
     color: white;
-    font-size: 1srem;
+    font-size: 1.2rem;
     justify-self: center;
     align-self: center;
 }
 
 .hero-content a{
     align-self: center;
-    margin-top: 50px;
+    margin-top: 40px;
     background: linear-gradient( red, rgb(250, 105, 61)) ;
     height: 2.7rem;
     width: 300px;
@@ -198,13 +201,14 @@
 .Container-poster h3{
     background-color: red;
     text-align: center;
-    font-size: 1rem;
+    font-size: 1vw;;
     color: white;
 }
 
 .Container-poster img{
     height: 300px;
     width: 230px;
+    cursor:pointer;
 }
 
 .Container-Star{
@@ -280,4 +284,28 @@
 
 .card-content span{
     font-size: 0.8rem;
+}
+
+.home-button-container {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 10; 
+}
+
+.home-btn {
+    padding: 10px 20px;
+    background: linear-gradient(red, rgb(250, 105, 61)); 
+    color: white;
+    border: none;
+    border-radius: 30px; 
+    text-decoration: none; 
+    font-size: 16px;
+    cursor: pointer; 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+    transition: background-color 0.3s;
+}
+
+.home-btn:hover {
+    background: linear-gradient(rgb(255, 100, 100), rgb(255, 0, 0)); 
 }
