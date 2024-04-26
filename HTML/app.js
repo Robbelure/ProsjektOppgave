@@ -7,6 +7,7 @@ var images = [
     'assets/Background/6.JPEG',
     'assets/Background/7.png'
 ];
+//Funksjon for å endre backgrunnen til en vilkårlig bilde
 
 function loadImage(index) {
     var img = new Image();
