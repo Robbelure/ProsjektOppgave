@@ -67,13 +67,16 @@ public class UserController : ControllerBase
     {
         _logger.LogInformation($"Starting update process for user with ID {userId}.");
 
-        if (User.GetUserId() != userId && !User.IsInRole("Admin"))
+        var currentUserId = User.GetUserId(); // Antar at denne metoden henter brukerens ID fra token
+        var isAdmin = User.IsInRole("Admin");
+
+        if (currentUserId != userId && !isAdmin)
         {
-            _logger.LogWarning($"User with ID {User.GetUserId()} does not have permission to update user with ID {userId}.");
+            _logger.LogWarning($"User {currentUserId} does not have permission to update user with ID {userId}.");
             return Forbid();
         }
 
-        var updateResult = await _userService.UpdateUserAsync(userId, updateDto, User);
+        var updateResult = await _userService.UpdateUserAsync(userId, updateDto, isAdmin);
         if (updateResult == null)
         {
             _logger.LogWarning($"User with ID {userId} update failed or no changes were made.");
@@ -84,46 +87,21 @@ public class UserController : ControllerBase
         return Ok(updateResult);
     }
 
-    // trenger vi patch?
-    /*
-    [HttpPatch("{userId}", Name = "PatchUser")]
-    public async Task<ActionResult> PatchUser(int userId, [FromBody] JsonPatchDocument<UserUpdateDTO> patchDoc)
-    {
-        _logger.LogInformation($"Received PATCH request for user with ID {userId}.");
-
-        if (patchDoc == null)
-        {
-            _logger.LogWarning("Patch document is empty.");
-            return BadRequest("Patch document is empty.");
-        }
-
-        var updatedUserDto = await _userService.PatchUserAsync(userId, patchDoc);
-
-        if (updatedUserDto == null)
-        {
-            _logger.LogWarning($"User with ID {userId} not found or failed to apply patch.");
-            return NotFound($"User with ID {userId} not found.");
-        }
-
-        _logger.LogInformation($"User with ID {userId} patched successfully.");
-        return Ok(updatedUserDto);
-    }
-    */
-
     [Authorize]
-    [HttpDelete("{id}")]
+    [HttpDelete("{id:int}")]
     public async Task<ActionResult> DeleteUser(int id)
     {
-        var currentId = User.GetUserId();
-        var isAdmin = await _userService.IsUserAdminAsync(currentId);
+        var currentUserId = User.GetUserId();  // Henter brukerens ID basert på token
+        var isAdmin = User.IsInRole("Admin");
 
-        if (!isAdmin && currentId != id)
+        if (currentUserId != id && !isAdmin)
         {
-            _logger.LogWarning($"User with ID {currentId} does not have permission to delete user with ID {id}.");
-            return StatusCode(StatusCodes.Status403Forbidden, new { Message = "You do not have permission to delete other users." });
+            _logger.LogWarning($"User {currentUserId} attempted to delete user {id} without sufficient permissions.");
+            return StatusCode(StatusCodes.Status403Forbidden, "You do not have permission to delete other users.");
         }
 
         await _userService.DeleteUserAsync(id);
-        return Ok($"User with ID {id} deleted successfully.");
+        _logger.LogInformation($"User with ID {id} deleted successfully.");
+        return Ok($"User with ID {id} was deleted successfully.");
     }
 }
