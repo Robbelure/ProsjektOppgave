@@ -20,6 +20,9 @@ public class AuthController : ControllerBase
     [HttpPost("register")]
     public async Task<ActionResult<UserRegistrationResponseDTO>> Register([FromBody] UserRegistrationDTO userRegDTO)
     {
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+
         var userResponse = await _authService.RegisterUserAsync(userRegDTO);
         if (userResponse == null)
         {
@@ -36,7 +39,6 @@ public class AuthController : ControllerBase
         var authResult = await _authService.AuthenticateAsync(loginDto);
         if (authResult == null)
             return Unauthorized("Invalid username or password.");
-
         return Ok(authResult);
     }
 }

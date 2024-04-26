@@ -1,12 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
-using ReviewHubAPI.Extensions;
-using ReviewHubAPI.Mappers.Interface;
+﻿using ReviewHubAPI.Mappers.Interface;
 using ReviewHubAPI.Middleware;
 using ReviewHubAPI.Models.DTO;
 using ReviewHubAPI.Models.Entity;
 using ReviewHubAPI.Repositories.Interface;
 using ReviewHubAPI.Services.Interface;
-using System.Security.Claims;
 
 namespace ReviewHubAPI.Services;
 
@@ -61,7 +58,7 @@ public class UserService : IUserService
             throw new InvalidOperationException($"User with ID {userId} not found.");
         }
 
-        List<string> updatedFields = new List<string>();
+        List<string> updatedFields = new();
 
         if (isAdmin)
         {

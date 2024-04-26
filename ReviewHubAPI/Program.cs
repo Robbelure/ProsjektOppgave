@@ -28,8 +28,7 @@ builder.Services.AddCors(options =>
         {
             builder.WithOrigins("http://127.0.0.1:5500")
                    .AllowAnyHeader()
-                   .AllowAnyMethod();
-      
+                   .AllowAnyMethod();      
         });
 });
 #endregion
@@ -113,7 +112,7 @@ builder.Services.AddScoped <IUploadProfilePictureService, UploadProfilePictureSe
 #region FluentValidation Registrering
 builder.Services.AddControllers();
 builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
-builder.Services.AddValidatorsFromAssemblyContaining<UserRegistrationDTOValidator>(); // Husk � erstatte med din faktiske validator-klasse
+builder.Services.AddValidatorsFromAssemblyContaining<UserRegistrationDTOValidator>();
 #endregion
 
 #region Middleware, Extensions
