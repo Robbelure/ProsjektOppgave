@@ -25,8 +25,11 @@ public class UserController : ControllerBase
     public async Task<ActionResult<IEnumerable<UserDTO>>> GetAllUsers()
     {
         var users = await _userService.GetAllUsersAsync();
-        if(!users.Any())
+        if (!users.Any())
+        {
+            _logger.LogWarning("Controller: No users found.");
             return NotFound("No users found.");
+        }
         return Ok(users);
     }
 
@@ -37,7 +40,11 @@ public class UserController : ControllerBase
     {
         var user = await _userService.GetUserByIdAsync(userId);
         if (user == null)
+        {
+            _logger.LogWarning("Controller: User not found by ID: {UserId}", userId);
             return NotFound();
+        }
+
         return Ok(user);
     }
 
@@ -47,7 +54,11 @@ public class UserController : ControllerBase
     {
         var user = await _userService.GetUserPublicProfileByUsernameAsync(username);
         if (user == null)
+        {
+            _logger.LogWarning("Controller: User not found by username: {Username}", username);
             return NotFound();
+        }
+
         return Ok(user);
     }
 
@@ -57,7 +68,11 @@ public class UserController : ControllerBase
     {
         var userPublicProfile = await _userService.GetUserPublicProfileByIdAsync(userId);
         if (userPublicProfile == null)
+        {
+            _logger.LogWarning("Controller: User public profile not found for user ID: {UserId}", userId);
             return NotFound($"User with ID {userId} not found.");
+        }
+
         return Ok(userPublicProfile);
     }
 
@@ -66,25 +81,23 @@ public class UserController : ControllerBase
     [HttpPut("{userId:int}")]
     public async Task<ActionResult> UpdateUser(int userId, [FromBody] UserUpdateDTO updateDto)
     {
-        _logger.LogInformation($"Starting update process for user with ID {userId}.");
-
         var currentUserId = User.GetUserId();
         var isAdmin = User.IsInRole("Admin");
 
         if (currentUserId != userId && !isAdmin)
         {
-            _logger.LogWarning($"User {currentUserId} does not have permission to update user with ID {userId}.");
+            _logger.LogWarning($"Controller: User {currentUserId} does not have permission to update user with ID {userId}.");
             return Forbid();
         }
 
         var updateResult = await _userService.UpdateUserAsync(userId, updateDto, isAdmin);
         if (updateResult == null)
         {
-            _logger.LogWarning($"User with ID {userId} update failed or no changes were made.");
+            _logger.LogWarning($"Controller: User with ID {userId} update failed or no changes were made.");
             return BadRequest("Update failed or no changes were made.");
         }
 
-        _logger.LogInformation($"User with ID {userId} updated successfully.");
+        _logger.LogInformation($"Controller: User with ID {userId} updated successfully.");
         return Ok(updateResult);
     }
 
@@ -98,12 +111,12 @@ public class UserController : ControllerBase
 
         if (currentUserId != id && !isAdmin)
         {
-            _logger.LogWarning($"User {currentUserId} attempted to delete user {id} without sufficient permissions.");
+            _logger.LogWarning($"Controller: User {currentUserId} attempted to delete user {id} without sufficient permissions.");
             return StatusCode(StatusCodes.Status403Forbidden, "You do not have permission to delete other users.");
         }
 
         await _userService.DeleteUserAsync(id);
-        _logger.LogInformation($"User with ID {id} deleted successfully.");
+        _logger.LogInformation($"Controller: User with ID {id} deleted successfully.");
         return Ok($"User with ID {id} was deleted successfully.");
     }
 }

@@ -28,25 +28,49 @@ public class UserService : IUserService
     public async Task<IEnumerable<UserDTO?>> GetAllUsersAsync()
     {
         var users = await _userRepository.GetAllUsersAsync();
+        if (!users.Any())
+        {
+            _logger.LogWarning("Service: No users found in database.");
+            return new List<UserDTO?>();
+        }
+
         return users.Select(_userMapper.MapToDTO).ToList();
     }
 
     public async Task<UserDTO?> GetUserByIdAsync(int userId)
     {
         var userEntity = await _userRepository.GetUserByIdAsync(userId);
-        return userEntity == null ? null : _userMapper.MapToDTO(userEntity);
+        if (userEntity == null)
+        {
+            _logger.LogWarning("Service: No user found for ID {UserId}.", userId);
+            return null;
+        }
+
+        return _userMapper.MapToDTO(userEntity);
     }
 
     public async Task<UserPublicProfileDTO?> GetUserPublicProfileByUsernameAsync(string username)
     {
         var userEntity = await _userRepository.GetUserByUsernameAsync(username);
-        return userEntity == null ? null : _userPublicProfileMapper.MapToDTO(userEntity);
+        if (userEntity == null)
+        {
+            _logger.LogWarning("Service: No user found for username: {Username}.", username);
+            return null;
+        }
+
+        return _userPublicProfileMapper.MapToDTO(userEntity);
     }
 
     public async Task<UserPublicProfileDTO?> GetUserPublicProfileByIdAsync(int userId)
     {
         var user = await _userRepository.GetUserByIdAsync(userId);
-        return user == null ? null : _userPublicProfileMapper.MapToDTO(user);
+        if (user == null)
+        {
+            _logger.LogWarning("Service: No public profile found for user ID {UserId}.", userId);
+            return null;
+        }
+
+        return _userPublicProfileMapper.MapToDTO(user);
     }
 
     public async Task<UserDTO?> UpdateUserAsync(int userId, UserUpdateDTO userUpdateDto, bool isAdmin)
@@ -54,7 +78,7 @@ public class UserService : IUserService
         var user = await _userRepository.GetUserByIdAsync(userId);
         if (user == null)
         {
-            _logger.LogError($"User with ID {userId} not found for update.");
+            _logger.LogError($"Service: User with ID {userId} not found for update.");
             throw new InvalidOperationException($"User with ID {userId} not found.");
         }
 
@@ -90,11 +114,11 @@ public class UserService : IUserService
         if (updatedFields.Any())
         {
             await _userRepository.UpdateUserAsync(user);
-            _logger.LogInformation($"User {userId} updated successfully: {string.Join(", ", updatedFields)}.");
+            _logger.LogInformation($"Service: User {userId} updated successfully: {string.Join(", ", updatedFields)}.");
             return _userMapper.MapToDTO(user);
         }
 
-        _logger.LogInformation($"No updates were made for user {userId}, no changes in input data.");
+        _logger.LogInformation($"Service: No updates were made for user {userId}, no changes in input data.");
         return _userMapper.MapToDTO(user);
     }
 
@@ -103,19 +127,12 @@ public class UserService : IUserService
         var userToDelete = await _userRepository.GetUserByIdAsync(userId);
         if (userToDelete == null)
         {
-            _logger.LogError($"User with ID {userId} not found.");
+            _logger.LogError($"Service: User with ID {userId} not found.");
             throw new NotFoundException($"User with ID {userId} not found.");
         }
 
         await _userRepository.DeleteUserAsync(userId); 
-        _logger.LogInformation($"User with ID {userId} has been successfully deleted.");
-    }
-
-    // overflødig?
-    public async Task<bool> IsUserAdminAsync(int userId)
-    {
-        var user = await _userRepository.GetUserByIdAsync(userId);
-        return user?.IsAdmin ?? false;
+        _logger.LogInformation($"Service: User with ID {userId} has been successfully deleted.");
     }
 }
 

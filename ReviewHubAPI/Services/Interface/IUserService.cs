@@ -10,5 +10,4 @@ public interface IUserService
     Task<UserPublicProfileDTO?> GetUserPublicProfileByIdAsync(int userId);
     Task<UserDTO?> UpdateUserAsync(int userId, UserUpdateDTO userUpdateDto, bool isAdmin);
     Task DeleteUserAsync(int userId);
-    Task<bool> IsUserAdminAsync(int userId);
 }
