@@ -19,13 +19,7 @@ public class ReviewPictureRepository : IReviewPictureRepository
     {
         var picture = await _context.ReviewPicture.AddAsync(entity);
         await _context.SaveChangesAsync();
-
-        if (picture != null)
-        {
-            return "Upload success";
-        }
-
-        return "upload failed";
+        return picture.Entity != null ? "Upload success" : "Upload failed";
     }
 
     public Task<ReviewPicture> DeleteReviewPictureByReviewIdAsync(int ReviewId)

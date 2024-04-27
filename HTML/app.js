@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 var images = [
     'assets/Background/1.JPG',
     'assets/Background/2.JPG',
@@ -8,22 +7,10 @@ var images = [
     'assets/Background/6.JPEG',
     'assets/Background/7.png'
 ];
-//Funksjon for å endre backgrunnen til en vilkårlig bilde
-=======
-//var images = [
-//     'assets/Background/1.JPG',
-//     'assets/Background/2.JPG',
-//     'assets/Background/3.JPG',
-//     'assets/Background/4.JPG',
-//     'assets/Background/5.JPG',
-//     'assets/Background/6.JPEG',
-//     'assets/Background/7.png'
-//];
 
 const endpointURL = "https://localhost:7033/api/MoviePoster?PageSize=10&PageNummer=1";
 
 let posterArray = [];
-
 
 function getposters() {
     return fetch(endpointURL)
@@ -43,7 +30,6 @@ function getposters() {
             throw error; // re-throw the error to be caught in the caller
         });
 }
->>>>>>> 9df2737a5ee5531ce04ff266eb6368c7fc7fcbca
 
 function loadImage(index) {
     var img = new Image();
@@ -61,8 +47,7 @@ function initialize() {
     if (!localStorage.getItem('jwtToken') || !localStorage.getItem('userId')) {
         localStorage.removeItem('jwtToken');
         localStorage.removeItem('userId');
-        localStorage.removeItem('username');
-        
+        localStorage.removeItem('username');        
     }
 }
 
@@ -105,7 +90,6 @@ window.onload = function() {
         console.error('Error initializing:', error);
     });
     
-
     const userToken = localStorage.getItem('jwtToken');
     const signInButton = document.querySelector('.signinn');
     const signUpButton = document.querySelector('.signup');
