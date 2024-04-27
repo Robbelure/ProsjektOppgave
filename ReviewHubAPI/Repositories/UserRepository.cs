@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ReviewHubAPI.Data;
-using ReviewHubAPI.Middleware;
 using ReviewHubAPI.Models.Entity;
 using ReviewHubAPI.Repositories.Interface;
 
@@ -17,6 +16,7 @@ public class UserRepository : IUserRepository
 
     public async Task RegisterUserAsync(User user)
     {
+        if (user == null) return;
         _dbContext.Users.Add(user);
         await _dbContext.SaveChangesAsync();
     }
@@ -28,10 +28,7 @@ public class UserRepository : IUserRepository
 
     public async Task<User?> GetUserByIdAsync(int userId)
     {
-        var user = await _dbContext.Users.FindAsync(userId);
-        if (user == null)
-            throw new NotFoundException($"User with ID {userId} not found");
-        return user;
+        return await _dbContext.Users.FindAsync(userId);
     }
 
     public async Task<User?> GetUserByUsernameAsync(string username)
@@ -41,6 +38,7 @@ public class UserRepository : IUserRepository
 
     public async Task UpdateUserAsync(User user)
     {
+        if (user == null) return;
         _dbContext.Users.Update(user);
         await _dbContext.SaveChangesAsync();
     }
@@ -48,12 +46,11 @@ public class UserRepository : IUserRepository
     public async Task DeleteUserAsync(int userId)
     {
         var user = await GetUserByIdAsync(userId);
-        if (user == null)
+        if (user != null)
         {
-            throw new NotFoundException($"User with ID {userId} not found.");
+            _dbContext.Users.Remove(user);
+            await _dbContext.SaveChangesAsync();
         }
-        _dbContext.Users.Remove(user);
-        await _dbContext.SaveChangesAsync();
     }
 
 
