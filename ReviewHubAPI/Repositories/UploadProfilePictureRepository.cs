@@ -30,22 +30,31 @@ public class UploadProfilePictureRepository : IUploadProfilePictureRepository
         await _context.SaveChangesAsync();
         return "Profile picture updated successfully";
     }
-    public async Task<ProfilePicture> DeleteProfilePictureByUserIdAsync(int UserId)
-    {
-        throw new NotImplementedException();
-    }
+
     public async Task<ICollection<ProfilePicture>> GetAllProfilePicturesAsync(int pageSize, int pageNumber)
     {
-        // Bruk pagination til å hente data
         var profilePictures = await _context.ProfilePicture
+            .OrderBy(p => p.UserId) 
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync();
 
-        return profilePictures;  // Returnerer en tom liste hvis det ikke finnes noen bilder
+        return profilePictures;  
     }
-    public async Task<ProfilePicture> GetProfilePictureByUserIdAsync(int userId)
+
+    public async Task<ProfilePicture?> GetProfilePictureByUserIdAsync(int userId)
     {
         return await _context.ProfilePicture.FirstOrDefaultAsync(p => p.UserId == userId);
+    }
+
+    public async Task<bool> DeleteProfilePictureAsync(ProfilePicture profilePicture)
+    {
+        if (profilePicture != null)
+        {
+            _context.ProfilePicture.Remove(profilePicture);
+            await _context.SaveChangesAsync();
+            return true; 
+        }
+        return false;  
     }
 }

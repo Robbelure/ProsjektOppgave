@@ -5,6 +5,6 @@ public interface IUploadProfilePictureService
 {
     public Task<string> AddOrUpdateProfilePictureAsync(int userId, IFormFile file);
     public Task<ICollection<ProfilePictureDTO>> GetAllProfilePicturesAsync(int PageSize, int PageNummer);
-    public Task<ProfilePictureDTO> GetProfilePictureByUserIdAsync(int UserId);
-    public Task<ProfilePictureDTO> DeleteProfilePictureByUserIdAsync(int UserId);
+    public Task<ProfilePictureDTO?> GetProfilePictureByUserIdAsync(int UserId);
+    public Task<bool> DeleteProfilePictureByUserIdAsync(int userId);
 }

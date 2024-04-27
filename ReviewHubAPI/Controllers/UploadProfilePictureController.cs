@@ -1,10 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
-using ReviewHubAPI.Mappers.Interface;
+﻿using Microsoft.AspNetCore.Mvc;
 using ReviewHubAPI.Models.DTO;
-using ReviewHubAPI.Models.Entity;
-using ReviewHubAPI.Services;
 using ReviewHubAPI.Services.Interface;
 
 namespace ReviewHubAPI.Controllers;
@@ -26,37 +21,65 @@ public class UploadProfilePictureController : Controller
     public async Task<ActionResult<string>> AddProfilePicture([FromRoute] int userId, [FromForm] IFormFile file)
     {
         var message = await _profilePictureService.AddOrUpdateProfilePictureAsync(userId, file);
-        _logger.LogInformation("Profile picture uploaded successfully for user ID: {UserId}", userId);
-        return Ok(message);
+        if (!string.IsNullOrEmpty(message))
+        {
+            _logger.LogInformation("Profile picture uploaded successfully for user ID: {UserId}", userId);
+            return Ok(message);
+        }
+        _logger.LogError("Failed to upload profile picture for user ID: {UserId}", userId);
+        return BadRequest("Failed to upload profile picture");
     }
+
 
     [HttpGet(Name = "GetAllProfilePictures")]
-    public async Task<ActionResult<ICollection<ProfilePictureDTO>>> GetAllProfilePictures(int PageSize, int PageNummer)
+    public async Task<ActionResult<ICollection<ProfilePictureDTO>>> GetAllProfilePictures(int pageSize, int pageNumber)
     {
-        var alleprofilepictures = await _profilePictureService.GetAllProfilePicturesAsync(PageSize, PageNummer);
+        _logger.LogInformation("Received request to get all profile pictures with page size {PageSize} and page number {PageNumber}", pageSize, pageNumber);
 
-        if (alleprofilepictures == null)
-            return NotFound("There are no profilepictures on the server");
-        return Ok(alleprofilepictures);
+        var allProfilePictures = await _profilePictureService.GetAllProfilePicturesAsync(pageSize, pageNumber);
+
+        if (!allProfilePictures.Any())
+        {
+            _logger.LogInformation("No profile pictures were found");
+            return NotFound("There are no profile pictures on the server");
+        }
+
+        _logger.LogInformation("Returning {Count} profile pictures", allProfilePictures.Count);
+        return Ok(allProfilePictures);
     }
 
-    [HttpGet ("Id={UserId}", Name = "GetProfilePictureByUserId")]
+
+    [HttpGet("Id={UserId}", Name = "GetProfilePictureByUserId")]
     public async Task<ActionResult<ProfilePictureDTO>> GetProfilePictureByUserId(int UserId)
     {
-        var profilepicture = await _profilePictureService.GetProfilePictureByUserIdAsync(UserId);
+        _logger.LogInformation("Received request to get profile picture for user ID: {UserId}", UserId);
+        var profilePicture = await _profilePictureService.GetProfilePictureByUserIdAsync(UserId);
 
-        if (profilepicture == null)
-            return NotFound($"A profilepicture with that userId {UserId}");
-        return Ok(profilepicture);
+        if (profilePicture == null)
+        {
+            _logger.LogWarning("No profile picture found for user ID: {UserId}", UserId);
+            return NotFound($"A profile picture with that userId {UserId} was not found.");
+        }
+
+        _logger.LogInformation("Returning profile picture for user ID: {UserId}", UserId);
+        return Ok(profilePicture);
     }
 
-    [HttpDelete ("Id={UserId}",Name = "DeleteProfilePictureByUserId")]
-    public async Task<ActionResult<ProfilePictureDTO>> DeleteProfilePictureByUserId(int UserId)
-    {
-        var profilePictureToDelete = await _profilePictureService.DeleteProfilePictureByUserIdAsync(UserId);
 
-        if (profilePictureToDelete == null)
-            return BadRequest("Profile picture could not be deleted");
-        return Ok(profilePictureToDelete);
+    [HttpDelete("Id={UserId}", Name = "DeleteProfilePictureByUserId")]
+    public async Task<ActionResult> DeleteProfilePictureByUserId(int UserId)
+    {
+        _logger.LogInformation("Attempting to delete profile picture for user ID: {UserId}", UserId);
+        bool result = await _profilePictureService.DeleteProfilePictureByUserIdAsync(UserId);
+        if (result)
+        {
+            _logger.LogInformation("Profile picture deleted successfully for user ID: {UserId}", UserId);
+            return Ok("Profile picture deleted successfully.");
+        }
+        else
+        {
+            _logger.LogWarning("No profile picture found to delete for user ID: {UserId}", UserId);
+            return NotFound("No profile picture found to delete.");
+        }
     }
 }
