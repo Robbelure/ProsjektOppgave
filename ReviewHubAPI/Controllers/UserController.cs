@@ -30,6 +30,7 @@ public class UserController : ControllerBase
         return Ok(users);
     }
 
+
     [Authorize]
     [HttpGet("{userId:int}")]
     public async Task<ActionResult<UserDTO>> GetUserById(int userId)
@@ -40,6 +41,7 @@ public class UserController : ControllerBase
         return Ok(user);
     }
 
+
     [HttpGet("username/{username}")]
     public async Task<ActionResult<UserPublicProfileDTO>> GetUserByUsername(string username)
     {
@@ -48,6 +50,7 @@ public class UserController : ControllerBase
             return NotFound();
         return Ok(user);
     }
+
 
     [HttpGet("public/{userId:int}")]
     public async Task<ActionResult<UserPublicProfileDTO>> GetUserPublicProfileById(int userId)
@@ -58,13 +61,14 @@ public class UserController : ControllerBase
         return Ok(userPublicProfile);
     }
 
+
     [Authorize]
     [HttpPut("{userId:int}")]
     public async Task<ActionResult> UpdateUser(int userId, [FromBody] UserUpdateDTO updateDto)
     {
         _logger.LogInformation($"Starting update process for user with ID {userId}.");
 
-        var currentUserId = User.GetUserId(); // Antar at denne metoden henter brukerens ID fra token
+        var currentUserId = User.GetUserId();
         var isAdmin = User.IsInRole("Admin");
 
         if (currentUserId != userId && !isAdmin)
@@ -84,11 +88,12 @@ public class UserController : ControllerBase
         return Ok(updateResult);
     }
 
+
     [Authorize]
     [HttpDelete("{id:int}")]
     public async Task<ActionResult> DeleteUser(int id)
     {
-        var currentUserId = User.GetUserId();  // Henter brukerens ID basert på token
+        var currentUserId = User.GetUserId();  // henter bruker ID basert på token
         var isAdmin = User.IsInRole("Admin");
 
         if (currentUserId != id && !isAdmin)
