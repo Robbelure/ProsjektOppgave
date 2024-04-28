@@ -79,6 +79,7 @@ public class AuthService : IAuthService
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey));
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
+        var expiration = DateTime.UtcNow.AddHours(1);
         var claims = new[]
         {
             new Claim(JwtRegisteredClaimNames.Sub, user.Username),
@@ -97,7 +98,7 @@ public class AuthService : IAuthService
             issuer: _configuration["Jwt:Issuer"],
             audience: _configuration["Jwt:Audience"],
             claims: claims,
-            expires: DateTime.Now.AddHours(1),
+            expires: expiration,
             signingCredentials: creds);
 
         _logger.LogInformation($"JWT token generated with claims: {string.Join(", ", claims.Select(c => $"{c.Type}={c.Value}"))}");

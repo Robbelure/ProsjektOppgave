@@ -10,7 +10,7 @@ public class UploadProfilePictureService : IUploadProfilePictureService
 {
     private readonly IUploadProfilePictureRepository _uploadProfilePictureRepository;
     private readonly IMapper<ProfilePicture, ProfilePictureDTO> _profilepicturemapper;
-    private readonly ILogger _logger;
+    private readonly ILogger<UploadProfilePictureService> _logger;
 
     public UploadProfilePictureService(IUploadProfilePictureRepository uploadProfilePicture,
         IMapper<ProfilePicture, ProfilePictureDTO> profilepicturemapper,

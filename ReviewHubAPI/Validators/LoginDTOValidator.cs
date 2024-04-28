@@ -3,18 +3,13 @@ using ReviewHubAPI.Models.DTO;
 
 namespace ReviewHubAPI.Validators;
 
-public class UserRegistrationDTOValidator : AbstractValidator<UserRegistrationDTO>
+public class LoginDTOValidator : AbstractValidator<LoginDTO>
 {
-    public UserRegistrationDTOValidator()
+    public LoginDTOValidator()
     {
         RuleFor(x => x.Username)
-            .NotEmpty().WithMessage("Username is required")
-            .MaximumLength(50).WithMessage("Username can not be longer than 50 characters");
-
-        RuleFor(x => x.Email)
-            .NotEmpty().WithMessage("Email is required")
-            .EmailAddress().WithMessage("A valid email is required")
-            .MaximumLength(50).WithMessage("Email can not be longer than 50 characters"); 
+            .NotEmpty().WithMessage("Username is required.")
+            .MaximumLength(50).WithMessage("Username can not be more than 50 characters long.");
 
         RuleFor(x => x.Password)
             .NotEmpty().WithMessage("Password is required")
