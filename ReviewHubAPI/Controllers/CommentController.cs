@@ -8,139 +8,78 @@ namespace ReviewHubAPI.Controllers;
 [ApiController]
 public class CommentController : Controller
 {
-    private readonly IcommentService _commentservice;
+    private readonly IcommentService _commentService;
 
     public ILogger<CommentController> _logger;
 
     public CommentController(IcommentService commentservice, ILogger<CommentController> logger)
     {
-        _commentservice = commentservice;
+        _commentService = commentservice;
         _logger = logger;
     }
 
-    [HttpGet(Name ="GetAllComments")]
-
-    public async Task<ActionResult<ICollection<CommentDTO>>> GetAllComments(int PageSize, int PageNummer)
+    [HttpGet(Name = "GetAllComments")]
+    public async Task<ActionResult<ICollection<CommentDTO>>> GetAllComments(int pageSize, int pageNumber)
     {
-        try 
-        { 
-            var comments = await _commentservice.GetAllComents(PageSize, PageNummer);
-            if (comments == null)
-            { 
-                return NotFound("No Comments were found"); 
-            }
+        var comments = await _commentService.GetAllCommentsAsync(pageSize, pageNumber);
+        if (comments == null)
+            return NotFound("No Comments were found");
 
-            return Ok(comments);
-        }
-        catch (Exception ex) 
-        {
-            _logger.LogError("An Error occurred on get all comments in the CommentController: {ex}", ex);
-
-            return StatusCode(500, $"An error occurred while trying to get all comments");
-        }
+        return Ok(comments);
     }
 
-    [HttpGet ("ReviewId={ReviewId}", Name = "GetAllComentsByReviewId")]
-    public async Task<ActionResult<ICollection<CommentDTO>>> GetAllComentsByReviewId(int ReviewId)
+
+    [HttpGet("ReviewId={ReviewId}", Name = "GetAllCommentsByReviewId")]
+    public async Task<ActionResult<ICollection<CommentDTO>>> GetAllCommentsByReviewId(int reviewId)
     {
-        try 
-        { 
-            var comments = await _commentservice.GetAllComentsByReviewId(ReviewId);
-            if (comments == null)
-            {
-             return NotFound("No Comments with that review id was found");
-            }
+        var comments = await _commentService.GetAllCommentsByReviewIdAsync(reviewId);
+        if (comments == null)
+            return NotFound("No Comments with that review id were found");
 
-            return Ok(comments);
-        }
-        catch(Exception ex)
-        {
-            _logger.LogError("An Error occurred on get all comments by review id in the CommentController: {ex}", ex);
-
-            return StatusCode(500, $"An error occurred while trying to get all comments by the review id ");
-
-        }
-
+        return Ok(comments);
     }
 
-    [HttpGet("Id={Id}", Name = "GetAllComentsByUserId")]
-    public async Task<ActionResult<ICollection<CommentDTO>>> GetAllComentsByUserId(int UserId)
+
+    [HttpGet("Id={Id}", Name = "GetAllCommentsByUserId")]
+    public async Task<ActionResult<ICollection<CommentDTO>>> GetAllCommentsByUserId(int userId)
     {
-        try
-        { 
-            var comments = await _commentservice.GetAllComentsByUserId(UserId);
-            if (comments == null)
-            {
-                return NotFound("No Comments with that user id was found");
-            }
+        var comments = await _commentService.GetAllCommentsByUserIdAsync(userId);
+        if (comments == null)
+            return NotFound("No Comments with that user id were found");
 
-            return Ok(comments);
-        }
-        catch(Exception ex)
-        {
-            _logger.LogError("An Error occurred on get all comments by review id in the CommentController:{ex}", ex);
-            return StatusCode(500, $"An error occurred while trying to get all comments by the review id ");
-
-        }
+        return Ok(comments);
     }
 
-    [HttpPost(Name ="AddNewComment")]
+
+    [HttpPost(Name = "AddNewComment")]
     public async Task<ActionResult<CommentDTO>> AddNewComment(CommentDTO dto)
     {
-        try
-        { 
-            var comments = await _commentservice.AddNewComment(dto);
-            if (comments == null)
-            {
-                return BadRequest("The comment could not be added");
-            }
+        var comment = await _commentService.AddNewCommentAsync(dto);
+        if (comment == null)
+            return BadRequest("The comment could not be added");
 
-            return Ok(comments);
-        }
-        catch(Exception ex)
-        {
-            _logger.LogError("An Error occurred on get add new comment in the CommentController: {ex}", ex);
-            return StatusCode(500, $"An error occurred while trying to add a new comment");
-        }
+        return Ok(comment);
     }
+
 
     [HttpDelete(Name = "DeleteCommentById")]
-    public async Task<ActionResult<CommentDTO>> DeleteCommentById(int id)
+    public async Task<ActionResult<CommentDTO>> DeleteCommentByIdAsync(int id)
     {
-        try
-        { 
-            var comment = await _commentservice.DeleteCommentById(id);
-            if (comment == null)
-            {
-                return BadRequest("Comments Could not be deleted");
-            }
-            return Ok(comment);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError("An Error occurred on delete comment in the CommentController: {ex}", ex);
-            return StatusCode(500, $"An error occurred while trying to delete comment");
-        }
+        var comment = await _commentService.DeleteCommentByIdAsync(id);
+        if (comment == null)
+            return BadRequest("Comments could not be deleted");
+
+        return Ok(comment);
     }
 
-    [HttpPut (Name ="UpdateCommentById")]
-    
-    public async Task<ActionResult<CommentDTO>> UpdateCommentById(int Id, CommentDTO dto)
-    {
-        try 
-        { 
-            var comment = await _commentservice.UpdateComment(Id, dto);
-            if (comment == null)
-            {
-                return BadRequest("Comments Could not be updated");
-            }
-            return Ok(comment);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError("An Error occurred on update a comment in the CommentController:{ex}", ex);
-            return StatusCode(500, $"An error occurred while trying to update the comment");
-        }
-    }
 
+    [HttpPut(Name = "UpdateCommentById")]
+    public async Task<ActionResult<CommentDTO>> UpdateCommentById(int id, CommentDTO dto)
+    {
+        var comment = await _commentService.UpdateCommentAsync(id, dto);
+        if (comment == null)
+            return BadRequest("Comments could not be updated");
+
+        return Ok(comment);
+    }
 }

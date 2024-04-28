@@ -5,11 +5,11 @@ namespace ReviewHubAPI.Repositories.Interface;
 
 public interface ICommentRepository
 {
-    public Task<ICollection<Comment>> GetAllComentsByReviewId(int ReviewId);
-    public Task<ICollection<Comment>> GetAllComentsByUserId(int UserId);
-    public Task<ICollection<Comment>> GetAllComents(int PageSize, int Pagenummer);
-    public Task<Comment> GetCommentById(int id);
-    public Task<Comment> AddNewComment(CommentDTO dto);
-    public Task<Comment> UpdateComment(CommentDTO dto);
-    public Task<Comment> DeleteCommentById(int id);
+    public Task<ICollection<Comment>> GetAllCommentsByReviewIdAsync(int ReviewId);
+    public Task<ICollection<Comment>> GetAllCommentsByUserIdAsync(int UserId);
+    public Task<ICollection<Comment>> GetAllCommentsAsync(int PageSize, int Pagenummer);
+    public Task<Comment> GetCommentByIdAsync(int id);
+    public Task<Comment> AddNewCommentAsync(CommentDTO dto);
+    public Task<Comment> UpdateCommentAsync(CommentDTO dto);
+    public Task<Comment> DeleteCommentByIdAsync(int id);
 }

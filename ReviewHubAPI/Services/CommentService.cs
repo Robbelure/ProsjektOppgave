@@ -16,17 +16,18 @@ public class CommentService : IcommentService
         _commentmapper = commentmapper;
     }
 
-    public async Task<CommentDTO> AddNewComment(CommentDTO dto)
+    public async Task<CommentDTO> AddNewCommentAsync(CommentDTO dto)
     {
         dto.Created = DateTime.Now;
         dto.Updated = DateTime.Now;
-        var comment = await _commentRep.AddNewComment(dto);
+        var comment = await _commentRep.AddNewCommentAsync(dto);
 
         return _commentmapper.MapToDTO(comment) ?? null!;
     }
-    public async Task<ICollection<CommentDTO>> GetAllComents(int PageSize, int Pagenummer)
+
+    public async Task<ICollection<CommentDTO>> GetAllCommentsAsync(int PageSize, int Pagenummer)
     {
-        var comments = await _commentRep.GetAllComents(PageSize, Pagenummer);
+        var comments = await _commentRep.GetAllCommentsAsync(PageSize, Pagenummer);
         ICollection<CommentDTO> commentsdto = new List<CommentDTO>();
 
         if(comments != null)
@@ -40,9 +41,9 @@ public class CommentService : IcommentService
         return commentsdto ?? null!;
     }
 
-    public async Task<ICollection<CommentDTO>> GetAllComentsByReviewId(int ReviewId)
+    public async Task<ICollection<CommentDTO>> GetAllCommentsByReviewIdAsync(int ReviewId)
     {
-        var comments = await _commentRep.GetAllComentsByReviewId(ReviewId);
+        var comments = await _commentRep.GetAllCommentsByReviewIdAsync(ReviewId);
         ICollection<CommentDTO> commentsdto = new List<CommentDTO>();
 
         if (comments != null)
@@ -56,9 +57,9 @@ public class CommentService : IcommentService
         return commentsdto ?? null!;
     }
 
-    public async Task<ICollection<CommentDTO>> GetAllComentsByUserId(int UserId)
+    public async Task<ICollection<CommentDTO>> GetAllCommentsByUserIdAsync(int UserId)
     {
-        var comments = await _commentRep.GetAllComentsByUserId(UserId);
+        var comments = await _commentRep.GetAllCommentsByUserIdAsync(UserId);
         ICollection<CommentDTO> commentsdto = new List<CommentDTO>();
 
         if (comments != null)
@@ -72,30 +73,29 @@ public class CommentService : IcommentService
         return commentsdto ?? null!;
     }
 
-    public async Task<CommentDTO> DeleteCommentById(int Id)
+    public async Task<CommentDTO> DeleteCommentByIdAsync(int Id)
     {
-        var comment = await _commentRep.GetCommentById(Id);
+        var comment = await _commentRep.GetCommentByIdAsync(Id);
 
         if (comment != null)
         {
-            await _commentRep.DeleteCommentById(Id);
+            await _commentRep.DeleteCommentByIdAsync(Id);
 
         }
 
         return _commentmapper.MapToDTO(comment!) ?? null!;
     }
 
-    public async Task<CommentDTO> UpdateComment(int Id, CommentDTO dto)
+    public async Task<CommentDTO> UpdateCommentAsync(int Id, CommentDTO dto)
     {
         var updatedate = DateTime.Now;
-        var comment = await _commentRep.GetCommentById(Id);
+        var comment = await _commentRep.GetCommentByIdAsync(Id);
 
         if (comment != null)
         {
             comment.Updated = updatedate;
             comment.Title = dto.Title;
             comment.CommentText = dto.Comment;
-
         }
 
         return _commentmapper.MapToDTO(comment!) ?? null!;

@@ -6,36 +6,36 @@ namespace ReviewHubAPI.Repositories;
 
 public class commentRepository : ICommentRepository
 {
-    public Task<ICollection<Comment>> GetAllComents(int PageSize, int Pagenummer)
+    public Task<ICollection<Comment>> GetAllCommentsAsync(int PageSize, int Pagenummer)
     {
         throw new NotImplementedException();
     }
 
-    public Task<ICollection<Comment>> GetAllComentsByReviewId(int ReviewId)
+    public Task<ICollection<Comment>> GetAllCommentsByReviewIdAsync(int ReviewId)
     {
         throw new NotImplementedException();
     }
 
-    public Task<ICollection<Comment>> GetAllComentsByUserId(int UserId)
+    public Task<ICollection<Comment>> GetAllCommentsByUserIdAsync(int UserId)
     {
         throw new NotImplementedException();
     }
-    public Task<Comment> GetCommentById(int id)
+    public Task<Comment> GetCommentByIdAsync(int id)
     {
         throw new NotImplementedException();
     
     }
-    public Task<Comment> AddNewComment(CommentDTO dto)
+    public Task<Comment> AddNewCommentAsync(CommentDTO dto)
     {
         throw new NotImplementedException();
     }
 
-    public Task<Comment> DeleteCommentById(int Id)
+    public Task<Comment> DeleteCommentByIdAsync(int Id)
     {
         throw new NotImplementedException();
     }
 
-    public Task<Comment> UpdateComment(CommentDTO dto)
+    public Task<Comment> UpdateCommentAsync(CommentDTO dto)
     {
         throw new NotImplementedException();
     }

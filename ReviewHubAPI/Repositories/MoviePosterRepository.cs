@@ -19,14 +19,13 @@ public class MoviePosterRepository : IMoviePosterRepository
         var poster = await _dbcontext.MoviePoster.AddAsync(entity);
         await _dbcontext.SaveChangesAsync();
 
-       if(poster == null)
-        {
+        if(poster == null)
             return "Something went wrong and movieposter was not saved";
-        }
 
         return "Movieposter was save";
     }
-    public Task<MoviePoster> DeleteMoviePosterMovieIdAsync(int MovieId)
+
+    public Task<MoviePoster> DeleteMoviePosterByMovieIdAsync(int MovieId)
     {
         throw new NotImplementedException();
     }
@@ -35,14 +34,14 @@ public class MoviePosterRepository : IMoviePosterRepository
     {
         var posters = await _dbcontext.MoviePoster
             .OrderBy(x => x.Id)
-              .Skip((PageNummer - 1) * PageSize)
-             .Take(PageSize)
-             .ToListAsync();
+            .Skip((PageNummer - 1) * PageSize)
+            .Take(PageSize)
+            .ToListAsync();
 
         return posters;
     }
 
-    public async Task<MoviePoster> GetMoviePostereByMovieIdAsync(int MovieId)
+    public async Task<MoviePoster> GetMoviePosterByMovieIdAsync(int MovieId)
     {
         var poster = await _dbcontext.MoviePoster.FirstOrDefaultAsync(x => x.MovieId == MovieId);
 

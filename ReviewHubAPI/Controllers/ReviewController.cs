@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ReviewHubAPI.Models.DTO;
-using ReviewHubAPI.Services;
 using ReviewHubAPI.Services.Interface;
 
 namespace ReviewHubAPI.Controllers;
@@ -19,50 +18,26 @@ public class ReviewController : Controller
         _logger = logger;
     }
 
+
     [HttpGet(Name = "GetALlReviews")]
     public async Task<ActionResult<ICollection<ReviewDTO>>> GetAllReviews(int pagesize, int pagenummer)
     {
-        try
-        {
-            var reviews = await _reviewService.GetAllReviews(pagesize, pagenummer);
-
-            if (reviews != null)
-            {
-                return Ok(reviews);
-
-            }
-            return NotFound("There were no reviews in the database");
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError("An Error occurred on get all reviews in the ReviewController: {ex}", ex);
-
-            return StatusCode(500, $"An error occurred while trying to get all reviews");
-        }
+        var reviews = await _reviewService.GetAllReviews(pagesize, pagenummer);
+        if (reviews.Count > 0)
+            return Ok(reviews);  
+        
+        return NotFound("There were no reviews in the database");
     }
 
 
     [HttpGet("Id={id}", Name = "GetReviewById")]
     public async Task<ActionResult<ReviewDTO?>> GetReviewById(int id)
     {
-        try
-        {
-            var review = await _reviewService.GetReviewById(id);
-            if (review != null)
-            {
-                return Ok(review);
-            }
+        var review = await _reviewService.GetReviewById(id);
+        if (review != null)
+            return Ok(review);
 
-            return NotFound("Not reviews with that id was found");
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError("An Error occurred on get review by id in the ReviewController:{ex}", ex);
-
-            return StatusCode(500, $"An error occurred while trying to get review by id");
-
-        }
-
+        return NotFound("Not reviews with that id was found");
     }
 
 
@@ -83,95 +58,43 @@ public class ReviewController : Controller
     [HttpPut("Id={id}", Name = "UpdateReview")]
     public async Task<ActionResult<ReviewDTO>> UpdateReviewById(int id, ReviewDTO dto)
     {
-        try
-        {
-            var review = await _reviewService.UpdateReviewById(id, dto);
-            if (review != null)
-            {
-                return Ok(review);
-            }
+        var review = await _reviewService.UpdateReviewById(id, dto);
+        if (review != null)
+            return Ok(review);
 
-            return BadRequest("The movie could not be updated");
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError("An Error occurred on update review in the ReviewController: {ex}", ex);
-
-            return StatusCode(500, $"An error occurred while trying to update review");
-
-        }
-
+        return BadRequest("The movie could not be updated");        
     }
 
 
     [HttpDelete("Id={id}", Name = "DeleteReviewById")]
     public async Task<ActionResult<ReviewDTO>> DeleteReviewById(int id)
     {
-        try
-        {
-            var review = await _reviewService.DeleteReviewById(id);
-            if (review != null)
-            {
-                return Ok(review);
-            }
+        var review = await _reviewService.DeleteReviewById(id);
+        if (review != null)
+            return Ok(review);
 
-            return BadRequest("The movie could not be deleted");
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError("An Error occurred on update review in the ReviewController: {ex}", ex);
-
-            return StatusCode(500, $"An error occurred while trying to update review");
-
-        }
+        return BadRequest("The movie could not be deleted");        
     }
 
 
     [HttpGet("MovieId={movieId}", Name = "GetReviewByMovieId")]
     public async Task<ActionResult<ReviewDTO?>> GetReviewByMovieID(int movieId)
     {
-        try
-        {
-            var review = await _reviewService.GetReviewByMovieId(movieId);
-            if (review != null)
-            {
-                return Ok(review);
-            }
+        var review = await _reviewService.GetReviewByMovieId(movieId);
+        if (review != null)
+            return Ok(review);
 
-            return BadRequest("There were no reviews with that movieid");
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError("An Error occurred on get reviews by movie id in the ReviewController: {ex}", ex);
-
-            return StatusCode(500, $"An error occurred while trying to get reviews by movie id");
-
-        }
-
-
+        return BadRequest("There were no reviews with that movieid");       
     }
 
 
     [HttpGet("UserId={userId}", Name = "GetReviewByUserId")]
     public async Task<ActionResult<ReviewDTO?>> GetReviewByUserID(int userId)
     {
-        try
-        {
-            var review = await _reviewService.GetReviewByUserId(userId);
-            if (review != null)
-            {
-                return Ok(review);
-            }
+        var review = await _reviewService.GetReviewByUserId(userId);
+        if (review != null)
+            return Ok(review);
 
-            return BadRequest("There were no reviews with that user id");
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError("An Error occurred on get reviews by user id in the ReviewController: {ex}", ex);
-
-            return StatusCode(500, $"An error occurred while trying to get reviews by user id");
-
-        }
+        return BadRequest("There were no reviews with that user id");
     }
-
 }

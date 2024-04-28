@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ReviewHubAPI.Models.DTO;
-using ReviewHubAPI.Services;
 using ReviewHubAPI.Services.Interface;
 
 namespace ReviewHubAPI.Controllers;
@@ -27,79 +26,41 @@ public class ReviewPictureController : Controller
             _logger.LogInformation("Review picture added: {ReviewId}", ReviewId);
             return Ok(message);
         }
+
         _logger.LogWarning("Error occurred while trying to add review picture for ReviewId: {ReviewId}", ReviewId);
         return BadRequest("An error occurred while trying to add review picture");
     }
 
 
-    [HttpGet (Name = "GetAllReviewPictures")]
+    [HttpGet(Name = "GetAllReviewPictures")]
     public async Task<ActionResult<ICollection<ReviewPictureDTO>>> GetAllReviewPicturesAsync(int PageSize, int PageNummer)
     {
-        try
-        {
-            var pics = await _reviewPictureService.GetAllReviewPicturesAsync(PageSize, PageNummer);
+        var pics = await _reviewPictureService.GetAllReviewPicturesAsync(PageSize, PageNummer);
+        if (pics == null || !pics.Any())
+            return NotFound("No Review Pictures were found");
 
-            if (pics == null)
-            {
-                return NotFound("No Review Pictures were found");
-            }
-
-            return Ok(pics);
-
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError("An Error occurred on get all review pictures in the ReviewPictureController : {ex}", ex);
-
-            return StatusCode(500, $"An error occurred while trying to get all review pictures");
-
-        }
+        return Ok(pics);
     }
 
-    [HttpDelete ("ReviewId={ReviewId}", Name = "DeleteReviewPictureByReviewId")]
 
+    [HttpDelete("ReviewId={ReviewId}", Name = "DeleteReviewPictureByReviewId")]
     public async Task<ActionResult<ReviewPictureDTO>> DeleteReviewPictureByReviewIdAsync(int ReviewId)
     {
-        try
-        {
-            var pic = await _reviewPictureService.DeleteReviewPictureByReviewIdAsync(ReviewId);
+        var pic = await _reviewPictureService.DeleteReviewPictureByReviewIdAsync(ReviewId);
+        if (pic == null)
+            return BadRequest("Review picture could not be deleted");
 
-            if (pic == null)
-            {
-                return BadRequest("Review picture could not be deleted");
-            }
-            return Ok(pic);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError("An Error occurred on delete review pictures by ReviewId in the ReviewPictureController : {ex}", ex);
-
-            return StatusCode(500, $"An error occurred while trying to delete review picture by ReviewId picture");
-
-        }
+        return Ok(pic);
     }
 
+
     [HttpGet("Id={ReviewId}", Name = "GetReviewPictureByReviewId")]
-        public async Task<ActionResult<ReviewPictureDTO?>> GetReviewPictureByReviewIddAsync(int ReviewId)
-        {
-            try { 
-            var pic = await _reviewPictureService.GetReviewPictureByReviewIdAsync(ReviewId);
+    public async Task<ActionResult<ReviewPictureDTO?>> GetReviewPictureByReviewIdAsync(int ReviewId)
+    {
+        var pic = await _reviewPictureService.GetReviewPictureByReviewIdAsync(ReviewId);
+        if (pic == null)
+            return NotFound("The review picture was not found");
 
-            if(pic == null)
-            {
-                return NotFound("the review picture was not found");
-            }
-            return Ok(pic);
-            }
-            catch(Exception ex)
-            {
-                _logger.LogError("An Error occurred on get review picture by ReviewId in the ReviewPictureController : {ex}", ex);
-
-                return StatusCode(500, $"An error occurred while trying get review picture by ReviewId");
-
-
-            }
-
-        }
-
+        return Ok(pic);
+    }
 }
