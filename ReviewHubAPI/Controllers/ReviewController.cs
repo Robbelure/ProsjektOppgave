@@ -26,7 +26,7 @@ public class ReviewController : Controller
         {
             var reviews = await _reviewService.GetAllReviews(pagesize, pagenummer);
 
-            if (reviews != null)
+            if (reviews.Count > 0)
             {
                 return Ok(reviews);
 
