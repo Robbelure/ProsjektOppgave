@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using ReviewHubAPI.Models.DTO;
 using ReviewHubAPI.Services.Interface;
 
@@ -9,101 +8,53 @@ namespace ReviewHubAPI.Controllers;
 [ApiController]
 public class MoviePosterController : Controller
 {
-    private readonly IMoviePosterService _movieposterservice;
+    private readonly IMoviePosterService _moviePosterService;
     private readonly ILogger<MoviePosterController> _logger;
 
     public MoviePosterController(IMoviePosterService Movieposterservice, ILogger<MoviePosterController> logger)
     {
-        _movieposterservice = Movieposterservice;
+        _moviePosterService = Movieposterservice;
         _logger = logger;
     }
 
-    [HttpPost (Name ="AddMoviePoster")]
+
+    [HttpPost(Name = "AddMoviePoster")]
     public async Task<ActionResult<string>> AddMoviePoster([FromForm] int MovieID, IFormFile file)
     {
-        try
-        {
-            var message = await _movieposterservice.AddMoviePoster(MovieID, file);
-
-            return Ok(message);
-        }
-        catch (Exception ex) 
-        {
-            _logger.LogError("An Error occurred on add movie poster in the MoviePosterController : {ex}", ex);
-
-            return StatusCode(500, $"An error occurred while trying to add movie poster");
-
-        }
-
-
+        var message = await _moviePosterService.AddMoviePoster(MovieID, file);
+        return Ok(message);
     }
 
 
-    [HttpGet (Name = "GetAllMoviePosters")]
-    public async Task<ActionResult<ICollection<MoviePosterDTO>>> GetAllMoviePostersAsync(int PageSize, int PageNummer)
+    [HttpGet(Name = "GetAllMoviePosters")]
+    public async Task<ActionResult<ICollection<MoviePosterDTO>>> GetAllMoviePosters(int PageSize, int PageNumber)
     {
-        try
-        {
-            var posters = await _movieposterservice.GetAllMoviePostersAsync(PageSize, PageNummer);
+        var posters = await _moviePosterService.GetAllMoviePostersAsync(PageSize, PageNumber);
+        if (posters == null || !posters.Any())
+            return NotFound("No posters were found.");
 
-            if (posters == null)
-            {
-                return NotFound("No poster were found");
-            }
-            return Ok(posters);
-
-        }
-        catch(Exception ex)
-        {
-            _logger.LogError("An Error occurred on get all movie posters in the MoviePosterController : {ex}", ex);
-
-            return StatusCode(500, $"An error occurred while trying to get profile all movie poster");
-        }
-       
+        return Ok(posters);
     }
 
-    [HttpGet("movieId={MovieId}", Name = "GetMoviePostereByMovieId")]
-     public async Task<ActionResult<MoviePosterDTO>> GetMoviePostereByMovieIdAsync(int MovieId)
+
+    [HttpGet("movieId={MovieId}", Name = "GetMoviePosterByMovieId")]
+    public async Task<ActionResult<MoviePosterDTO>> GetMoviePosterByMovieId(int MovieId)
     {
-        try
-        {
-            var poster = await _movieposterservice.GetMoviePostereByMovieIdAsync(MovieId);
-            if (poster == null)
-            {
-                return NotFound("No poster with that id was found");
-            }
+        var poster = await _moviePosterService.GetMoviePosterByMovieIdAsync(MovieId);
+        if (poster == null)
+            return NotFound("No poster with that ID was found.");
 
-            return Ok(poster);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError("An Error occurred on get movie poster by movie Id in the MoviePosterController : {ex}", ex);
+        return Ok(poster);
+    }
 
-            return StatusCode(500, $"An error occurred while trying to get movie poster by movie id");
 
-        }
-     }
-
-    [HttpDelete("movieId={MovieId}", Name = "DeleteMoviePosterMovieId")]
-    public async Task<ActionResult<MoviePosterDTO>> DeleteMoviePosterMovieIdAsync(int MovieId)
+    [HttpDelete("movieId={MovieId}", Name = "DeleteMoviePosterByMovieId")]
+    public async Task<ActionResult<MoviePosterDTO>> DeleteMoviePosterByMovieI(int MovieId)
     {
-        try
-        {
-            var poster = await _movieposterservice.DeleteMoviePosterMovieIdAsync(MovieId);
-            if (poster == null)
-            {
-                return BadRequest("The poster could not be delete");
-            }
+        var poster = await _moviePosterService.DeleteMoviePosterByMovieIdAsync(MovieId);
+        if (poster == null)
+            return BadRequest("The poster could not be deleted.");
 
-            return Ok(poster);
-        
-        }
-        catch(Exception ex)
-        {
-            _logger.LogError("An Error occurred on delete movie poster by movie Id in the MoviePosterController : {ex}", ex);
-
-            return StatusCode(500, $"An error occurred while trying to delete movie poster by movie id");
-
-        }
+        return Ok(poster);
     }
 }

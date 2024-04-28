@@ -25,9 +25,10 @@ public class MoviePosterService : IMoviePosterService
 
         return addedposter;
     }
-    public async Task<MoviePosterDTO> DeleteMoviePosterMovieIdAsync(int MovieId)
+
+    public async Task<MoviePosterDTO> DeleteMoviePosterByMovieIdAsync(int MovieId)
     {
-        var posterToDelete = await _movieposterrep.DeleteMoviePosterMovieIdAsync(MovieId);
+        var posterToDelete = await _movieposterrep.DeleteMoviePosterByMovieIdAsync(MovieId);
 
         return _moviepostermapper.MapToDTO(posterToDelete) ?? null!;
 
@@ -49,9 +50,9 @@ public class MoviePosterService : IMoviePosterService
         return returnposter;
     }
 
-    public async Task<MoviePosterDTO> GetMoviePostereByMovieIdAsync(int MovieId)
+    public async Task<MoviePosterDTO> GetMoviePosterByMovieIdAsync(int MovieId)
     {
-        var poster = await _movieposterrep.GetMoviePostereByMovieIdAsync(MovieId);
+        var poster = await _movieposterrep.GetMoviePosterByMovieIdAsync(MovieId);
 
         return _moviepostermapper.MapToDTO(poster) ?? null!;
     }
