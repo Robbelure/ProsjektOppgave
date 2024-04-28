@@ -22,7 +22,7 @@ public class ReviewService : IReviewService
         var reviewsentity = await _reviewrep.GetAllReviews(pagenummer,pagesize);
         var reviews = new List<ReviewDTO>();
 
-        if (reviewsentity != null)
+        if (reviewsentity.Count>0)
         {
             foreach (var review in reviewsentity)
             {
@@ -30,7 +30,7 @@ public class ReviewService : IReviewService
             }
         }
 
-        return reviews;
+        return reviews ?? null!;
     }
 
     public async Task<ReviewDTO?> GetReviewById(int id)

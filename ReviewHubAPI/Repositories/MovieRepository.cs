@@ -35,7 +35,7 @@ public class MovieRepository : IMovieRepository
              .Take(pagesize).
              ToListAsync();
 
-        return movies;
+        return movies ?? null!;
     }
 
     public async Task<Movie> GetMovieById(int Id)

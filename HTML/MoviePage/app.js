@@ -1,4 +1,5 @@
 const endpointURL = "https://localhost:7033/api/Movie?pagesize=30&pagenummer=1";
+const ReviewsURL = "https://localhost:7033/api/Review?pagesize=1&pagenummer=30";
 
 function GetLatestAddedMovies() {
     let movies = [];
@@ -27,7 +28,6 @@ function GetLatestAddedMovies() {
             //sort the movies by date : latest added
             movies.sort((b, a) => new Date(a.dateCreated) - new Date(b.dateCreated));
             const latestaddedmovie = movies.slice(0, 5);
-            console.log("Oldest 5 movies:", latestaddedmovie);
             latestaddedmovie.forEach(async movie => {
                 try {
                     const response = await fetch(`https://localhost:7033/api/MoviePoster/movieId=${movie.id}`);
@@ -80,11 +80,55 @@ function GetLatestAddedMovies() {
         });
 }
 
-function GetLatestReviewed()
-{
-    
-    
+async function GetLatestReviewed() {
+    try {
+        let reviews = await fetch(ReviewsURL);
+        if (!reviews.ok) {
+            throw new Error('Network response was not ok');
+        }
+        let reviewData = await reviews.json();
+        reviewData.sort((a, b) => new Date(b.dateCreated) - new Date(a.dateCreated));
+        const latestAddedReviews = reviewData.slice(0, 5);
+
+        let latestAddedReviewsSection = "";
+
+        for (let review of latestAddedReviews) {
+            let movieResponse = await fetch(`https://localhost:7033/api/Movie/movieId=${review.movieId}`);
+            if (!movieResponse.ok) {
+                throw new Error('Network response was not ok');
+            }
+            let movieData = await movieResponse.json();
+            const rating = review.rating;
+            let starImages = '';
+            for (let i = 0; i < rating; i++) {
+                starImages += `<img src="asset/star.png" alt="Star">`;
+            }
+
+            let posterResponse = await fetch(`https://localhost:7033/api/MoviePoster/movieId=${review.movieId}`);
+            if (!posterResponse.ok) {
+                throw new Error('Network response was not ok');
+            }
+            let posterData = await posterResponse.json();
+            const posterURL = `data:image/jpeg;base64,${posterData.moviePoster}`;
+
+            latestAddedReviewsSection +=
+                `
+                <div  class="Container-poster" id="reviewContainer" onclick="redirectReview(${review.id})">
+                    <img src="${posterURL}" alt="${movieData.movieName} Poster">
+                    <h3>${movieData.movieName}</h3>
+                    <div class="Container-Star">
+                        ${starImages}
+                    </div>
+                </div>
+                `;
+        }
+
+        document.getElementById("Latestreviews").innerHTML = latestAddedReviewsSection;
+    } catch (error) {
+        console.error(error);
+    }
 }
+
 
 
 window.onload = function() {
@@ -96,3 +140,9 @@ window.onload = function() {
 function redirectToReviewspage(movieId) {
     window.location.href = `../Reviewspage/Reviews.html?movieId=${movieId}`;
 }
+
+
+function redirectReview(Reviewid) {
+    window.location.href = `../ReviewPage/review.html?reviewID=${Reviewid}`;
+}
+

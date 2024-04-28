@@ -30,9 +30,15 @@ public class ReviewRepository : IReviewRespository
     }
 
     //TODO trenger vi denne?
-    public Task<ICollection<Review>> GetAllReviews(int pagesize, int pagenummer)
+    public async Task<ICollection<Review>> GetAllReviews(int pagesize, int pagenummer)
     {
-        throw new NotImplementedException();
+        var reviews =  await _dbcontext.Reviews
+            .OrderBy(x => x.Id)
+            .Skip((pagenummer - 1) * pagesize)
+            .Take(pagesize)
+            .ToListAsync();
+
+        return reviews ?? null!;
     }
     public async Task<Review> GetReviewById(int id)
     {
