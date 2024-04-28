@@ -15,7 +15,9 @@ public class ProfilePictureMapper : IMapper<ProfilePicture, ProfilePictureDTO>
         {
             Id = entity.Id,
             UserId = entity.UserId,
-            ProfilePicture = entity.Picture
+            ProfilePicture = entity.Picture,
+            DateCreated = entity.DateCreated,
+            DateUpdated = entity.DateUpdated
         };
     }
 
@@ -28,7 +30,10 @@ public class ProfilePictureMapper : IMapper<ProfilePicture, ProfilePictureDTO>
         {
             Id = dto.Id,
             UserId = dto.UserId,
-            Picture = dto.ProfilePicture
+            Picture = dto.ProfilePicture,
+            DateCreated = dto.DateCreated,
+            DateUpdated = dto.DateUpdated
+
         };
     }
 }

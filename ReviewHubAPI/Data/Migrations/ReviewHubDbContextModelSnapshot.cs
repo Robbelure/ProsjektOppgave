@@ -108,6 +108,12 @@ namespace ReviewHubAPI.Data.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<int>("MovieId")
                         .HasColumnType("int");
 
@@ -128,6 +134,12 @@ namespace ReviewHubAPI.Data.Migrations
                         .HasColumnType("int");
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<byte[]>("Picture")
                         .HasColumnType("longblob");
@@ -150,6 +162,12 @@ namespace ReviewHubAPI.Data.Migrations
                         .HasColumnType("int");
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<int>("MovieId")
                         .HasColumnType("int");
@@ -184,6 +202,12 @@ namespace ReviewHubAPI.Data.Migrations
                         .HasColumnType("int");
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<byte[]>("Picture")
                         .HasColumnType("longblob");
@@ -240,12 +264,12 @@ namespace ReviewHubAPI.Data.Migrations
                         new
                         {
                             Id = -1,
-                            DateCreated = new DateTime(2024, 4, 10, 20, 52, 20, 780, DateTimeKind.Utc).AddTicks(8304),
+                            DateCreated = new DateTime(2024, 4, 28, 12, 27, 55, 417, DateTimeKind.Utc).AddTicks(8386),
                             Email = "admin@proton.me",
                             Firstname = "Admin",
                             IsAdmin = true,
                             Lastname = "User",
-                            PasswordHash = "$2a$11$kOeDzQDFSX8oF9EQYXDkpuH9eGyOE/oZ8XeD7OmzDuvgBK3I/FvTu",
+                            PasswordHash = "$2a$11$upgvvgNBLuLG3OlZ2SXqr./s0UuqZMUdW4BZ6S4db1nl6cE4tGPxq",
                             Username = "TheOne"
                         });
                 });

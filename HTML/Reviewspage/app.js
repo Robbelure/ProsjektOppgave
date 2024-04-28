@@ -46,7 +46,6 @@ function GetReviews() {
                                 return response.json().then(reviewPictureData => {
                                     // Assuming reviewPictureData has the structure { reviewPicture: imageData }
                                     const imageData = reviewPictureData.reviewPicture;
-                                    console.log('HERE', imageData);
                                     const ImageUrl = `data:image/jpeg;base64,${imageData}`;
                                     return ImageUrl;
                                 });
@@ -86,6 +85,8 @@ function GetReviews() {
                 const reviewtext = review.text;
                 const rating = review.rating;
                 const reviewID = review.id;
+                const reviewdate = new Date(review.dateCreated);
+                const formated = reviewdate.toLocaleDateString();
                 let starImages = '';
                 for (let i = 0; i < rating; i++) {
                     starImages += `<img src="../assets/Logo/star.png" alt="Star">`;
@@ -99,7 +100,7 @@ function GetReviews() {
                             <div class="headerinfo">
                                 <span>${author}</span>
                                 <span>│</span>
-                                <span>18.03.2023</span>
+                                <span>${formated}</span>
                             </div>
                             <a href="../ReviewPage/review.html?reviewID=${reviewID}" class="review-title">${title}</a>
                             <div class="Container-Star">${starImages}</div>

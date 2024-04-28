@@ -12,7 +12,9 @@ public class ReviewPictureMapper : IMapper<ReviewPicture, ReviewPictureDTO>
         {
             Id = entity.Id,
             ReviewId = entity.ReviewId,
-            ReviewPicture = entity.Picture
+            ReviewPicture = entity.Picture,
+            DateCreated = entity.DateCreated,
+            DateUpdated = entity.DateUpdated
         };
     }
 
@@ -22,7 +24,9 @@ public class ReviewPictureMapper : IMapper<ReviewPicture, ReviewPictureDTO>
         {
             Id = dto.Id,
             ReviewId = dto.ReviewId,
-            Picture = dto.ReviewPicture
+            Picture = dto.ReviewPicture,
+            DateCreated = dto.DateCreated,
+            DateUpdated = dto.DateUpdated
         };
     }
 }

@@ -1,0 +1,14 @@
+﻿
+Hva vi ville ha endret om vi hadde mer tid:
+- mulighet for å endre review bilde 
+- mulighet for å endre movie poster 
+
+
+Hva må endres/ ses på:
+- Jeg har lagt til sjekken om brukeren har lagt til en bilde i add reviews og add movie i javascript 
+mens robin har lagt den til i selve api. via wwwroot ... vi hvis tid gjøre det likt slik at koden er mer virker mer gjennomtenkt. 
+
+
+
+
+

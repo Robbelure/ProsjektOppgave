@@ -42,6 +42,8 @@ public class ReviewService : IReviewService
 
     public async Task<ReviewDTO> AddReview(ReviewDTO dto)
     {
+        dto.DateCreated = DateTime.Now;
+        dto.DateUpdated = DateTime.Now;
         var reviewtoadd = await _reviewrep.AddReview(_reviewmapper.MapToEntity(dto));
 
         return _reviewmapper.MapToDTO(reviewtoadd)?? null!;
@@ -65,6 +67,7 @@ public class ReviewService : IReviewService
             reviewtoupdate.UserId = dto.UserId;
             reviewtoupdate.Text = dto.Text;
             reviewtoupdate.Title = dto.Title;
+            reviewtoupdate.DateUpdated = DateTime.Now;
          
             await _reviewrep.UpdateReviewById(reviewtoupdate);
             return _reviewmapper.MapToDTO(reviewtoupdate);

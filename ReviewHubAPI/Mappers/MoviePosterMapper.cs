@@ -12,7 +12,10 @@ public class MoviePosterMapper : IMapper<MoviePoster, MoviePosterDTO>
         {
             Id = entity.Id,
             MovieId = entity.MovieId,
-            MoviePoster = entity.Poster
+            MoviePoster = entity.Poster,
+            DateCreated = entity.DateCreated,
+            DateUpdated = entity.DateUpdated
+            
         };
     }
 
@@ -22,7 +25,10 @@ public class MoviePosterMapper : IMapper<MoviePoster, MoviePosterDTO>
         {
             Id = dto.Id,
             MovieId = dto.MovieId,
-            Poster = dto.MoviePoster
+            Poster = dto.MoviePoster,
+            DateCreated = dto.DateCreated,
+            DateUpdated = dto.DateUpdated
+
         };
     }
 }

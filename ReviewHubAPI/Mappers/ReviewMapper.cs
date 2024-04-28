@@ -15,7 +15,9 @@ public class ReviewMapper : IMapper<Review, ReviewDTO>
             UserId = entity.UserId,
             Title = entity.Title,
             Rating = entity.Rating,
-            Text = entity.Text
+            Text = entity.Text,
+            DateUpdated = entity.DateUpdated,
+            DateCreated = entity.DateCreated
         };
     }
 
@@ -28,7 +30,9 @@ public class ReviewMapper : IMapper<Review, ReviewDTO>
             UserId = dto.UserId,
             Title = dto.Title,
             Rating = dto.Rating,
-            Text = dto.Text
+            Text = dto.Text,
+            DateUpdated = dto.DateUpdated,
+            DateCreated = dto.DateCreated
         };
     }
 }

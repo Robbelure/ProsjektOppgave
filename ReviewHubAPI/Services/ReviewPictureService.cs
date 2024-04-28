@@ -29,6 +29,8 @@ public class ReviewPictureService : IReviewPictureService
         {
             ReviewId = ReviewId,
             Picture = pic,
+            DateUpdated = DateTime.Now,
+            DateCreated = DateTime.Now
         };
         _logger.LogInformation("Attempting to add review picture for ReviewId: {ReviewId}", ReviewId);
         var addedReviewPic = await _reviewPictureRepository.AddReviewPicture(reviewPicture);

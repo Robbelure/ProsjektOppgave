@@ -14,7 +14,7 @@ public class UploadProfilePictureService : IUploadProfilePictureService
 
     public UploadProfilePictureService(IUploadProfilePictureRepository uploadProfilePicture,
         IMapper<ProfilePicture, ProfilePictureDTO> profilepicturemapper,
-        ILogger logger)
+        ILogger<UploadProfilePictureService> logger)
     {
         _uploadProfilePictureRepository = uploadProfilePicture;
         _profilepicturemapper = profilepicturemapper;

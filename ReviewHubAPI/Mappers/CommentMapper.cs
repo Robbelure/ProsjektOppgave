@@ -17,6 +17,7 @@ public class CommentMapper : IMapper<Comment, CommentDTO>
             Comment = entity.CommentText,
             Created = entity.Created,
             Updated = entity.Updated,
+
         };
     }
 

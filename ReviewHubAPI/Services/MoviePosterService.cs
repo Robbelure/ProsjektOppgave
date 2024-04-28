@@ -20,7 +20,7 @@ public class MoviePosterService : IMoviePosterService
     public async Task<string> AddMoviePoster(int movieID, IFormFile file)
     {
         var pic = await GetPictureBytesAsync(file);
-        var movieposter = new MoviePoster { MovieId= movieID, Poster = pic };
+        var movieposter = new MoviePoster { MovieId= movieID, Poster = pic ,DateCreated = DateTime.Now, DateUpdated = DateTime.Now};
         var addedposter = await _movieposterrep.AddMoviePoster(movieposter);
 
         return addedposter;

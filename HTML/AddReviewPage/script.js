@@ -165,7 +165,10 @@ function upload() {
     })
     .then(response => response)
     .then(data => {
-      console.log('Picture upload successful: ', data);
+      alert('review and poster uploaded successfully!');
+      rating.reset(); 
+      title.reset(); 
+      text.reset(); 
     })
     .catch(error => {
       console.error('Error uploading picture:', error);

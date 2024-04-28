@@ -17,6 +17,10 @@ public class Review
     public int Rating {  get; set; }
     [Required]
     public string Text { get; set; } = string.Empty;
+    [Required]
+    public DateTime DateCreated { get; set; }
+    [Required]
+    public DateTime DateUpdated { get; set; }
 
     public virtual User? UserEntity { get; set; }
     public virtual ICollection<Comment>? Comment { get; set; }
