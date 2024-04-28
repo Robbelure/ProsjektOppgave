@@ -12,6 +12,10 @@ public class MoviePoster
     public int MovieId { get; set; }
 
     public byte[]? Poster { get; set; }
+    [Required]
+    public DateTime DateCreated { get; set; }
+    [Required]
+    public DateTime DateUpdated { get; set; }
 
     public virtual Movie? Movie { get; set; }
 }

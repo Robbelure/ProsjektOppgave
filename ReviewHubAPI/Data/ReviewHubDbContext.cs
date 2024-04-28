@@ -22,12 +22,7 @@ public class ReviewHubDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-       //modelBuilder.Entity<ProfilePicture>()
-       //     .HasOne(e => e.User)
-       //     .WithOne(e => e.ProfilePicture)
-       //     .HasForeignKey<User>(e => e.Id)
-       //     .IsRequired();
-
+   
         base.OnModelCreating(modelBuilder);
 
         // Seeding av admin-bruker

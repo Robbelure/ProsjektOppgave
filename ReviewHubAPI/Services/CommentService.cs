@@ -18,6 +18,8 @@ public class CommentService : IcommentService
 
     public async Task<CommentDTO> AddNewComment(CommentDTO dto)
     {
+        dto.Created = DateTime.Now;
+        dto.Updated = DateTime.Now;
         var comment = await _commentRep.AddNewComment(dto);
 
         return _commentmapper.MapToDTO(comment) ?? null!;

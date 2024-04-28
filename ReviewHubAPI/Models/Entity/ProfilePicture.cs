@@ -13,6 +13,10 @@ public class ProfilePicture
     public int UserId { get; set; }
 
     public byte[]? Picture { get; set; }
+    [Required]
+    public DateTime DateCreated { get; set; }
+    [Required]
+    public DateTime DateUpdated { get; set; }
 
     public virtual User? User { get; set; }
 }

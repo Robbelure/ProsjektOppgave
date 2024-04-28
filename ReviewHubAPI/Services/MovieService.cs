@@ -94,18 +94,22 @@ public class MovieService : IMovieService
     public async Task<MovieDTO> GetMovieById(int Id)
     {
         var movie = await _movierep.GetMovieById(Id);
-        //if(movie != null) { 
-        //int avaragerating = 0;
-        //var reviews = await _reviewsservice.GetReviewByMovieId(Id);
-        //foreach (var review in reviews)
-        //{
-        //    avaragerating += review.Rating;
-        //}
+        if (movie != null)
+        {
+            
+            var reviews = await _reviewsservice.GetReviewByMovieId(Id);
+            if (reviews.Count != 0)
+            {
+                int avaragerating = 0;
+                foreach (var review in reviews)
+                {
+                    avaragerating += review.Rating;
+                }
 
-        //   movie.AverageRating = (int)Math.Round((double)avaragerating / reviews.Count());
-        //}
-
-        return _moviemapper.MapToDTO(movie) ?? null!;   
+                movie.AverageRating = (int)Math.Round((double)avaragerating / reviews.Count());
+            }
+        }
+        return _moviemapper.MapToDTO(movie!) ?? null!;   
     }
 
     public async Task<MovieDTO> UpdateMovieById(int Id, MovieDTO dto)
