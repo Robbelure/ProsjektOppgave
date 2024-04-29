@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ReviewHubAPI.Models.DTO;
 using ReviewHubAPI.Services.Interface;
 
@@ -18,6 +19,8 @@ public class MovieController : Controller
         _logger = logger;
     }
 
+
+    [Authorize]
     [HttpPost(Name = "AddMovie")]
     public async Task<ActionResult<MovieDTO>> AddMovie(MovieDTO dto)
     {
@@ -62,6 +65,7 @@ public class MovieController : Controller
     }
 
 
+    [Authorize]
     [HttpPut("Id={Id}", Name = "UpdateMovieById")]
     public async Task<ActionResult<MovieDTO>> UpdateMovieById(int Id, MovieDTO dto)
     {
@@ -73,6 +77,7 @@ public class MovieController : Controller
     }
 
 
+    [Authorize]
     [HttpDelete("Id={Id}", Name = "DeleteMovieById")]
     public async Task<ActionResult<MovieDTO>> DeleteMovieById(int Id)
     {

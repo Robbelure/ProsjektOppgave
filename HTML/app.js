@@ -12,23 +12,48 @@ const endpointURL = "https://localhost:7033/api/MoviePoster?PageSize=10&PageNumm
 
 let posterArray = [];
 
-function getposters() {
-    return fetch(endpointURL)
+function authenticatedFetch(url, options = {}, requireAuth = false) {
+    const token = localStorage.getItem('jwtToken');
+    
+    options.headers = new Headers(options.headers || {});
+    if (token) {
+        options.headers.append('Authorization', `Bearer ${token}`);
+    }
+
+    return fetch(url, options)
         .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
+            if (response.status === 401) {
+                if (requireAuth) {
+                    redirectToLogin("Sesjonen din har utløpt, vennligst logg inn igjen.");
+                }
+                throw new Error('Sesjonen har utløpt eller token mangler');
             }
-            return response.json();
-        })
+            return response;
+        });
+}
+
+function redirectToLogin(message) {
+    alert(message);
+    logOut();
+}
+
+function logOut() {
+    localStorage.removeItem('jwtToken');
+    localStorage.removeItem('userId');
+    localStorage.removeItem('username');
+    localStorage.removeItem('email');
+    window.location.href = 'index.html';
+}
+
+function getposters() {
+    return authenticatedFetch(endpointURL)
+        .then(response => response.json())
         .then(data => {
+            console.log(data);
             posterArray = data.map(item => `data:image/jpeg;base64,${item.moviePoster}`);
-            console.log(posterArray);
             return posterArray;
         })
-        .catch(error => {
-            console.error('There was a problem with the fetch operation:', error);
-            throw error; // re-throw the error to be caught in the caller
-        });
+        .catch(error => console.error('Error during fetch operation:', error));
 }
 
 function loadImage(index) {
@@ -40,62 +65,61 @@ function loadImage(index) {
     img.src = posterArray[index];
 }
 
-
-
-// Initialiserer applikasjonen
 function initialize() {
     if (!localStorage.getItem('jwtToken') || !localStorage.getItem('userId')) {
         localStorage.removeItem('jwtToken');
+        localStorage.removeItem('email'); 
         localStorage.removeItem('userId');
         localStorage.removeItem('username');        
     }
 }
 
-// Funksjon for å hente brukerdata
 function fetchUserData() {
     const userId = localStorage.getItem('userId');
     const apiUrl = `https://localhost:7033/api/User/${userId}`;
-    const token = localStorage.getItem('jwtToken');
 
-    if (!token || !userId) {
-        console.error('Ingen token eller bruker-ID funnet, vennligst logg inn først.');
-        return;
-    }
-
-    fetch(apiUrl, {
-        method: 'GET',
-        headers: {
-            'Authorization': `Bearer ${token}`
-        }
-    })
-    .then(response => response.json())
-    .then(userData => {
-        console.log('Brukerdata hentet suksessfullt:', userData);
-        // Oppdaterer brukergrensesnittet med brukerdata her
-    })
-    .catch(error => {
-        console.error('Feil under henting av brukerdata:', error);
-    });
+    // Siden dette kallet krever autentisering, setter vi requireAuth til true
+    authenticatedFetch(apiUrl, {}, true)
+        .then(response => {
+            if (!response.ok) {
+                // Håndterer andre potensielle feil her, som 404 eller 500.
+                throw new Error('Problem med å hente brukerdata');
+            }
+            return response.json();
+        })
+        .then(userData => {
+            console.log('Brukerdata hentet suksessfullt:', userData);
+            // Oppdater brukergrensesnittet her om nødvendig
+        })
+        .catch(error => {
+            // Her kan du velge å ikke vise en alert, men kanskje oppdatere UI med en melding
+            console.error('Feil under henting av brukerdata:', error);
+        });
 }
 
 window.onload = function() {
+    // Først kjører vi en initialiseringsfunksjon som håndterer nødvendig opprydding eller oppsett.
     initialize();
-    getposters()
-    .then(() => {
-        var imgCount = posterArray.length;
-        var randomIndex = Math.floor(Math.random() * imgCount);
-        loadImage(randomIndex);
-    })
-    .catch(error => {
-        console.error('Error initializing:', error);
-    });
-    
+
+    // Vi henter filmplakater uten å kreve autentisering (requireAuth = false).
+    getposters(false)
+        .then(() => {
+            var imgCount = posterArray.length;
+            var randomIndex = Math.floor(Math.random() * imgCount);
+            loadImage(randomIndex);
+        })
+        .catch(error => {
+            console.error('Error during initialization:', error);
+        });
+
+    // Vi henter referanser til de relevante HTML-elementene for å håndtere UI-logikken.
     const userToken = localStorage.getItem('jwtToken');
     const signInButton = document.querySelector('.signinn');
     const signUpButton = document.querySelector('.signup');
     const profileIcon = document.querySelector('.profile-icon');
     const logOutButton = document.getElementById('logOutButton');
 
+    // Her justerer vi brukergrensesnittet basert på om brukeren er autentisert eller ikke.
     if (userToken) {
         signInButton.style.display = 'none';
         signUpButton.style.display = 'none';
@@ -106,6 +130,7 @@ window.onload = function() {
             window.location.href = 'ProfilePage/profile.html';
         });
 
+        // Vi bruker nå authenticatedFetch for å hente brukerdata, krever autentisering.
         fetchUserData();
     } else {
         signInButton.style.display = 'block';
@@ -113,14 +138,7 @@ window.onload = function() {
         profileIcon.style.display = 'none';
         logOutButton.style.display = 'none';
     }
+
+    // Legger til en event listener for utlogging.
+    document.getElementById('logOutButton').addEventListener('click', logOut);
 };
-
-function logOut() {
-    localStorage.removeItem('jwtToken'); // Fjerner token fra lokal lagring
-    localStorage.removeItem('userId'); // Fjerner brukerens ID
-    localStorage.removeItem('username'); // Fjerner brukerens navn
-    window.location.href = 'index.html'; 
-}
-
-// Lytter etter klikk på logut-knappen
-document.getElementById('logOutButton').addEventListener('click', logOut);
