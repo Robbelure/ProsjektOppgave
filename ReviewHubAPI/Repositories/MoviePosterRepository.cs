@@ -32,9 +32,15 @@ public class MoviePosterRepository : IMoviePosterRepository
 
     public async Task<ICollection<MoviePoster>> GetAllMoviePostersAsync(int PageSize, int PageNummer)
     {
+        var offset = (PageNummer - 1) * PageSize;
+        if (offset < 0)
+        {
+            offset = 0; 
+        }
+
         var posters = await _dbcontext.MoviePoster
             .OrderBy(x => x.Id)
-            .Skip((PageNummer - 1) * PageSize)
+            .Skip(offset) 
             .Take(PageSize)
             .ToListAsync();
 

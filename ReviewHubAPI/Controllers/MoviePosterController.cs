@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ReviewHubAPI.Models.DTO;
 using ReviewHubAPI.Services.Interface;
 
@@ -18,6 +19,7 @@ public class MoviePosterController : Controller
     }
 
 
+    [Authorize]
     [HttpPost(Name = "AddMoviePoster")]
     public async Task<ActionResult<string>> AddMoviePoster([FromForm] int MovieID, IFormFile file)
     {
@@ -48,6 +50,7 @@ public class MoviePosterController : Controller
     }
 
 
+    [Authorize]
     [HttpDelete("movieId={MovieId}", Name = "DeleteMoviePosterByMovieId")]
     public async Task<ActionResult<MoviePosterDTO>> DeleteMoviePosterByMovieI(int MovieId)
     {

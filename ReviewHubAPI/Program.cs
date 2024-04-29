@@ -28,7 +28,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowSpecificOrigin",
         builder =>
         {
-            builder.WithOrigins("http://127.0.0.1:5501")
+            builder.WithOrigins("http://127.0.0.1:5500")
                    .AllowAnyHeader()
                    .AllowAnyMethod();      
         });
@@ -139,6 +139,7 @@ builder.Services.AddValidatorsFromAssemblyContaining<UserRegistrationDTOValidato
 builder.Services.AddValidatorsFromAssemblyContaining<LoginDTOValidator>();
 #endregion
 
+// TODO: Få til å fungere
 #region Rate-limiting
 builder.Services.AddMemoryCache();
 builder.Services.Configure<IpRateLimitOptions>(builder.Configuration.GetSection("IpRateLimiting"));

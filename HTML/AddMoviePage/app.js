@@ -46,10 +46,14 @@ document.addEventListener('DOMContentLoaded', function () {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('jwtToken')}` // Assuming you store your token in localStorage
             },
             body: JSON.stringify(movieData),
         })
         .then(response => {
+            if (response.status === 401) {
+                throw new Error('Authentication failed. Please log in again.');
+            }
             if (!response.ok) {
                 throw new Error('Failed to upload movie data');
             }
@@ -68,10 +72,16 @@ document.addEventListener('DOMContentLoaded', function () {
             // Upload poster data
             return fetch(movieposterurl, {
                 method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('jwtToken')}` // Also include the token here for protected routes
+                },
                 body: posterData,
             });
         })
         .then(response => {
+            if (response.status === 401) {
+                throw new Error('Authentication failed. Please log in again.');
+            }
             if (!response.ok) {
                 throw new Error('Failed to upload poster image');
             }
@@ -80,7 +90,18 @@ document.addEventListener('DOMContentLoaded', function () {
         })
         .catch(error => {
             console.error('Error:', error);
-            alert('Failed to submit form');
+            if (error.response && error.response.status === 401) {
+                // Dette vil håndtere både en utløpt sesjon og en ikke-innlogget bruker
+                alert('Your session has expired, please log in again.');
+                // Fjern token og annen brukerdata her
+                localStorage.removeItem('jwtToken');
+                localStorage.removeItem('userId');
+                // osv...
+                // Omdiriger til innloggingssiden
+                window.location.href = "../SignInnPage/index.html";
+            } else {
+                alert('Failed to submit form');
+            }
         });
     });
 });

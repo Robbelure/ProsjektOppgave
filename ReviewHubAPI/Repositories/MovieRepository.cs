@@ -26,16 +26,22 @@ public class MovieRepository : IMovieRepository
     {
         throw new NotImplementedException();
     }
-   
+
     public async Task<ICollection<Movie>> GetAllMovies(int pagesize, int pagenummer)
     {
-        var movies = await _dbcontext.Movies
-            .OrderBy( x => x.Id)
-              .Skip((pagenummer - 1) * pagesize)
-             .Take(pagesize).
-             ToListAsync();
+        var offset = (pagenummer - 1) * pagesize;
+        if (offset < 0)
+        {
+            offset = 0; 
+        }
 
-        return movies ?? null!;
+        var movies = await _dbcontext.Movies
+            .OrderBy(m => m.Id)
+            .Skip(offset) 
+            .Take(pagesize)
+            .ToListAsync();
+
+        return movies;
     }
 
     public async Task<Movie> GetMovieById(int Id)
