@@ -1,4 +1,4 @@
-const endpointURL = "https://localhost:7033/api/Movie?pagesize=30&pagenummer=1";
+const endpointURL = "https://localhost:7033/api/Movie?pageSize=30&pageNumber=1";
 const ReviewsURL = "https://localhost:7033/api/Review?pagesize=1&pagenummer=30";
 
 function GetLatestAddedMovies() {

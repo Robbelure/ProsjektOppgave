@@ -4,6 +4,12 @@
     padding: 0px;
 }
 
+.containerbody{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
 .Review{
     display: flex;
     flex-direction: column;
@@ -59,4 +65,154 @@
     font-size: 1.9rem;
     line-height: 1.7;
     
+}
+
+.container {
+    margin-bottom: 20px;
+    background: #fff;
+    padding: 20px;
+    font-family: monospace;
+    width: 800px;
+    box-shadow: 0 0 5px #000;
+}
+
+.head {
+    text-transform: uppercase;
+    margin-bottom: 20px;
+}
+
+.headNotLoggedInn{
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    text-align: center;
+    color: red;
+
+}
+
+.text {
+    margin: 10px 0;
+    font-family: sans-serif;
+    font-size: 1.4em;
+}
+
+.commentbox {
+    display: flex;
+    justify-content: space-around;
+    padding: 10px;
+}
+
+.commentbox > img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    /* float: left; */
+    margin-right: 20px;
+    object-fit: cover;
+    object-position: center;
+}
+
+.content {
+    width: 100%;
+}
+
+.user {
+    border: none;
+    outline: none;
+    margin: 5px 0;
+    color: #808080;
+    margin-left: 20px;
+    padding: 10px;
+}
+
+.usercomment {
+    border: none;
+    padding: 10px;
+    padding-left: 0;
+    outline: none;
+    border-bottom: 4px solid red;
+    margin-bottom: 10px;
+    width: 95%;
+}
+
+.usertitle{
+    border: none;
+    padding: 10px;
+    padding-left: 0;
+    outline: none;
+    border-bottom: 4px solid red;
+    margin-bottom: 10px;
+    width: 40%;
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #808080;
+}
+
+.buttons > button {
+    padding: 5px 10px;
+    background: lightgrey;
+    color: #808080;
+    text-transform: uppercase;
+    border: none;
+    outline: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.buttons > button.abled {
+    background: red;
+    color: #fff;
+}
+
+
+.parents {
+    margin-bottom: 20px;
+    font-family: Arial, sans-serif;
+    display: flex;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    padding-top: 15px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(34, 34, 34, 0.3) 0px 30px 60px -30px;
+}
+
+.parents h1 {
+    font-size: 0.9em;
+}
+
+.parents p {
+    margin: 10px 0;
+    font-size: 0.9em;
+}
+
+.parents > img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 20px;
+    object-fit: cover;
+    object-position: center;
+}
+
+.engagements {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.engagements img {
+    width: 20px;
+
+}
+
+.engagements img:nth-child(1) {
+    margin-right: 10px;
+    width: 25px;
+}
+
+.date {
+    color: #808080;
+    font-size: 0.8em;
 }
