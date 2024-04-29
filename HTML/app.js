@@ -8,7 +8,8 @@ var images = [
     'assets/Background/7.png'
 ];
 
-const endpointURL = "https://localhost:7033/api/MoviePoster?PageSize=10&PageNummer=1";
+const endpointURL = "https://localhost:7033/api/MoviePoster?PageSize=30&PageNumber=1";
+
 
 let posterArray = [];
 

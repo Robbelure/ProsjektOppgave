@@ -2,7 +2,7 @@
 Hva vi ville ha endret om vi hadde mer tid:
 - mulighet for å endre review bilde 
 - mulighet for å endre movie poster 
-
+- mulighet for å like kommentar og dele kommentar 
 
 Hva må endres/ ses på:
 - Jeg har lagt til sjekken om brukeren har lagt til en bilde i add reviews og add movie i javascript 

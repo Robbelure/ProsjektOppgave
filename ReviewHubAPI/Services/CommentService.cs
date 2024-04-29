@@ -20,7 +20,7 @@ public class CommentService : IcommentService
     {
         dto.Created = DateTime.Now;
         dto.Updated = DateTime.Now;
-        var comment = await _commentRep.AddNewCommentAsync(dto);
+        var comment = await _commentRep.AddNewCommentAsync(_commentmapper.MapToEntity(dto));
 
         return _commentmapper.MapToDTO(comment) ?? null!;
     }
@@ -46,7 +46,7 @@ public class CommentService : IcommentService
         var comments = await _commentRep.GetAllCommentsByReviewIdAsync(ReviewId);
         ICollection<CommentDTO> commentsdto = new List<CommentDTO>();
 
-        if (comments != null)
+        if (comments.Count > 0)
         {
             foreach (var comment in comments)
             {

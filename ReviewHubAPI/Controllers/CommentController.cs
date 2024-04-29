@@ -29,7 +29,7 @@ public class CommentController : Controller
     }
 
 
-    [HttpGet("ReviewId={ReviewId}", Name = "GetAllCommentsByReviewId")]
+    [HttpGet("ReviewId={reviewId}", Name = "GetAllCommentsByReviewId")]
     public async Task<ActionResult<ICollection<CommentDTO>>> GetAllCommentsByReviewId(int reviewId)
     {
         var comments = await _commentService.GetAllCommentsByReviewIdAsync(reviewId);
