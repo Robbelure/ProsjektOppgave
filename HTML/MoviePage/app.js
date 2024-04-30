@@ -129,11 +129,54 @@ async function GetLatestReviewed() {
     }
 }
 
+function getallmovies() {
+    let allmovies = "";
+    fetch(endpointURL)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            data.forEach(resp => {
+                const { id, movieName, averageRating } = resp;
+                fetch(`https://localhost:7033/api/MoviePoster/movieId=${resp.id}`)
+                    .then(posterResponse => posterResponse.json())
+                    .then(posterData => {
+                        const { moviePoster } = posterData;
+                        const poster = `data:image/jpeg;base64,${moviePoster}`;
+                        let starImages = '';
+                         for (let i = 0; i < averageRating; i++) {
+                                starImages += `<img src="asset/star.png" alt="Star">`;
+                                }
+                        const movieHTML = `
+                            <div class="Container-poster" id="reviewContainer" onclick="redirectReview(${id})">
+                                <img src="${poster}" alt="${movieName} Poster">
+                                <h3>${movieName}</h3>
+                                <div class="Container-Star">
+                                    ${starImages} 
+                                </div>
+                            </div>
+                        `;
+  
+                        allmovies += movieHTML;
+
+                        document.getElementById('Allmovies').innerHTML = allmovies;
+                    })
+                    .catch(error => console.error('Error fetching movie poster:', error));
+            });
+        })
+        .catch(error => console.error('Error fetching movies:', error));
+}
+
+
 
 
 window.onload = function() {
     GetLatestAddedMovies();
     GetLatestReviewed();
+    getallmovies();
 
 };
 

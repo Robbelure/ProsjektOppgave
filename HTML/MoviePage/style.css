@@ -165,7 +165,6 @@
     overflow: hidden;
     position: relative;
     background: radial-gradient(circle, rgba(0,0,0,1) 44%, rgba(15,15,15,1) 97%, rgba(14,14,14,0.9607492655265231) 100%); 
-    height: auto;
     width: 100vw;
     display: flex;
     flex-direction: column;
@@ -187,6 +186,11 @@
     display: flex;
     flex-direction: row;
     justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 40px;
+    height: auto;
+    padding: 0px 60px 0px 60px;
+    
 }
 
 .Container-poster
@@ -227,13 +231,7 @@
 
 }
 
-.Reviewers{
-    height: auto;
-    display: flex;
-    flex-direction: column;
 
-
-}
 
 .cards-container{
     display: flex;
@@ -243,52 +241,6 @@
 }
 
 
-.profile-card{
-    height: 330px;
-    width: 230px;
-    background-color: white;
-    display:flex ;
-    flex-direction: column;
-    align-items: center;
-
-}
-.Cover-image{
-    display: block;
-} 
-
-.profilepic {
-    position: relative;
-    margin: -120px;
-    border-radius: 50%;
-    object-fit: cover;
-    width: 170px;
-    height: 170px;
-}
-
-.name{
-    position: relative;
-    top: 130px;
-    width: 100%;
-    text-align: center;
-    color: black;
-    font-size: 1.4rem;
-
-}
-
-.card-content{
-    margin: -20px;
-    padding-left: 15px;
-    padding-right: 15px;
-    position: relative;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    top: 170px;
-}
-
-.card-content span{
-    font-size: 0.8rem;
-}
 
 .home-button-container {
     position: absolute;
