@@ -75,6 +75,30 @@
     width: 800px;
     box-shadow: 0 0 5px #000;
 }
+.delete{
+    margin-top: 10px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    width: 180px;
+    height: 50px;
+    border: none;
+    outline: none;
+    background: #fa0000;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 6px 20px -5px rgba(0,0,0,0.4);
+    overflow: hidden;
+    cursor: pointer;
+    position: relative;
+    left: 90%;
+
+}
+
+.delete a{
+    text-decoration: none;
+    font-size: 1.7rem;
+    color: white;
+}
 
 .head {
     text-transform: uppercase;

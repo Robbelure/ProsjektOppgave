@@ -25,6 +25,7 @@ public class ReviewRepository : IReviewRespository
         if (review != null)
         {
             _dbcontext.Reviews.Remove(review);
+            await _dbcontext.SaveChangesAsync();
         }
         return review!;
     }

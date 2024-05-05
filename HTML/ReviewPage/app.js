@@ -4,6 +4,7 @@ const reviewId = urlParams.get('reviewID');
 const userId = localStorage.getItem('userId');
 
 
+
 // Fetch review data
 fetch(`https://localhost:7033/api/Review/Id=${reviewId}`)
     .then(response => {
@@ -13,8 +14,7 @@ fetch(`https://localhost:7033/api/Review/Id=${reviewId}`)
         return response.json();
     })
     .then(review => {
-        const { title, rating, text } = review;
-
+        const { title, rating, text} = review;
         // Create star images
         let starImages = "";
         for (let i = 0; i < rating; i++) {
@@ -32,11 +32,31 @@ fetch(`https://localhost:7033/api/Review/Id=${reviewId}`)
                 return imageResponse.json();
             })
             .then(reviewPictureData => {
+                
                 // reviewPictureData has the structure { reviewPicture: imageData }
                 const imageData = reviewPictureData.reviewPicture;
                 const imageURL = `data:image/jpeg;base64,${imageData}`;
+                const review_userid = review.userId;
+                if(userId == review_userid  )
+                {
+                    const reviewHTML = `
+                    <div class="reviewimage">
+                        <img src="${imageURL}" alt="Review Image">
+                    </div>
+                    <section class="reviewbody">
+                        <h1 class="title">${title}</h1>
+                        <button class="delete">
+                        <a href=""onclick=" deleteReview(${reviewId})">Delete</a>
+                        </button>
+                        <div class="starscontainer">${starImages}</div>
+                        <div class="textsection">${text}</div>
+                    </section>
+                `;
+                    document.getElementById('Review').innerHTML = reviewHTML;
 
-                const reviewHTML = `
+                }
+                else{
+                    const reviewHTML = `
                     <div class="reviewimage">
                         <img src="${imageURL}" alt="Review Image">
                     </div>
@@ -46,7 +66,9 @@ fetch(`https://localhost:7033/api/Review/Id=${reviewId}`)
                         <div class="textsection">${text}</div>
                     </section>
                 `;
-                document.getElementById('Review').innerHTML = reviewHTML;
+                    document.getElementById('Review').innerHTML = reviewHTML;
+                }
+                
             })
             .catch(error => console.error('Fetch Error:', error));
     })
@@ -167,7 +189,27 @@ function AddComment() {
         .catch(error => console.error('Error fetching comments:', error));
     } 
 
-    
+
+    function deleteReview(reviewid)
+    {
+        fetch(`https://localhost:7033/api/Review/Id=${reviewid}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        alert('Review deleted successfully');
+        window.location.href = '../MoviePage/movie.html'
+    })
+    .catch(error => {
+        // Handle error
+        console.error('There was a problem deleting the review:', error);
+    });
+    }
     
 
 
