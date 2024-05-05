@@ -167,6 +167,13 @@ body{
     cursor: pointer;
 }
 
+.addreview h5{
+    margin-top: 10px;
+    font-size: 1.1rem;
+    color: white;
+
+}
+
 .addreview a{
     color: #fff;
     font-size: 1.5rem;

@@ -139,6 +139,19 @@
     align-self: center;
 }
 
+.hero-content h5{
+    margin-top: 8px;
+    overflow: hidden;
+    width: 500px;
+    display: inline;
+    text-align: center;
+    color: red;
+    font-size: 1.7rem;
+    justify-self: center;
+    align-self: center;
+
+}
+
 .hero-content a{
     align-self: center;
     margin-top: 40px;

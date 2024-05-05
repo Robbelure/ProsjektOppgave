@@ -3,6 +3,7 @@ const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 const movieId = urlParams.get('movieId');
 
+
 function GetReviews() {
     let movieInfo = "";
     fetch(`https://localhost:7033/api/Movie/movieId=${movieId}`)
@@ -80,6 +81,28 @@ function GetReviews() {
         .then(reviews => {
             // Now we have an array of review objects with image URLs and authors
             let review_container = "";
+            if(userId ==null)
+            {
+                let addmovie = `<h5> You must be logged in to add a review</h5>`
+                document.getElementById('addreview').innerHTML = addmovie;
+
+            }
+            else{
+                let addmovie = ` <a href="">Add Review</a>`
+                document.getElementById('addreview').innerHTML = addmovie;
+                // Get the button element
+                const addReviewButton = document.querySelector('.addreview a');
+                // Add an event listener to the button
+                addReviewButton.addEventListener('click', function(event) {
+                // Prevent the default behavior of the anchor tag
+                event.preventDefault();
+                // Get the current URL without parameters
+                const baseUrl = window.location.href.split('?')[0];
+                // Redirect to the AddReviewPage with the movieId as a query parameter
+                 window.location.href = `..//AddReviewPage/addreview.html?movieId=${movieId}`;
+    });
+            }
+
             reviews.forEach(({ review, ImageUrl, author }) => {
                 const title = review.title;
                 const reviewtext = review.text;
@@ -110,6 +133,7 @@ function GetReviews() {
                     </div>`;
             });
             document.getElementById('review-container').innerHTML = review_container;
+
         })
         .catch(error => {
             console.error('Error:', error);
@@ -119,16 +143,5 @@ function GetReviews() {
 window.onload = function() {
     // Call GetReviews function
     GetReviews();
-    // Get the button element
-    const addReviewButton = document.querySelector('.addreview a');
-    // Add an event listener to the button
-    addReviewButton.addEventListener('click', function(event) {
-        // Prevent the default behavior of the anchor tag
-        event.preventDefault();
-        // Get the current URL without parameters
-        const baseUrl = window.location.href.split('?')[0];
-        // Get the movieId
-        // Redirect to the AddReviewPage with the movieId as a query parameter
-        window.location.href = `..//AddReviewPage/addreview.html?movieId=${movieId}`;
-    });
+
 };

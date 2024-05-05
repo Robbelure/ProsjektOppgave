@@ -37,7 +37,13 @@ public class ReviewService : IReviewService
     {
         var review = await _reviewrep.GetReviewById(id);
 
-        return _reviewmapper.MapToDTO(review) ?? null;
+        if (review != null)
+        {
+            return _reviewmapper.MapToDTO(review);
+
+        }
+
+        return null;
     }
 
     public async Task<ReviewDTO> AddReview(ReviewDTO dto)
@@ -54,7 +60,12 @@ public class ReviewService : IReviewService
     {
         var reviewtodelete = await _reviewrep.DeleteReviewById(id);
 
-        return _reviewmapper.MapToDTO(reviewtodelete) ?? null!;
+        if(reviewtodelete != null)
+        {
+            return _reviewmapper.MapToDTO(reviewtodelete);
+        }
+         return null!;
+       
     }
 
     public async Task<ReviewDTO> UpdateReviewById(int id, ReviewDTO dto)

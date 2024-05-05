@@ -1,5 +1,6 @@
 const endpointURL = "https://localhost:7033/api/Movie?pageSize=30&pageNumber=1";
 const ReviewsURL = "https://localhost:7033/api/Review?pagesize=1&pagenummer=30";
+const userId = localStorage.getItem('userId');
 
 function GetLatestAddedMovies() {
     let movies = [];
@@ -18,14 +19,26 @@ function GetLatestAddedMovies() {
             var randommovie = Math.floor(Math.random() * moviecount);
             const movie = movies[randommovie]
             const movieid = movie.id;
-            herocontent += `
-            <section class="hero-content">
-            <h1>${movie.movieName}</h1>
-            <p>${movie.summary}</p>
-            <a class="AddMovie" href="../AddMoviePage/addmove.html">Add A Movie</a>
-            </section>`;
+            //check if a user is logged inn, if not then add movies will not be added to the page
+            if(userId == null)
+            {
+                herocontent += `
+                <section class="hero-content">
+                <h1>${movie.movieName}</h1>
+                <p>${movie.summary}</p>
+                <h5>You must be logged in to add movies</h5>
+                </section>`;
+            }
+            else{
+                herocontent += `
+                <section class="hero-content">
+                <h1>${movie.movieName}</h1>
+                <p>${movie.summary}</p>
+                <a class="AddMovie" href="../AddMoviePage/addmove.html">Add A Movie</a>
+                </section>`;
+            }
             document.getElementById("hero-content").innerHTML = herocontent;
-            //sort the movies by date : latest added
+            //sort the movies by  latest added
             movies.sort((b, a) => new Date(a.dateCreated) - new Date(b.dateCreated));
             const latestaddedmovie = movies.slice(0, 5);
             latestaddedmovie.forEach(async movie => {
