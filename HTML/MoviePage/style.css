@@ -5,8 +5,7 @@
     padding: 0;
     width: 100%;
     box-sizing: border-box;
-    overflow-x: hidden;
-    
+    overflow-x: hidden; 
 }
 
 .Container{
@@ -26,7 +25,7 @@
 
 }
 .nav{
-    width: 100vw;;
+    width: 100%;
     position: absolute;
     top: 35px;
     transform: translateY(-100%);
@@ -35,31 +34,31 @@
     padding-bottom: 6px;
 }
 
-.nav nav{
-    display: flex;
+.nav nav {
     width: 100%;
-    flex-direction: row;
+    display: flex;
     justify-content: space-between;
     align-items: center;
     transition: all 0.11s ease-in-out 0.08s;
 }
+
 .nav:hover{
     background-color: rgb(3, 3, 3);
 }
 
 .navlist{
     display: flex;
+    /*width: 100%;*/
     width: 100%;
     justify-content: space-around;
-    margin-left: 10%;
+    margin-left: 35%;
     padding: 0px;
 
 }
 
 .nav ul{
-    margin-top:15px;
+    margin-top: 15px;
     margin-bottom: 2px;
-
 }
 
 
@@ -77,22 +76,19 @@
     margin-left: 5px;
     text-decoration: none;
     color: white;
-    font-size: 1rem;
-    
+    font-size: 1rem; 
 }
 
 .navlist li a:hover{
     color: red;
 }
 
-
-.signinn{
-    overflow: hidden;
-    margin-left: 1%;
-    margin-top: 12px;
-    width: 120px;
-    height: 15px;
-    margin-right: 6%;
+.signinn {
+    overflow: hidden;  
+    margin-top: 12px; 
+    width: 120px;   
+    height: 15px; 
+    margin-right: 20px;
     font-family: "Bebas Neue", sans-serif;
     font-weight: 400;
     font-style: normal;
@@ -102,7 +98,7 @@
     font-size: 1rem;
 }
 
-.signinn:hover{
+.signinn:hover {
     color: red;
 }
 
@@ -149,7 +145,6 @@
     font-size: 1.7rem;
     justify-self: center;
     align-self: center;
-
 }
 
 .hero-content a{
@@ -170,7 +165,6 @@
     font-weight: 400;
     font-style: normal;
     font-size: 1.6rem;
-
 }
 
 .Container-NewReviews{
@@ -182,8 +176,6 @@
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-
-
 }
 
 .Container-NewReviews h1{
@@ -192,7 +184,6 @@
     text-align: center;
     font-size: 2.3rem;
     color: white;
-    
 }
 
 .Container-Images{
@@ -203,7 +194,6 @@
     gap: 40px;
     height: auto;
     padding: 0px 60px 0px 60px;
-    
 }
 
 .Container-poster
@@ -213,9 +203,8 @@
     overflow: hidden;
     height: 350px;
     width: 230px;
-    
-    
 }
+
 .Container-poster h3{
     background-color: red;
     text-align: center;
@@ -223,7 +212,6 @@
     color: white;
     overflow: hidden;
     text-overflow: ellipsis;
-    
 }
 
 .Container-poster img{
@@ -241,10 +229,7 @@
 .Container-Star img{
     width: 20px;
     height: 20px;
-
 }
-
-
 
 .cards-container{
     display: flex;
@@ -253,28 +238,49 @@
     margin-bottom: 45px;
 }
 
-
-
 .home-button-container {
     position: absolute;
     top: 10px;
     left: 10px;
-    z-index: 10; 
+    z-index: 100;
 }
+
 
 .home-btn {
     padding: 10px 20px;
-    background: linear-gradient(red, rgb(250, 105, 61)); 
+    background: linear-gradient(red, rgb(250, 105, 61));
     color: white;
     border: none;
-    border-radius: 30px; 
-    text-decoration: none; 
+    border-radius: 30px;
+    text-decoration: none;
     font-size: 16px;
-    cursor: pointer; 
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: background-color 0.3s;
 }
 
+
 .home-btn:hover {
-    background: linear-gradient(rgb(255, 100, 100), rgb(255, 0, 0)); 
+    background: linear-gradient(rgb(255, 100, 100), rgb(255, 0, 0));
+}
+
+.profile-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    box-shadow: 0 0 5px #000;
+    object-fit: cover;
+    z-index: 1001;
+    cursor: pointer;
+    opacity: 0.9;
+}
+
+.profile-icon:hover {
+    /*box-shadow: 0 0 10px #fff;*/
+    transform: scale(1.05);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.5); 
+    opacity: 1;
 }

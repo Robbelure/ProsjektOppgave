@@ -3,6 +3,7 @@ body{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    position: relative;
 }
 
 .hero{
@@ -67,8 +68,9 @@ input , textarea {
     position: absolute;
     top: 10px;
     left: 10px;
-    z-index: 10; 
+    z-index: 100; 
 }
+
 
 .home-btn {
     padding: 10px 20px;
@@ -85,4 +87,37 @@ input , textarea {
 
 .home-btn:hover {
     background: linear-gradient(rgb(255, 100, 100), rgb(255, 0, 0)); 
+}
+
+.profile-link {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    z-index: 100; 
+
+    display: block;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden; 
+    cursor: pointer; 
+    background-color: #766d6d00;
+}
+
+.profile-icon {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    /*box-shadow: 0 0 5px #000;*/
+    object-fit: cover;
+
+    transition: transform 0.01s ease, box-shadow 0.01s ease, opacity 0.01s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3); 
+    opacity: 0.9;
+}
+
+.profile-link:hover .profile-icon {
+    transform: scale(1.03); /* Forstørrer ikonet litt når det hoveres over */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.5); /* Øker skyggen for en mer fremtredende effekt */
+    opacity: 1;
 }

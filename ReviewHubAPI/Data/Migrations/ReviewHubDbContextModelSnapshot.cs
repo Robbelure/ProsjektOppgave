@@ -263,13 +263,13 @@ namespace ReviewHubAPI.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = -1,
-                            DateCreated = new DateTime(2024, 4, 28, 12, 27, 55, 417, DateTimeKind.Utc).AddTicks(8386),
+                            Id = 1,
+                            DateCreated = new DateTime(2024, 5, 3, 11, 39, 58, 27, DateTimeKind.Utc).AddTicks(4194),
                             Email = "admin@proton.me",
                             Firstname = "Admin",
                             IsAdmin = true,
                             Lastname = "User",
-                            PasswordHash = "$2a$11$upgvvgNBLuLG3OlZ2SXqr./s0UuqZMUdW4BZ6S4db1nl6cE4tGPxq",
+                            PasswordHash = "$2a$11$decmuAs/dZ3FEwRoSV13d.jKqdSAwkxirJgJ3DXtc0bl6yBjp/j3e",
                             Username = "TheOne"
                         });
                 });

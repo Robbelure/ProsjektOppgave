@@ -28,7 +28,7 @@ public class ReviewHubDbContext : DbContext
         // Seeding av admin-bruker
         modelBuilder.Entity<User>().HasData(new User
         {
-            Id = -1,
+            Id = 1,
             Username = "TheOne",
             PasswordHash = PasswordHelper.HashPassword("AdminPassword123!"),
             Email = "admin@proton.me",
