@@ -3,14 +3,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const userId = localStorage.getItem('userId');
     const token = localStorage.getItem('jwtToken');
 
-    // Elementreferanser
     const welcomeMessageElement = document.getElementById('welcomeMessage');
     const profilePictureElement = document.getElementById('profilePicture');
     const feedbackElement = document.getElementById('imageUploadFeedback');
     const firstNameElement = document.getElementById('firstName'); 
     const lastNameElement = document.getElementById('lastName'); 
     const emailElement = document.getElementById('email');
-    //const usernameElement = document.getElementById('username'); 
     const formElement = document.querySelector('.profile-section');
 
     // Vis brukernavn i velkomstmelding
@@ -34,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return response.json();
         })
         .then(data => {
-            console.log("Received data: ", data);  // For debugging
+            console.log("Received data: ", data);  
             if (data && data.profilePicture) {
                 const imageDataUrl = `data:image/jpeg;base64,${data.profilePicture}`;
                 profilePictureElement.src = imageDataUrl;
@@ -64,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return response.json();
         })
         .then(userData => {
-            // Vis fornavn og etternavn hvis de eksisterer
+            // vis fornavn og etternavn hvis de eksisterer
             if (userData.firstname) {
                 firstNameElement.value = userData.firstname;
             }
@@ -78,7 +76,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    // Opplastning av profilbilde
     const uploadProfilePicture = () => {
         const fileInput = document.getElementById('profileImage');
         if (fileInput.files.length === 0) {
@@ -124,12 +121,11 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const updateUserData = (event) => {
-        event.preventDefault(); // Forhindre standard skjema innsendingsoppførsel
+        event.preventDefault(); 
 
         const updatedUserData = {
             firstname: firstNameElement.value,
             lastname: lastNameElement.value,
-            // ... inkluder andre felt om nødvendig
         };
 
         const updateApiUrl = `https://localhost:7033/api/User/${userId}`;
@@ -158,12 +154,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-
-    // Event listeners
     document.getElementById('profileImage').addEventListener('change', uploadProfilePicture);
     formElement.addEventListener('submit', updateUserData);
 
-    // Første funksjonskall ved sideinnlasting
     fetchAndDisplayProfilePicture();
     fetchAndDisplayUserData();
 });

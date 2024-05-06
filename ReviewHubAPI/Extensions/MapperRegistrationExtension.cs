@@ -7,7 +7,7 @@ public static class MapperRegistrationExtension
 {
     public static void RegisterMappers(this WebApplicationBuilder builder)
     {
-        var assembly = Assembly.GetExecutingAssembly(); // Få tak i gjeldende assembly
+        var assembly = Assembly.GetExecutingAssembly(); 
 
         var mapperTypes = assembly.GetTypes()
             .Where(t => t.IsClass && !t.IsAbstract && t.GetInterfaces()

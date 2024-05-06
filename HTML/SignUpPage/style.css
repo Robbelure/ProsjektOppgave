@@ -7,9 +7,7 @@ body{
     padding: 0;
     position: relative;
     font-family: sans-serif;
-
 }
-
 
 .background{
     height: 100vh;
@@ -17,8 +15,6 @@ body{
     background-position: center;
     filter: blur(5px)
 }
-
-
 
 .container{
     height: 100vh;
@@ -32,11 +28,12 @@ body{
 }
 
 .container-image{
-    width: 120px; /* Juster bredden som nødvendig for logoen */
-    height: 120px; /* Juster høyden som nødvendig for logoen */
-    margin-top: 2%; /* Tilpasse toppmarginen så logoen vises der du vil ha den */
-    z-index: 5; /* Sørg for at logoen har høyere z-index enn form-container */
+    width: 120px; 
+    height: 120px; 
+    margin-top: 2%; 
+    z-index: 5; 
 }
+
 .container img{
     position: relative;
     height: 120px;
@@ -47,8 +44,6 @@ body{
     background-color: white;
     border-top-right-radius:50%;
     border-top-left-radius:50%
-
-    
 }
 
 .form-container{
@@ -60,25 +55,8 @@ body{
     height: 600px;
     background: white;
     padding: 5px;
-    /* fjern z-index for å unngå overlap over logoen */
-    margin-top: 70px; /* Juster denne verdien for å sikre at skjemaet starter etter logoen */
+    margin-top: 70px; 
 }
-
-/*
-.form-container{
-    overflow: hidden;
-    top: 50%;
-    width: 380px ;
-    height: 600px;
-    position: absolute;
-    margin: 0 auto;
-    background: white;
-    padding: 5px;
-    z-index: 3;
-    top: -80px;
-    
-}
-*/
 
 .buttonbox{
     top: 55px;
@@ -96,10 +74,7 @@ body{
     border: 0;
     outline: none;
     position: relative;
-
 }
-
-
 
 #btn{
     top:0;
@@ -118,6 +93,7 @@ body{
     width:280px;
     transition: .5s ;
 }
+
 .input-field{
     width: 100%;
     padding: 10px 0;
@@ -140,7 +116,6 @@ body{
     border: 0;
     outline: none;
     border-radius: 30px;
-
 }
 
 .checkbox{
@@ -152,7 +127,6 @@ body{
     font-size: 13px;
     bottom: 68px;
     position:absolute;
-    
 }
 
 #register{

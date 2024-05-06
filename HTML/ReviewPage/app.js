@@ -33,7 +33,6 @@ fetch(`https://localhost:7033/api/Review/Id=${reviewId}`)
             })
             .then(reviewPictureData => {
                 
-                // reviewPictureData has the structure { reviewPicture: imageData }
                 const imageData = reviewPictureData.reviewPicture;
                 const imageURL = `data:image/jpeg;base64,${imageData}`;
                 const review_userid = review.userId;
@@ -206,7 +205,6 @@ function AddComment() {
         window.location.href = '../MoviePage/movie.html'
     })
     .catch(error => {
-        // Handle error
         console.error('There was a problem deleting the review:', error);
     });
     }
@@ -217,17 +215,14 @@ function AddComment() {
         const profileIcon = document.querySelector('.profile-icon');
     
         if (userToken) {
-            // viser profil-ikonet
             signInButton.style.display = 'none';
             profileIcon.style.display = 'block';
             logOutButton.style.display = 'block';
     
-            // navigerer til profil-siden
             profileIcon.addEventListener('click', () => {
                 window.location.href = '../ProfilePage/profile.html';
             });
         } else {
-            // skjuler profil-ikonet 
             profileIcon.style.display = 'none';
         }
     }

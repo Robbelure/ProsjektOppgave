@@ -39,6 +39,12 @@ public class UserService : IUserService
 
     public async Task<UserDTO?> GetUserByIdAsync(int userId)
     {
+        if (userId <= 0)
+        {
+            _logger.LogWarning("Service: Invalid user ID {UserId}. User ID must be non-negative.", userId);
+            return null;
+        }
+
         var userEntity = await _userRepository.GetUserByIdAsync(userId);
         if (userEntity == null)
         {
@@ -63,6 +69,12 @@ public class UserService : IUserService
 
     public async Task<UserPublicProfileDTO?> GetUserPublicProfileByIdAsync(int userId)
     {
+        if (userId <= 0)
+        {
+            _logger.LogWarning("Service: Invalid user ID {UserId}. User ID must be non-negative.", userId);
+            return null;
+        }
+
         var user = await _userRepository.GetUserByIdAsync(userId);
         if (user == null)
         {
@@ -75,6 +87,12 @@ public class UserService : IUserService
 
     public async Task<UserDTO?> UpdateUserAsync(int userId, UserUpdateDTO userUpdateDto, bool isAdmin)
     {
+        if (userId <= 0)
+        {
+            _logger.LogWarning("Service: Invalid user ID {UserId}. User ID must be non-negative.", userId);
+            return null;
+        }
+
         var user = await _userRepository.GetUserByIdAsync(userId);
         if (user == null)
         {
@@ -124,6 +142,12 @@ public class UserService : IUserService
 
     public async Task DeleteUserAsync(int userId)
     {
+        if (userId <= 0)
+        {
+            _logger.LogWarning("Service: Invalid user ID {UserId}. User ID must be non-negative.", userId);
+            return null;
+        }
+
         var userToDelete = await _userRepository.GetUserByIdAsync(userId);
         if (userToDelete == null)
         {

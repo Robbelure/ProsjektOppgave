@@ -8,9 +8,7 @@ body{
     padding: 0;
     position: relative;
     font-family: sans-serif;
-
 }
-
 
 .background{
     height: 100vh;
@@ -19,15 +17,12 @@ body{
     filter: blur(5px)
 }
 
-
-
 .container{
     height: 100vh;
     width: 100%;
     background-size: cover;
     background-position: center;
     position: absolute;
-
 }
 
 .container-image{
@@ -38,6 +33,7 @@ body{
     margin: 6% auto;
     z-index: 1;
 }
+
 .container img{
     position: relative;
     height: 120px;
@@ -48,8 +44,6 @@ body{
     background-color: white;
     border-top-right-radius:50%;
     border-top-left-radius:50%
-
-    
 }
 
 .form-container{
@@ -62,7 +56,6 @@ body{
     padding: 5px;
     z-index: 3;
     top: -80px;
-    
 }
 
 .buttonbox{
@@ -81,7 +74,6 @@ body{
     border: 0;
     outline: none;
     position: relative;
-
 }
 
 #btn{
@@ -123,7 +115,6 @@ body{
     border: 0;
     outline: none;
     border-radius: 30px;
-
 }
 
 .checkbox{

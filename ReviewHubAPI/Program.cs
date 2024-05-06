@@ -139,17 +139,6 @@ builder.Services.AddValidatorsFromAssemblyContaining<UserRegistrationDTOValidato
 builder.Services.AddValidatorsFromAssemblyContaining<LoginDTOValidator>();
 #endregion
 
-// TODO: Få til å fungere
-#region Rate-limiting
-builder.Services.AddMemoryCache();
-builder.Services.Configure<IpRateLimitOptions>(builder.Configuration.GetSection("IpRateLimiting"));
-
-builder.Services.AddSingleton<IRateLimitCounterStore, MemoryCacheRateLimitCounterStore>();
-builder.Services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
-builder.Services.AddSingleton<IProcessingStrategy, AsyncKeyLockProcessingStrategy>();
-builder.Services.AddSingleton<IIpPolicyStore, MemoryCacheIpPolicyStore>();
-#endregion
-
 #region Middleware, Extensions
 builder.Services.AddTransient<GlobalExceptionMiddleware>();
 builder.RegisterMappers();
@@ -217,9 +206,6 @@ app.UseCors("AllowSpecificOrigin");
 
 app.UseAuthentication();
 app.UseAuthorization();
-
-app.UseIpRateLimiting();
-app.UseMiddleware<RateLimitResponseMiddleware>();
 
 app.MapControllers();
 

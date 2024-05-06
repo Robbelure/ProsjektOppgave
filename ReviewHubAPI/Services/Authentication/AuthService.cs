@@ -55,13 +55,12 @@ public class AuthService : IAuthService
             throw new AuthenticationFailedException("Invalid username or password.");
         }
 
-        // Mapper fra UserEntity til UserDTO
         var userDto = _userMapper.MapToDTO(userEntity);
 
-        // Genererer JWT-token basert på den mappete UserDTO
+        // Genererer JWT-token basert på den mappede UserDTO'en
         var token = GenerateJwtToken(userDto);
 
-        // Oppretter AuthResponseDTO og returnerer den
+        // Oppretter og returnerer AuthResponseDTO 
         return new AuthResponseDTO
         {
             Token = token,

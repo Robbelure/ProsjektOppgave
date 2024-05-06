@@ -1,8 +1,8 @@
 body {
     display: flex;
     flex-direction: column;
-    justify-content: center; /* Sentrerer innholdet vertikalt */
-    align-items: center; /* Sentrerer innholdet horisontalt */
+    justify-content: center; 
+    align-items: center; 
     height: 100vh;
     margin: 0;
     padding: 0;
@@ -12,12 +12,11 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center; /* Denne sentrerer innholdet vertikalt */
+    justify-content: center; 
     height: 100vh;
     width: 100%;
 }
 
-/* Ny stil for profilbilde-seksjonen */
 .profile-image-section {
     display: flex;
     flex-direction: column;
@@ -27,24 +26,24 @@ body {
 }
 
 .profile-picture {
-    width: 150px; /* Juster etter behov */
-    height: 150px; /* Juster etter behov */
-    border-radius: 50%; /* Gjør bildet rundt */
-    object-fit: cover; /* Sikrer at bildet dekker hele området */
-    border: 2px solid #ddd; /* Tilføyer en border */
+    width: 150px; 
+    height: 150px; 
+    border-radius: 50%; 
+    object-fit: cover; 
+    border: 2px solid #ddd; 
     margin-bottom: 10px;
 }
 
 .image-upload-feedback {
-    color: #28a745; /* En suksessfarge, bytt til #dc3545 for feil */
+    color: #28a745; 
     font-size: 0.9em;
 }
 
 .form-container {
-    width: 380px; /* Eksisterende bredde */
-    margin: 0 auto; /* Legger til margin på toppen og bunnen, sentrerer horisontalt */
-    padding: 5px; /* Eksisterende padding */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Eksempel på enkel skygge for å løfte elementet visuelt */
+    width: 380px; 
+    margin: 0 auto; 
+    padding: 5px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
 }
 
 .inputgroup {
@@ -79,22 +78,22 @@ body {
     position: absolute;
     top: 10px;
     left: 10px;
-    z-index: 10; /* Sørger for at knappen ikke blir skjult av andre elementer */
+    z-index: 10; 
 }
 
 .home-btn {
     padding: 10px 20px;
-    background: linear-gradient(red, rgb(250, 105, 61)); /* Bruker samme gradient som andre knapper */
+    background: linear-gradient(red, rgb(250, 105, 61)); 
     color: white;
     border: none;
-    border-radius: 30px; /* Gjør hjørnene rundt for å matche design */
-    text-decoration: none; /* Fjerner understreking */
+    border-radius: 30px; 
+    text-decoration: none; 
     font-size: 16px;
-    cursor: pointer; /* Endrer musepekeren til en peker */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Legger til en subtil skygge for dybde */
-    transition: background-color 0.3s; /* Gjør hover-effekten glattere */
+    cursor: pointer; 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+    transition: background-color 0.3s; 
 }
 
 .home-btn:hover {
-    background: linear-gradient(rgb(255, 100, 100), rgb(255, 0, 0)); /* Lysere rød til en sterkere rød gradient */
+    background: linear-gradient(rgb(255, 100, 100), rgb(255, 0, 0)); 
 }
