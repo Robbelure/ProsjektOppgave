@@ -23,7 +23,6 @@ function loadImage(index) {
 window.onload = function() {
     loadImage(randomIndex);
     
-    // Flytter event listener for skjemaet inn i window.onload for å sikre at elementene er lastet
     document.getElementById('loginForm').addEventListener('submit', function(e) {
         e.preventDefault();
         var username = document.getElementById('loginUsername').value;
@@ -48,7 +47,6 @@ function register() {
     z.style.left = "120px";
 }
 
-// innlogging bruker
 function loginUser(username, password) {
     var loginUrl = 'https://localhost:7033/api/Auth/login'; 
 

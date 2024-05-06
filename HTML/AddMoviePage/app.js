@@ -28,7 +28,7 @@ function GetMovies()
 document.addEventListener('DOMContentLoaded', function () {
     const form = document.getElementById('movieform');
     form.addEventListener('submit', function (event) {
-        event.preventDefault(); // prevent the default form submission
+        event.preventDefault();
         const movieurl = 'https://localhost:7033/api/Movie';
         const movieposterurl = 'https://localhost:7033/api/MoviePoster';
         // Get form data
@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', function () {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem('jwtToken')}` // Assuming you store your token in localStorage
+                'Authorization': `Bearer ${localStorage.getItem('jwtToken')}`
             },
             body: JSON.stringify(movieData),
         })
@@ -60,10 +60,8 @@ document.addEventListener('DOMContentLoaded', function () {
             return response.json();
         })
         .then(data => {
-            // Extract movie ID from the response
             const movieId = data.id;
 
-            // Prepare movie poster data
             const posterFile = formData.get('poster');
             const posterData = new FormData();
             posterData.append('MovieID', movieId);
@@ -73,7 +71,7 @@ document.addEventListener('DOMContentLoaded', function () {
             return fetch(movieposterurl, {
                 method: 'POST',
                 headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('jwtToken')}` // Also include the token here for protected routes
+                    'Authorization': `Bearer ${localStorage.getItem('jwtToken')}` 
                 },
                 body: posterData,
             });
@@ -86,18 +84,14 @@ document.addEventListener('DOMContentLoaded', function () {
                 throw new Error('Failed to upload poster image');
             }
             alert('Movie and poster uploaded successfully!');
-            form.reset(); // Reset the form after successful submission
+            form.reset(); 
         })
         .catch(error => {
             console.error('Error:', error);
             if (error.response && error.response.status === 401) {
-                // Dette vil håndtere både en utløpt sesjon og en ikke-innlogget bruker
                 alert('Your session has expired, please log in again.');
-                // Fjern token og annen brukerdata her
                 localStorage.removeItem('jwtToken');
                 localStorage.removeItem('userId');
-                // osv...
-                // Omdiriger til innloggingssiden
                 window.location.href = "../SignInnPage/index.html";
             } else {
                 alert('Failed to submit form');
@@ -105,10 +99,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 });
-
-
-
-
 
 window.onload = function() {
     GetMovies();

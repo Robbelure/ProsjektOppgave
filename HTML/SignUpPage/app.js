@@ -22,7 +22,7 @@ function loadImage(index) {
 
 window.onload = function() {
     loadImage(randomIndex);
-    document.getElementById('login').style.display = 'none'; // Start med å skjule login-skjemaet
+    document.getElementById('login').style.display = 'none'; 
 };
 
 var x = document.getElementById("register");
@@ -41,7 +41,6 @@ function register(){
     z.style.left = "0px";
 }
 
-// Event listener for registreringsskjemaet
 document.getElementById('register').addEventListener('submit', function(event){
     event.preventDefault();
 

@@ -79,30 +79,24 @@ function fetchUserData() {
     const userId = localStorage.getItem('userId');
     const apiUrl = `https://localhost:7033/api/User/${userId}`;
 
-    // Siden dette kallet krever autentisering, setter vi requireAuth til true
     authenticatedFetch(apiUrl, {}, true)
         .then(response => {
             if (!response.ok) {
-                // Håndterer andre potensielle feil her, som 404 eller 500.
                 throw new Error('Problem med å hente brukerdata');
             }
             return response.json();
         })
         .then(userData => {
             console.log('Brukerdata hentet suksessfullt:', userData);
-            // Oppdater brukergrensesnittet her om nødvendig
         })
         .catch(error => {
-            // Her kan du velge å ikke vise en alert, men kanskje oppdatere UI med en melding
             console.error('Feil under henting av brukerdata:', error);
         });
 }
 
 window.onload = function() {
-    // Først kjører vi en initialiseringsfunksjon som håndterer nødvendig opprydding eller oppsett.
     initialize();
 
-    // Vi henter filmplakater uten å kreve autentisering (requireAuth = false).
     getposters(false)
         .then(() => {
             var imgCount = posterArray.length;
@@ -113,14 +107,12 @@ window.onload = function() {
             console.error('Error during initialization:', error);
         });
 
-    // Vi henter referanser til de relevante HTML-elementene for å håndtere UI-logikken.
     const userToken = localStorage.getItem('jwtToken');
     const signInButton = document.querySelector('.signinn');
     const signUpButton = document.querySelector('.signup');
     const profileIcon = document.querySelector('.profile-icon');
     const logOutButton = document.getElementById('logOutButton');
 
-    // Her justerer vi brukergrensesnittet basert på om brukeren er autentisert eller ikke.
     if (userToken) {
         signInButton.style.display = 'none';
         signUpButton.style.display = 'none';
@@ -131,7 +123,6 @@ window.onload = function() {
             window.location.href = 'ProfilePage/profile.html';
         });
 
-        // Vi bruker nå authenticatedFetch for å hente brukerdata, krever autentisering.
         fetchUserData();
     } else {
         signInButton.style.display = 'block';
@@ -139,7 +130,6 @@ window.onload = function() {
         profileIcon.style.display = 'none';
         logOutButton.style.display = 'none';
     }
-
-    // Legger til en event listener for utlogging.
+    
     document.getElementById('logOutButton').addEventListener('click', logOut);
 };

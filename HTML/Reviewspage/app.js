@@ -23,7 +23,6 @@ function GetReviews() {
             `;
             document.getElementById("movie-info").innerHTML = movieInfo;
 
-            // Fetch reviews for the movie
             return fetch(`https://localhost:7033/api/Review/MovieId=${movieId}`);
         })
         .then(response => {
@@ -43,22 +42,19 @@ function GetReviews() {
                                 const ImageUrl = '../assets/Logo/no-image-icon.png'
                                 return ImageUrl;
                             } else {
-                                // If the response is OK, proceed with parsing JSON
                                 return response.json().then(reviewPictureData => {
-                                    // Assuming reviewPictureData has the structure { reviewPicture: imageData }
                                     const imageData = reviewPictureData.reviewPicture;
                                     const ImageUrl = `data:image/jpeg;base64,${imageData}`;
                                     return ImageUrl;
                                 });
                             }
                         }),
-                    // Fetch user data
                     
                     fetch(`https://localhost:7033/api/User/public/${review.userId}`)
                         
                         .then(response => {
                             if (!response.ok) {
-                                return 'No Author'; // If the request fails, return 'No Author'
+                                return 'No Author';
                             } else {
                                 return response.json();
                             }

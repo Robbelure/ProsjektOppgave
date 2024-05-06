@@ -19,7 +19,6 @@ function GetLatestAddedMovies() {
             var randommovie = Math.floor(Math.random() * moviecount);
             const movie = movies[randommovie]
             const movieid = movie.id;
-            //check if a user is logged inn, if not then add movies will not be added to the page
             if(userId == null)
             {
                 herocontent += `
@@ -38,7 +37,6 @@ function GetLatestAddedMovies() {
                 </section>`;
             }
             document.getElementById("hero-content").innerHTML = herocontent;
-            //sort the movies by  latest added
             movies.sort((b, a) => new Date(a.dateCreated) - new Date(b.dateCreated));
             const latestaddedmovie = movies.slice(0, 5);
             latestaddedmovie.forEach(async movie => {
@@ -48,11 +46,9 @@ function GetLatestAddedMovies() {
                         throw new Error('Network response was not ok');
                     }
                     const data = await response.json();
-                    // Use the fetched data here
                     const posterURL = `data:image/jpeg;base64,${data.moviePoster}`;
                     const movieName = movie.movieName;
                     const averageRating = movie.averageRating;
-                    // Generate star images based on averageRating
                     let starImages = '';
                     for (let i = 0; i < averageRating; i++) {
                         starImages += `<img src="asset/star.png" alt="Star">`;
@@ -174,7 +170,6 @@ function getallmovies() {
                         `;
   
                         allmovies += movieHTML;
-
                         document.getElementById('Allmovies').innerHTML = allmovies;
                     })
                     .catch(error => console.error('Error fetching movie poster:', error));
@@ -188,7 +183,6 @@ window.onload = function() {
     GetLatestReviewed();
     getallmovies();
     updateAuthenticationUI();
-
 };
 
 function updateAuthenticationUI() {
@@ -198,17 +192,14 @@ function updateAuthenticationUI() {
     const logOutButton = document.getElementById('logOutButton');
 
     if (userToken) {
-        // Skjuler 'Sign In' knappen og viser profil-ikonet og 'Log Out' knappen
         signInButton.style.display = 'none';
-        profileIcon.style.display = 'block'; // Sørg for at dette faktisk blir satt
+        profileIcon.style.display = 'block'; 
         logOutButton.style.display = 'block';
 
-        // Sørger for at event listener blir lagt til selv om ikonet var skjult tidligere
         profileIcon.addEventListener('click', () => {
             window.location.href = '../ProfilePage/profile.html';
         });
     } else {
-        // Viser 'Sign In' knappen og skjuler profil-ikonet og 'Log Out' knappen
         signInButton.style.display = 'block';
         profileIcon.style.display = 'none';
     }
@@ -217,7 +208,6 @@ function updateAuthenticationUI() {
 function redirectToReviewspage(movieId) {
     window.location.href = `../Reviewspage/Reviews.html?movieId=${movieId}`;
 }
-
 
 function redirectReview(Reviewid) {
     window.location.href = `../ReviewPage/review.html?reviewID=${Reviewid}`;
