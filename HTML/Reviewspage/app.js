@@ -140,8 +140,28 @@ function GetReviews() {
         });
 }
 
+function updateAuthenticationUI() {
+    const userToken = localStorage.getItem('jwtToken');
+    const profileIcon = document.querySelector('.profile-icon');
+
+    if (userToken) {
+        // viser profil-ikonet
+        signInButton.style.display = 'none';
+        profileIcon.style.display = 'block';
+        logOutButton.style.display = 'block';
+
+        // navigerer til profil-siden
+        profileIcon.addEventListener('click', () => {
+            window.location.href = '../ProfilePage/profile.html';
+        });
+    } else {
+        // skjuler profil-ikonet 
+        profileIcon.style.display = 'none';
+    }
+}
+
 window.onload = function() {
     // Call GetReviews function
     GetReviews();
-
+    updateAuthenticationUI()
 };

@@ -9,9 +9,7 @@ body{
     box-sizing: border-box;
     width: 100vw;
     height: 100vh;
-
 }
-
 
 .background{
     width: 100%;
@@ -19,7 +17,6 @@ body{
     background-size:cover;
     background-position: top center;
 }
-
 
 .nav{
     width: 100%;
@@ -39,6 +36,7 @@ body{
     align-items: center;
     transition: all 0.11s ease-in-out 0.08s;
 }
+
 .nav:hover{
     background-color: rgb(3, 3, 3);
 }
@@ -47,22 +45,18 @@ body{
     display: flex;
     width: 30%;
     justify-content: space-around;
-    margin-left: 30%;
+    margin-left: 35%;
     padding: 0px;
-
 }
 
 .nav ul{
-    margin-top:2px;
+    margin-top: 15px;
     margin-bottom: 2px;
-
 }
-
 
 .navlist li{
     list-style: none;
     margin-left: 10%;
-
 }
 
 .navlist li a{
@@ -74,17 +68,16 @@ body{
     text-decoration: none;
     color: white;
     font-size: 1rem;
-    
 }
 
 .navlist li a:hover{
     color: red;
 }
 
-
 .signinn{
-    margin-left: 2%;
-    margin-right: 10%;
+    margin-left: 1%;
+    margin-right: 6%;
+    margin-top: 12px;
     font-family: "Bebas Neue", sans-serif;
     font-weight: 400;
     font-style: normal;
@@ -108,8 +101,6 @@ body{
     justify-items: center;
     width: 100%;
     height: 300px;
-    
-
 }
 
 .hero h2{
@@ -133,7 +124,6 @@ body{
     flex-direction: row-reverse;
     align-self: center;
     border-bottom: white solid 4px;
-
 }
 
 .logo-container h2{
@@ -141,14 +131,13 @@ body{
     font-weight: 400;
     font-style: normal;
     font-size: 4rem;
-
-
 }
 
 .logo-container img{
     height: 80px;
     width: 80px;
 }
+
 .hero a{
     align-self: center;
     background: linear-gradient( red, rgb(250, 105, 61)) ;
@@ -179,7 +168,6 @@ body{
     width: 100%;
     background-color: black;
     color: white;
-
 }
 
 .footer-container {
@@ -189,8 +177,6 @@ body{
     font-family: 'Times New Roman', Times, serif;
     font-weight: 400;
     font-style: normal;
-
-
 }
 
 .footer-container p {
@@ -213,20 +199,48 @@ body{
 }
 
 .profile-icon {
-    height: 40px;
-    width: 40px;  
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    box-shadow: 0 0 5px #000;
+    object-fit: cover;
+    z-index: 1001;
     cursor: pointer;
-    display: block; 
-    position: relative;
-    z-index: 1000; 
-    margin-right: 20px; 
+    opacity: 0.9;
+}
+
+.profile-icon:hover {
+    /*box-shadow: 0 0 10px #fff;*/
+    transform: scale(1.05);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.5); 
+    opacity: 1;
 }
 
 .logout {
     position: absolute;
     cursor: pointer;
-    top: 20px;
+    top: 15px;
     left: 20px;
     display: none;
+
+    align-self: center;
+    background: linear-gradient( red, rgb(250, 105, 61));
+    height: 1.9rem;
+    width: 120px;
+    padding-top: 7px;
+    border: 0;
+    box-shadow: none;
+    border-radius: 30px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    color: white;
+    font-family: "Bebas Neue", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 1.15rem;
 }
 

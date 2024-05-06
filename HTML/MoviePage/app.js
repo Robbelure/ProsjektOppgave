@@ -183,15 +183,36 @@ function getallmovies() {
         .catch(error => console.error('Error fetching movies:', error));
 }
 
-
-
-
 window.onload = function() {
     GetLatestAddedMovies();
     GetLatestReviewed();
     getallmovies();
+    updateAuthenticationUI();
 
 };
+
+function updateAuthenticationUI() {
+    const userToken = localStorage.getItem('jwtToken');
+    const signInButton = document.querySelector('.signinn');
+    const profileIcon = document.querySelector('.profile-icon');
+    const logOutButton = document.getElementById('logOutButton');
+
+    if (userToken) {
+        // Skjuler 'Sign In' knappen og viser profil-ikonet og 'Log Out' knappen
+        signInButton.style.display = 'none';
+        profileIcon.style.display = 'block'; // Sørg for at dette faktisk blir satt
+        logOutButton.style.display = 'block';
+
+        // Sørger for at event listener blir lagt til selv om ikonet var skjult tidligere
+        profileIcon.addEventListener('click', () => {
+            window.location.href = '../ProfilePage/profile.html';
+        });
+    } else {
+        // Viser 'Sign In' knappen og skjuler profil-ikonet og 'Log Out' knappen
+        signInButton.style.display = 'block';
+        profileIcon.style.display = 'none';
+    }
+}
 
 function redirectToReviewspage(movieId) {
     window.location.href = `../Reviewspage/Reviews.html?movieId=${movieId}`;
@@ -201,4 +222,3 @@ function redirectToReviewspage(movieId) {
 function redirectReview(Reviewid) {
     window.location.href = `../ReviewPage/review.html?reviewID=${Reviewid}`;
 }
-
