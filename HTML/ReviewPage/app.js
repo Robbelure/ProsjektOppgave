@@ -2,6 +2,7 @@ const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 const reviewId = urlParams.get('reviewID');
 const userId = localStorage.getItem('userId');
+const username = localStorage.getItem('username')
 
 
 
@@ -15,27 +16,29 @@ fetch(`https://localhost:7033/api/Review/Id=${reviewId}`)
     })
     .then(review => {
         const { title, rating, text} = review;
-        // Create star images
+        // Lager en stjerne for hver rating 
         let starImages = "";
         for (let i = 0; i < rating; i++) {
             starImages += `<img src="../assets/Logo/star.png" alt="Star">`;
         }
 
-        // Fetch review image
+        // Fetch review bilde
         const reviewImageURL = `https://localhost:7033/api/ReviewPicture/Id=${reviewId}`;
         fetch(reviewImageURL)
             .then(imageResponse => {
                 if (!imageResponse.ok) {
-                    // If the request fails, return a default image
+                    // Hvis den feiler retunerer den standar bildet 
                     throw new Error('Network response was not ok');
                 }
                 return imageResponse.json();
             })
             .then(reviewPictureData => {
                 
+                //bilde gjøres om fra array bite som den er lagret i databasen til bildet
                 const imageData = reviewPictureData.reviewPicture;
                 const imageURL = `data:image/jpeg;base64,${imageData}`;
                 const review_userid = review.userId;
+                //sjekker om brukeren er den som la inn reviewn og gir mulighet for slette den
                 if(userId == review_userid  )
                 {
                     const reviewHTML = `
@@ -76,7 +79,7 @@ fetch(`https://localhost:7033/api/Review/Id=${reviewId}`)
     function postComment() {
         const userTitle = document.querySelector(".usertitle").value;
         const userComment = document.querySelector(".usercomment").value;
-    
+        //gjør klar informasjonen som skal sendes
         const commentData = {
             userId: userId,
             reviewId: reviewId,
@@ -105,6 +108,7 @@ fetch(`https://localhost:7033/api/Review/Id=${reviewId}`)
     }
 
 function AddComment() {
+       //Sjekker om en buker er logget inn. nektes å legge til kommentar om bruker ikke innlogget
     if(userId == null)
     {let content = 
         `<div class="headNotLoggedInn"><h1>You must be logged in To comment</h1></div>
@@ -123,7 +127,7 @@ function AddComment() {
             <img src="asset/user.png" id="userImage" alt="">
             <div class="content">
                 <h2>Comment as: </h2>
-                <input type="text" value="Anonymous" class="user">
+                <h5 class="user">${username} </h2>
                 <div class="commentinput">
                     <input type="text" placeholder="Enter Title" class="usertitle">
                     <input type="text" placeholder="Enter comment" class="usercomment">
@@ -134,10 +138,14 @@ function AddComment() {
             </div>
         </div>
         `
+        // Henter elementet med id 'container' og erstatter innholdet med 'content'.
         document.getElementById('container').innerHTML = content;
+       // Velger knappen med id 'publish'.
         const publishBtn = document.querySelector("#publish");
+        // Velger kommentarfeltet.
         const userComment = document.querySelector(".usercomment");
-         userComment.addEventListener("input", e => {
+        userComment.addEventListener("input", e => {
+            //Hvis kommentarfeltet og titlen ikke innholder verdi kan de ikke trykke på publish 
         if(!userComment.value) {
             publishBtn.setAttribute("disabled", "disabled");
             publishBtn.classList.remove("abled")
@@ -153,6 +161,7 @@ function AddComment() {
 
 }
 
+//funksjonen henter alle kommentarer til reviewen
     function getcomments() {
         let published = "";
         let commentLengt = 0;
@@ -162,10 +171,12 @@ function AddComment() {
             data.forEach(resp => {
                 const { userId, title, comment, created } = resp;
                 commentLengt ++;
+                //fetch for å hente info om brukeren som brukenavn 
                 fetch(`https://localhost:7033/api/User/public/${resp.userId}`)
                 .then(response => response.json())
                 .then(userData => {
                     const { username } = userData;
+                    //datoen formateres til leselig variant 
                     const commentdate = new Date(resp.created);
                     const formated = commentdate.toLocaleDateString();
                     published += 
@@ -180,7 +191,8 @@ function AddComment() {
                             </div>    
                         </div>`;
                     document.getElementById('comments').innerHTML = published; 
-                    document.getElementById('comment').innerHTML = commentLengt
+                    document.getElementById('comment').innerHTML = commentLengt;
+                    document.getElementsByClassName('user').innerHTML= username;
                 })
                 .catch(error => console.error('Error fetching user data:', error));
             });
@@ -189,6 +201,7 @@ function AddComment() {
     } 
 
 
+    //funksjons som lar brukren som la inn review slette deres review
     function deleteReview(reviewid)
     {
         fetch(`https://localhost:7033/api/Review/Id=${reviewid}`, {

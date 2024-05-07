@@ -2,6 +2,7 @@
 const endpointURL = "https://localhost:7033/api/MoviePoster?PageSize=30&PageNummer=1";
 
 
+//Henter alle filmene i databasen
 function GetMovies()
 {
     fetch(endpointURL)
@@ -17,6 +18,7 @@ function GetMovies()
         console.log('Movies:', movies);
         var moviecount = movies.length;
         var randommovie = Math.floor(Math.random() * moviecount);
+        // velger en random film og bruker dens poster som bakgrunn
         const movie = movies[randommovie]
         var poster = `data:image/jpeg;base64,${movie.moviePoster}`;
         var background = document.getElementById("hero");
@@ -31,8 +33,9 @@ document.addEventListener('DOMContentLoaded', function () {
         event.preventDefault();
         const movieurl = 'https://localhost:7033/api/Movie';
         const movieposterurl = 'https://localhost:7033/api/MoviePoster';
-        // Get form data
+        // Lager en ny form data
         const formData = new FormData(form);
+        //henter infoen som brukeren har lagt inn og lagerer disse i variabler 
         const movieData = {
             MovieName: formData.get('MovieName'),
             Summary: formData.get('summary'),
@@ -41,7 +44,7 @@ document.addEventListener('DOMContentLoaded', function () {
             Genre: formData.get('Genre'),
         };
 
-        // Upload movie data
+        // laster opp movie data
         fetch(movieurl, {
             method: 'POST',
             headers: {
@@ -60,14 +63,14 @@ document.addEventListener('DOMContentLoaded', function () {
             return response.json();
         })
         .then(data => {
-            const movieId = data.id;
+            const movieId = data.id; //henter filmId fra responsen slik at vi kan knytte den til posteren 
 
             const posterFile = formData.get('poster');
             const posterData = new FormData();
             posterData.append('MovieID', movieId);
             posterData.append('file', posterFile);
 
-            // Upload poster data
+            // laster opp poster 
             return fetch(movieposterurl, {
                 method: 'POST',
                 headers: {

@@ -4,6 +4,7 @@ const urlParams = new URLSearchParams(queryString);
 const movieId = urlParams.get('movieId');
 
 
+//Functionen henter alle reviews lagt til filmen
 function GetReviews() {
     let movieInfo = "";
     fetch(`https://localhost:7033/api/Movie/movieId=${movieId}`)
@@ -34,11 +35,11 @@ function GetReviews() {
         .then(reviewdata => {
             let reviewPromises = reviewdata.map(review => {
                 return Promise.all([
-                    // Fetch review picture
+                    // henter reviewbilde
                     fetch(`https://localhost:7033/api/ReviewPicture/Id=${review.id}`)
                         .then(response => {
                             if (!response.ok) {
-                                // If the request fails, return a default image
+                                // Hvis den feiler vil den bruke standar bildet i asset folderen
                                 const ImageUrl = '../assets/Logo/no-image-icon.png'
                                 return ImageUrl;
                             } else {
@@ -49,7 +50,7 @@ function GetReviews() {
                                 });
                             }
                         }),
-                    
+                    //Henter info om brukeren som la inn reviewen 
                     fetch(`https://localhost:7033/api/User/public/${review.userId}`)
                         
                         .then(response => {
@@ -66,17 +67,17 @@ function GetReviews() {
                             return userData.username;
                         })
                 ]).then(([ImageUrl, author]) => {
-                    // Return an object containing the review data
+                    // retunerer en objekt med review dataen og bruker dataen
                     return { review, ImageUrl, author };
                 });
             });
         
-            // Wait for all promises to resolve
+            //venter på at alle promises er løst 
             return Promise.all(reviewPromises);
         })
         .then(reviews => {
-            // Now we have an array of review objects with image URLs and authors
             let review_container = "";
+            //Sjekker om en buker er logget inn. nektes å legge til Review om bruker ikke innlogget
             if(userId ==null)
             {
                 let addmovie = `<h5> You must be logged in to add a review</h5>`
@@ -86,24 +87,24 @@ function GetReviews() {
             else{
                 let addmovie = ` <a href="">Add Review</a>`
                 document.getElementById('addreview').innerHTML = addmovie;
-                // Get the button element
+                // henter knappen
                 const addReviewButton = document.querySelector('.addreview a');
-                // Add an event listener to the button
+                // Legger en eventlistner til knappen
                 addReviewButton.addEventListener('click', function(event) {
-                // Prevent the default behavior of the anchor tag
                 event.preventDefault();
-                // Get the current URL without parameters
                 const baseUrl = window.location.href.split('?')[0];
-                // Redirect to the AddReviewPage with the movieId as a query parameter
+                //sender brukeren til reviewpage med filmId som en queryparameter
                  window.location.href = `..//AddReviewPage/addreview.html?movieId=${movieId}`;
     });
             }
 
             reviews.forEach(({ review, ImageUrl, author }) => {
+                //loper igjennom array med review og legger de til
                 const title = review.title;
                 const reviewtext = review.text;
                 const rating = review.rating;
                 const reviewID = review.id;
+                //formaterer datoen til mer leselig variant
                 const reviewdate = new Date(review.dateCreated);
                 const formated = reviewdate.toLocaleDateString();
                 let starImages = '';
