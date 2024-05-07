@@ -44,7 +44,7 @@ function register(){
 document.getElementById('register').addEventListener('submit', function(event){
     event.preventDefault();
 
-    var userData = {
+    var formData = {
         firstname: document.querySelector('#register input[name="firstname"]').value,
         lastname: document.querySelector('#register input[name="lastname"]').value,
         email: document.querySelector('#register input[name="email"]').value,
@@ -52,24 +52,39 @@ document.getElementById('register').addEventListener('submit', function(event){
         password: document.querySelector('#register input[name="password"]').value
     };
 
+    var errors = validateFormData(formData);
+    if (errors.length > 0) {
+        displayErrors(errors);
+        return;
+    }
+
     var requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(userData)
+        body: JSON.stringify(formData)
     };
 
     var url = 'https://localhost:7033/api/Auth/register';
 
     fetch(url, requestOptions)
-    .then(response => response.json().then(data => {
+    .then(response => {
         if (!response.ok) {
-            // Her henter vi ut 'Detail' fra 'ProblemDetails' objektet
-            throw new Error(data.detail || 'Det oppstod en feil ved registreringen.');
+            throw new Error('Failed to register user.');
         }
-        return data; // data inneholder nå JSON responsen for vellykkede forespørsler
-    }))
+        return response.json();
+    })
     .then(data => {
-        window.location.href = '../SignInnPage/index.html';
+        const errorContainer = document.getElementById('error-container');
+        errorContainer.innerHTML = '';
+
+        const successMessage = document.createElement('div');
+        successMessage.textContent = 'Registration successful!';
+        successMessage.style.color = 'green';
+        document.getElementById('error-container').appendChild(successMessage);
+
+        setTimeout(() => {
+            window.location.href = '../SignInnPage/index.html';
+        }, 1250); 
     })
     .catch(error => {
         const errorElement = document.getElementById('error-container');
@@ -77,3 +92,58 @@ document.getElementById('register').addEventListener('submit', function(event){
         errorElement.style.display = 'block';
     });
 });
+
+function isValidEmail(email) {
+    var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+}
+
+function validateFormData(formData) {
+    var errors = [];
+
+    // Sjekk om brukernavn er gyldig
+    if (!formData.username.trim()) {
+        errors.push("Username is required");
+    } else if (formData.username.length > 50) {
+        errors.push("Username cannot be longer than 50 characters");
+    }
+
+    // Sjekk om e-post er gyldig
+    if (!formData.email.trim()) {
+        errors.push("Email is required");
+    } else if (!isValidEmail(formData.email)) {
+        errors.push("A valid email is required");
+    } else if (formData.email.length > 50) {
+        errors.push("Email cannot be longer than 50 characters");
+    }
+
+    // Sjekk om passord er gyldig
+    if (!formData.password.trim()) {
+        errors.push("Password is required");
+    } else if (formData.password.length < 8) {
+        errors.push("Password must contain at least 8 characters");
+    } else if (formData.password.length > 100) {
+        errors.push("Password cannot be longer than 100 characters");
+    } else if (!/[\d]+/.test(formData.password)) {
+        errors.push("Password must contain at least 1 number");
+    } else if (!/[A-Z]+/.test(formData.password)) {
+        errors.push("Password must contain at least 1 uppercase letter");
+    } else if (!/[a-z]+/.test(formData.password)) {
+        errors.push("Password must contain at least 1 lowercase letter");
+    } else if (!/[^a-zA-Z0-9]+/.test(formData.password)) {
+        errors.push("Password must contain at least one special character");
+    }
+
+    return errors;
+}
+
+function displayErrors(errors) {
+    const errorElement = document.getElementById('error-container');
+    errorElement.innerHTML = ''; // Fjern tidligere feilmeldinger
+    errors.forEach(error => {
+        const errorMessage = document.createElement('div');
+        errorMessage.textContent = error;
+        errorElement.appendChild(errorMessage);
+    });
+    errorElement.style.display = 'block';
+}

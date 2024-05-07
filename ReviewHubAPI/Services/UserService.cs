@@ -145,7 +145,7 @@ public class UserService : IUserService
         if (userId <= 0)
         {
             _logger.LogWarning("Service: Invalid user ID {UserId}. User ID must be non-negative.", userId);
-            return null;
+            throw new ArgumentException($"Invalid user ID {userId}. User ID must be non-negative.");
         }
 
         var userToDelete = await _userRepository.GetUserByIdAsync(userId);
