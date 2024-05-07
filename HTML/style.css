@@ -221,12 +221,12 @@ body{
     position: absolute;
     cursor: pointer;
     top: 15px;
-    left: 20px;
+    left: 4px;
     display: none;
     align-self: center;
     background: linear-gradient( red, rgb(250, 105, 61));
-    height: 3.2rem;
-    width: 120px;
+    height: 1.8rem;
+    width: 100px;
     padding-top: 7px;
     border: 0;
     box-shadow: none;
@@ -236,7 +236,7 @@ body{
     text-decoration: none;
     color: white;
     font-family: "Bebas Neue", sans-serif;
-    font-weight: 400;
+    font-weight: 10;
     font-style: normal;
     font-size: 16px;
 }

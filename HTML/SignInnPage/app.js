@@ -59,7 +59,7 @@ function loginUser(username, password) {
     })
     .then(response => {
         if (!response.ok) {
-            throw new Error('Autentisering mislyktes');
+            throw new Error('Wrong Username or Password');
         }
         return response.json();
     })
@@ -69,14 +69,36 @@ function loginUser(username, password) {
             localStorage.setItem('userId', data.userId); 
             localStorage.setItem('username', data.username);
             localStorage.setItem('email', data.email);
-            alert('Innlogging vellykket!');
-            window.location.href = '../index.html';
+            showSuccessMessage('Login successful!');
+            setTimeout(() => {
+                window.location.href = '../index.html';
+            }, 1250); 
         } else {
-            alert('Innlogging mislyktes, ingen token mottatt.');
+            showErrorMessage('Login failed, no token received.');
         }
     })
     .catch(error => {
-        console.error('Innloggingsfeil:', error);
-        alert('Innlogging mislyktes: ' + error.message);
+        console.error('Login error:', error);
+        showErrorMessage('Login failed: ' + error.message);
     });
+}
+
+function showErrorMessage(message) {
+    const errorContainer = document.getElementById('error-container');
+    errorContainer.innerHTML = ''; 
+    const errorMessage = document.createElement('div');
+    errorMessage.textContent = message;
+    errorMessage.style.color = 'red';
+    errorContainer.appendChild(errorMessage);
+    errorContainer.style.display = 'block';
+}
+
+function showSuccessMessage(message) {
+    const errorContainer = document.getElementById('error-container');
+    errorContainer.innerHTML = ''; 
+    const successMessage = document.createElement('div');
+    successMessage.textContent = message;
+    successMessage.style.color = 'green';
+    errorContainer.appendChild(successMessage);
+    errorContainer.style.display = 'block';
 }
