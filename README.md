@@ -1,3 +1,12 @@
+# Prosjekttittel: 
+ReviewHub
+
+# Prosjektbeskrivelse:
+ReviewHub er en nettside hvor brukerne kan skrive anmeldelser av filmer, bøker og TV-serier. 
+Brukerne kan også kommentere på andres anmeldelser. Med ReviewHub kan brukere lese hva andre synes om ulike medieformater. 
+I tillegg til å lese andres anmeldelser, kan brukerne også skrive sine egne. Dette skaper et aktivt miljø hvor folk kan diskutere og utveksle meninger om ulike medietilbud.
+ReviewHub er ikke bare et sted for anmeldelser, men også et fellesskap av medieinteresserte som deler sine synspunkter. Dette hjelper andre med å ta informerte valg om hva de vil se, lese eller strømme.
+
 # Pakker og Avhengigheter
 
 For å bygge og kjøre dette prosjektet, må følgende pakker inkluderes:
