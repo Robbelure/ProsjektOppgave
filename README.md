@@ -1,5 +1,5 @@
 # Prosjekttittel: 
-ReviewHub
+## ReviewHub
 
 # Prosjektbeskrivelse:
 ReviewHub er en nettside hvor brukerne kan skrive anmeldelser av filmer, bøker og TV-serier. 
@@ -38,21 +38,19 @@ For å bygge og kjøre dette prosjektet, må følgende pakker inkluderes:
 
 ## Bruksanvisning
 
-For å bruke nettsiden må du følge disse trinnene:
+### For å bruke nettsiden må du følge disse trinnene:
 
-1. Legge til en ny migrering  ved å bruke følgende kommandoer:
-```console
-dotnet ef migrations add [MigrationsName] -o Data/Migrations
-```
+1. Naviger deg til ReviewHub api mappen og kjør denne kommandoen:
+   
 Oppdatere databasen med de siste migreringene 
 ```console
 dotnet ef database update
 ```
 
-2. For å fylle databasen med data, kjør filen `Database 4.sql` som finnes i mappen `ReviewHubAPI/SQL script/DumpFile`. Denne filen vil fylle inn brukerdata, filmdata og kommentarer i databasen din.
-
-3. Kjør API-et og bekreft at det kjører som forventet.
-
-4. Installer "Live Server" Extension på Visual Studio Code.
-
-5. Kjør `index.html` via Live Server for å bruke nettsiden.
+### For å tilføre data til databasen, følg disse trinnene nøye:
+1. Åpne MySQL Workbench og server og data import.
+2. Velg "Import from Self-Contained File" fra verktøylinjen.
+3. Angi "review_hub" som standard målskjema og start importprosessen.
+4. Etter vellykket import, utfør en omfattende testing av API-et for å sikre at det fungerer i henhold til spesifikasjonene.
+5. Installer "Live Server" Extension på Visual Studio Code.
+6. Aktiver "index.html" via Live Server for å dynamisk vise nettstedet under utvikling,
