@@ -1,17 +1,7 @@
-var images = [
-    'assets/Background/1.JPG',
-    'assets/Background/2.JPG',
-    'assets/Background/3.JPG',
-    'assets/Background/4.JPG',
-    'assets/Background/5.JPG',
-    'assets/Background/6.JPEG',
-    'assets/Background/7.png'
-];
 
+//Movieposter endepunkt 
 const endpointURL = "https://localhost:7033/api/MoviePoster?PageSize=30&PageNumber=1";
 
-
-let posterArray = [];
 
 function authenticatedFetch(url, options = {}, requireAuth = false) {
     const token = localStorage.getItem('jwtToken');
@@ -46,11 +36,12 @@ function logOut() {
     window.location.href = 'index.html';
 }
 
+//Denne funksjonen henter filmpostere og bruker den som bakgrunn
 function getposters() {
     return authenticatedFetch(endpointURL)
         .then(response => response.json())
         .then(data => {
-            console.log(data);
+            //Bilde ligger i databasen som []bite dette må gjøres om til bilde 
             posterArray = data.map(item => `data:image/jpeg;base64,${item.moviePoster}`);
             return posterArray;
         })
@@ -94,11 +85,14 @@ function fetchUserData() {
         });
 }
 
+//funskjoner som blir satt igang ved sideload 
 window.onload = function() {
     initialize();
 
-    getposters(false)
+    getposters()
         .then(() => {
+            //Generer et tilfeldig tall mellom 0 og lengden på 'posterArray'.
+            // Deretter sendes dette tallet til 'Loadimage' for å hente bildet i den tilsvarende indeksen i arrayen
             var imgCount = posterArray.length;
             var randomIndex = Math.floor(Math.random() * imgCount);
             loadImage(randomIndex);

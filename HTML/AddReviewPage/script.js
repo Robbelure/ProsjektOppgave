@@ -10,7 +10,7 @@ let formatButtons = document.querySelectorAll(".format");
 let scriptButtons = document.querySelectorAll(".script");
 
 
-//List of fontlist
+//Liste med fonts
 let fontList = [
   "Arial",
   "Verdana",
@@ -21,16 +21,16 @@ let fontList = [
   "cursive",
 ];
 
-//Initial Settings
+
 const initializer = () => {
-  //function calls for highlighting buttons
-  //No highlights for link, unlink,lists, undo,redo since they are one time operations
+  //funksjonskall for å markere knapper
+  //Ingen markeringer for link, fjern link, lister, angre, gjenta, siden de er en gang operasjoner"
   highlighter(alignButtons, true);
   highlighter(spacingButtons, true);
   highlighter(formatButtons, false);
   highlighter(scriptButtons, true);
 
-  //create options for font names
+  // Opprett alternativer for skrifttyper
   fontList.map((value) => {
     let option = document.createElement("option");
     option.value = value;
@@ -38,7 +38,7 @@ const initializer = () => {
     fontName.appendChild(option);
   });
 
-  //fontSize allows only till 7
+  //skriftype tillat til størrelse 7
   for (let i = 1; i <= 7; i++) {
     let option = document.createElement("option");
     option.value = i;
@@ -46,63 +46,51 @@ const initializer = () => {
     fontSizeRef.appendChild(option);
   }
 
-  //default size
+  //standar størrelse 
   fontSizeRef.value = 3;
 };
 
-//main logic
+//hoved logikk
 const modifyText = (command, defaultUi, value) => {
-  //execCommand executes command on selected text
+//execCommand utfører kommando på valgt tekst
   document.execCommand(command, defaultUi, value);
 };
 
-//For basic operations which don't need value parameter
+//For grunnleggende operasjoner som ikke trenger verdi-parameter
 optionsButtons.forEach((button) => {
   button.addEventListener("click", () => {
     modifyText(button.id, false, null);
   });
 });
 
-//options that require value parameter (e.g colors, fonts)
+
+//alternativer som krever en verdi-parameter (for eksempel farger, skrifter)
 advancedOptionButton.forEach((button) => {
   button.addEventListener("change", () => {
     modifyText(button.id, false, button.value);
   });
 });
 
-//link
-linkButton.addEventListener("click", () => {
-  let userLink = prompt("Enter a URL");
-  //if link has http then pass directly else add https
-  if (/http/i.test(userLink)) {
-    modifyText(linkButton.id, false, userLink);
-  } else {
-    userLink = "http://" + userLink;
-    modifyText(linkButton.id, false, userLink);
-  }
-});
 
-//Highlight clicked button
+
+//markerer klikket knapp
 const highlighter = (className, needsRemoval) => {
   className.forEach((button) => {
     button.addEventListener("click", () => {
-      //needsRemoval = true means only one button should be highlight and other would be normal
+
       if (needsRemoval) {
         let alreadyActive = false;
-
-        //If currently clicked button is already active
+        //Hvis knappen er allerede aktiv 
         if (button.classList.contains("active")) {
           alreadyActive = true;
         }
 
-        //Remove highlight from other buttons
+        //fjerne merke fra andre kanpper
         highlighterRemover(className);
         if (!alreadyActive) {
-          //highlight clicked button
           button.classList.add("active");
         }
       } else {
-        //if other buttons can be highlighted
         button.classList.toggle("active");
       }
     });
@@ -138,7 +126,7 @@ function upload() {
     text: text
   };
 
-  // Fetch request to post the reviewData to the server
+  // Fetch for å legge til review data
   fetch(reviewUrl, {
     method: 'POST',
     headers: {
@@ -148,17 +136,16 @@ function upload() {
   })
   .then(response => response.json())
   .then(data => {
-    const reviewId = data.id; // Extracting the review ID from the response
+    const reviewId = data.id; // Henter id fra responsen
 
-    // Selecting the file input
+    // Velger fil 
     const fileInput = document.getElementById('file').files[0];
 
-    // Creating a FormData object to store the review ID and the file
+// Oppretter et FormData-objekt for å lagre anmeldelses-ID-en og filen
     const formData = new FormData();
     formData.append('ReviewId', reviewId);
     formData.append('file', fileInput);
 
-    // Fetch request to post the picture with the review ID
     fetch(reviewPictureUrl + reviewId, {
       method: 'POST',
       body: formData

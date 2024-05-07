@@ -17,8 +17,10 @@ function GetLatestAddedMovies() {
             movies = data;
             var moviecount = movies.length;
             var randommovie = Math.floor(Math.random() * moviecount);
+            //Gir en tilfeldig movie som brukes som hero Content
             const movie = movies[randommovie]
             const movieid = movie.id;
+            //sjekker om brukeren er logget inn: hvis ikke nektes de å legge inn en film
             if(userId == null)
             {
                 herocontent += `
@@ -37,7 +39,9 @@ function GetLatestAddedMovies() {
                 </section>`;
             }
             document.getElementById("hero-content").innerHTML = herocontent;
+            //sorter filmene etter sist lagt til
             movies.sort((b, a) => new Date(a.dateCreated) - new Date(b.dateCreated));
+            //henter de siste 5 lagt til filmene 
             const latestaddedmovie = movies.slice(0, 5);
             latestaddedmovie.forEach(async movie => {
                 try {
@@ -70,7 +74,7 @@ function GetLatestAddedMovies() {
                 }
             })
 
-            // Fetch movie poster data
+            // Henter movie poster
             return fetch(`https://localhost:7033/api/MoviePoster/movieId=${movieid}`);
         })
         .then(response => {
@@ -96,7 +100,9 @@ async function GetLatestReviewed() {
             throw new Error('Network response was not ok');
         }
         let reviewData = await reviews.json();
+        //sorterer reviewene etter sist lagt til 
         reviewData.sort((a, b) => new Date(b.dateCreated) - new Date(a.dateCreated));
+        //Gir siste 5 lagt til reviewene
         const latestAddedReviews = reviewData.slice(0, 5);
 
         let latestAddedReviewsSection = "";
@@ -138,6 +144,7 @@ async function GetLatestReviewed() {
     }
 }
 
+//Henter alle filmer
 function getallmovies() {
     let allmovies = "";
     fetch(endpointURL)
@@ -160,7 +167,7 @@ function getallmovies() {
                                 starImages += `<img src="asset/star.png" alt="Star">`;
                                 }
                         const movieHTML = `
-                            <div class="Container-poster" id="reviewContainer" onclick="redirectReview(${id})">
+                            <div class="Container-poster" id="reviewContainer" onclick="redirectToReviewspage(${id})">
                                 <img src="${poster}" alt="${movieName} Poster">
                                 <h3>${movieName}</h3>
                                 <div class="Container-Star">
