@@ -19,6 +19,11 @@ public class MoviePosterController : Controller
     }
 
 
+    /// <summary>
+    /// Laster opp et bilde av en filmplakat og lagrer det som en BLOB i databasen.
+    /// </summary>
+    /// <param name="MovieID">ID'en til filmen som posteren er tilknyttet.</param>
+    /// <param name="file">Bildefilen for posteren som skal lastes opp.</param>
     [Authorize]
     [HttpPost(Name = "AddMoviePoster")]
     public async Task<ActionResult<string>> AddMoviePoster([FromForm] int MovieID, IFormFile file)

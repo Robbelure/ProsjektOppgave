@@ -14,6 +14,11 @@ public class UploadProfilePictureRepository : IUploadProfilePictureRepository
         _context = context;
     }
 
+    /// <summary>
+    /// Legger til eller oppdaterer databasen med brukerens profilbilde.
+    /// Sjekker først om det finnes et eksisterende bilde for brukeren.
+    /// </summary>
+    /// <param name="entity">Profilbilde-entiteten som inneholder brukerens ID og bildedata som byte array.</param>
     public async Task<string> AddOrUpdateProfilePictureAsync(ProfilePicture entity)
     {
         var existingPicture = await _context.ProfilePicture.FirstOrDefaultAsync(p => p.UserId == entity.UserId);

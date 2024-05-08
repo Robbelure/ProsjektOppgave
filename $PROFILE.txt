@@ -1,2 +1,0 @@
-oh-my-posh init pwsh --config 'C:/Users/sakar/OneDrive/Themes OH-My_posh/M365Princess.omp.json' | Invoke-Expression
-

@@ -19,13 +19,12 @@ public class UploadProfilePictureController : Controller
 
 
     /// <summary>
-    /// Laster opp eller oppdaterer et profilbilde for en spesifikk bruker.
+    /// Laster opp eller oppdaterer profilbildet for en spesifikk bruker basert på bruker-ID.
     /// </summary>
-    /// <param name="userId">Brukerens ID for hvem bildet skal lastes opp.</param>
-    /// <param name="file">Filobjektet mottatt fra frontend som inneholder bildet.</param>
-    /// <returns>Melding om operasjonen var vellykket eller ikke.</returns>
+    /// <param name="userId">Brukerens ID som profilbildet er tilknyttet.</param>
+    /// <param name="file">Filobjektet(Profilbildet) som skal lastes opp.</param>
     [HttpPost("Id={userId}")]
-    public async Task<ActionResult<string>> AddProfilePicture([FromRoute] int userId, [FromForm] IFormFile file)
+    public async Task<ActionResult<string>> AddOrUpdateProfilePicture([FromRoute] int userId, [FromForm] IFormFile file)
     {
         var message = await _profilePictureService.AddOrUpdateProfilePictureAsync(userId, file);
         if (!string.IsNullOrEmpty(message))
@@ -36,7 +35,6 @@ public class UploadProfilePictureController : Controller
         _logger.LogError("Failed to upload profile picture for user ID: {UserId}", userId);
         return BadRequest("Failed to upload profile picture");
     }
-
 
     [HttpGet(Name = "GetAllProfilePictures")]
     public async Task<ActionResult<ICollection<ProfilePictureDTO>>> GetAllProfilePictures(int pageSize, int pageNumber)
@@ -55,7 +53,6 @@ public class UploadProfilePictureController : Controller
         return Ok(allProfilePictures);
     }
 
-
     [HttpGet("Id={UserId}", Name = "GetProfilePictureByUserId")]
     public async Task<ActionResult<ProfilePictureDTO>> GetProfilePictureByUserId(int UserId)
     {
@@ -71,7 +68,6 @@ public class UploadProfilePictureController : Controller
         _logger.LogInformation("Returning profile picture for user ID: {UserId}", UserId);
         return Ok(profilePicture);
     }
-
 
     [HttpDelete("Id={UserId}", Name = "DeleteProfilePictureByUserId")]
     public async Task<ActionResult> DeleteProfilePictureByUserId(int UserId)

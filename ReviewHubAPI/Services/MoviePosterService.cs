@@ -17,6 +17,12 @@ public class MoviePosterService : IMoviePosterService
         _moviepostermapper = moviepostermapper;
     }
 
+    /// <summary>
+    /// Håndterer logikken for å legge til en MoviePoster i databasen.
+    /// Konverterer bildefilen til et byte-array og lagrer det som en BLOB.
+    /// </summary>
+    /// <param name="movieID">Filmens ID som posteren er tilknyttet.</param>
+    /// <param name="file">Bildefilen som skal konverteres og lagres.</param>
     public async Task<string> AddMoviePoster(int movieID, IFormFile file)
     {
         var pic = await GetPictureBytesAsync(file);
@@ -63,7 +69,7 @@ public class MoviePosterService : IMoviePosterService
         using (var memoryStream = new System.IO.MemoryStream())
         {
             await picture.CopyToAsync(memoryStream);
-            return memoryStream.ToArray();
+            return memoryStream.ToArray(); // konverterer bildet til et byte-array
         }
     }
 }

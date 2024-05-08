@@ -98,7 +98,7 @@ public class AuthService : IAuthService
     /// <summary>
     /// Genererer en JWT-token for autentiserte brukere.
     /// </summary>
-    /// <param name="user">User-DTOen som inneholder brukerdetaljene som trengs for tokenet.</param>
+    /// <param name="user">User-DTO'enen som inneholder brukerdetaljene som trengs for tokenet.</param>
     /// <returns>en JWT-token som en streng, som klienten kan bruke for å autentisere forespørsler.</returns>
     public string GenerateJwtToken(UserDTO user)
     {

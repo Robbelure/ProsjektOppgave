@@ -22,11 +22,11 @@ public class UploadProfilePictureService : IUploadProfilePictureService
     }
 
     /// <summary>
-    /// Legger til eller oppdaterer et profilbilde for en spesifikk bruker.
+    /// Legger til eller oppdaterer et profilbilde for en bruker. Dette forenkler flyten ved å tillate en enkelt operasjon
+    /// å håndtere både nye og eksisterende bilder, og reduserer antall nødvendige API-kall.
     /// </summary>
     /// <param name="userId">Brukerens ID.</param>
-    /// <param name="file">Filobjektet som inneholder bildet.</param>
-    /// <returns>En streng som bekrefter oppdateringen eller legger til operasjonen.</returns>
+    /// <param name="file">Bildefilen som skal lastes opp, kan være null for å bruke standard bilde.</param>
     public async Task<string> AddOrUpdateProfilePictureAsync(int userId, IFormFile file)
     {
         byte[] pictureBytes;
@@ -34,11 +34,11 @@ public class UploadProfilePictureService : IUploadProfilePictureService
         // Validerer og konverterer bildet til byte array.
         if (file == null || file.Length == 0)
         {
-            pictureBytes = await GetDefaultProfilePictureBytesAsync(); // Henter standard profilbilde hvis ingen fil er gitt.
+            pictureBytes = await GetDefaultProfilePictureBytesAsync(); // standard profilbilde 
         }
         else
         {
-            pictureBytes = await GetPictureBytesAsync(file); // Konverterer opplastet fil til byte array.
+            pictureBytes = await GetPictureBytesAsync(file); // Konverterer opplastet fil til byte array
         }
 
         var entity = await _uploadProfilePictureRepository.GetProfilePictureByUserIdAsync(userId) ?? new ProfilePicture { UserId = userId };
@@ -47,6 +47,33 @@ public class UploadProfilePictureService : IUploadProfilePictureService
         var result = await _uploadProfilePictureRepository.AddOrUpdateProfilePictureAsync(entity);
         return result;
     }
+
+    /// <summary>
+    /// Konverterer et IFormFile-bilde til et byte-array.
+    /// Dette gjør det mulig å lagre bildet som en BLOB i databasen.
+    /// </summary>
+    /// <param name="picture">Bildefilen som skal konverteres.</param>
+    /// <returns>En byte-array som representerer det opplastede bildet.</returns>
+    private async Task<byte[]> GetPictureBytesAsync(IFormFile picture)
+    {
+        using (var memoryStream = new System.IO.MemoryStream())
+        {
+            await picture.CopyToAsync(memoryStream);
+            return memoryStream.ToArray();
+        }
+    }
+
+    /// <summary>
+    /// Henter bytes for et standard profilbilde fra serverens filsystem.
+    /// Denne metoden brukes når ingen bildefil er oppgitt av brukeren.
+    /// </summary>
+    /// <returns>En byte-array som representerer standardprofilbildet.</returns>
+    private async Task<byte[]> GetDefaultProfilePictureBytesAsync()
+    {
+        var pathToDefaultImage = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "profile-icon.jpg");
+        return await File.ReadAllBytesAsync(pathToDefaultImage);
+    }
+
 
     public async Task<ICollection<ProfilePictureDTO>> GetAllProfilePicturesAsync(int pageSize, int pageNumber)
     {
@@ -95,21 +122,5 @@ public class UploadProfilePictureService : IUploadProfilePictureService
             _logger.LogWarning("No profile picture found for user ID: {UserId}", userId);
         }
         return false;
-    }
-
-
-    // Hjelpefunksjoner for å håndtere bildefiler
-    private async Task<byte[]> GetPictureBytesAsync(IFormFile picture)
-    {
-        using (var memoryStream = new System.IO.MemoryStream())
-        {
-            await picture.CopyToAsync(memoryStream);
-            return memoryStream.ToArray();
-        }
-    }
-    private async Task<byte[]> GetDefaultProfilePictureBytesAsync()
-    {
-        var pathToDefaultImage = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "profile-icon.jpg");
-        return await File.ReadAllBytesAsync(pathToDefaultImage);
     }
 }

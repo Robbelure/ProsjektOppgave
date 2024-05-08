@@ -14,6 +14,10 @@ public class MoviePosterRepository : IMoviePosterRepository
         _dbcontext = dbContext;
     }
 
+    /// <summary>
+    /// Lagrer en ny poster i databasen som en BLOB.
+    /// </summary>
+    /// <param name="entity">MoviePoster-entiteten som skal lagres.</param>
     public async Task<string> AddMoviePoster(MoviePoster entity)
     {
         var poster = await _dbcontext.MoviePoster.AddAsync(entity);
@@ -22,7 +26,7 @@ public class MoviePosterRepository : IMoviePosterRepository
         if(poster == null)
             return "Something went wrong and movieposter was not saved";
 
-        return "Movieposter was save";
+        return "Movieposter was saved";
     }
 
     public Task<MoviePoster> DeleteMoviePosterByMovieIdAsync(int MovieId)
