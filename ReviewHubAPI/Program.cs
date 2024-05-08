@@ -16,7 +16,6 @@ using Microsoft.OpenApi.Models;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using ReviewHubAPI.Validators;
-using AspNetCoreRateLimit;
 using System.IdentityModel.Tokens.Jwt;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -26,12 +25,12 @@ var configuration = builder.Configuration;
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowSpecificOrigin",
-        builder =>
-        {
-            builder.WithOrigins("http://127.0.0.1:5501")
-                   .AllowAnyHeader()
-                   .AllowAnyMethod();      
-        });
+    builder =>
+    {
+        builder.AllowAnyOrigin()
+               .AllowAnyHeader()
+               .AllowAnyMethod();
+    });
 });
 #endregion
 
