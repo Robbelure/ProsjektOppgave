@@ -3,6 +3,12 @@ using System.Text.Json;
 
 namespace ReviewHubAPI.Middleware;
 
+/// <summary>
+/// håndterer globale unntak i API'et.
+/// Fanger ulike typer unntak og gir passende svar til klienten.
+/// Logger unntak og returnerer detaljerte problemdetaljer til klienten.
+/// </summary>
+
 public class GlobalExceptionMiddleware : IMiddleware
 {
     private readonly ILogger<GlobalExceptionMiddleware> _logger;
@@ -71,6 +77,30 @@ public class GlobalExceptionMiddleware : IMiddleware
             var jsonResponse = JsonSerializer.Serialize(problemDetails);
             await context.Response.WriteAsync(jsonResponse);
         }
+        catch (ValidationException ve)
+        {
+            _logger.LogWarning(ve, "Validation error encountered for request at {Path}", context.Request.Path);
+
+            context.Response.ContentType = "application/json";
+            context.Response.StatusCode = StatusCodes.Status400BadRequest;
+
+            var problemDetails = new ProblemDetails
+            {
+                Title = "Validation Failure",
+                Detail = ve.Message,
+                Status = StatusCodes.Status400BadRequest,
+                Instance = context.Request.Path
+            };
+
+            // Spesifikk sjekk for sensitive ord i brukernavn
+            if (ve.Message.Contains("sensitive words"))
+            {
+                problemDetails.Detail = "Username contains sensitive words or phrases."; // Overskriver med mer spesifikk melding
+            }
+
+            var jsonResponse = JsonSerializer.Serialize(problemDetails);
+            await context.Response.WriteAsync(jsonResponse);
+        }
         catch (AuthenticationFailedException authEx)
         {
             _logger.LogWarning(authEx, "Authentication failed for request at {Path}. Detail: {Message}",
@@ -126,4 +156,9 @@ public class NotFoundException : Exception
 public class AuthenticationFailedException : Exception
 {
     public AuthenticationFailedException(string message) : base(message) { }
+}
+
+public class ValidationException : Exception
+{
+    public ValidationException(string message) : base(message) { }
 }

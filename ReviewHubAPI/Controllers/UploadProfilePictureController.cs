@@ -17,6 +17,13 @@ public class UploadProfilePictureController : Controller
         _logger = logger;
     }
 
+
+    /// <summary>
+    /// Laster opp eller oppdaterer et profilbilde for en spesifikk bruker.
+    /// </summary>
+    /// <param name="userId">Brukerens ID for hvem bildet skal lastes opp.</param>
+    /// <param name="file">Filobjektet mottatt fra frontend som inneholder bildet.</param>
+    /// <returns>Melding om operasjonen var vellykket eller ikke.</returns>
     [HttpPost("Id={userId}")]
     public async Task<ActionResult<string>> AddProfilePicture([FromRoute] int userId, [FromForm] IFormFile file)
     {
