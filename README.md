@@ -56,6 +56,7 @@ dotnet ef database update
 2. Gå til 'server' -> 'data import'.
 3. Velg "Import from Self-Contained File" fra verktøylinjen.
 4. Angi "review_hub" som standard målskjema og start importprosessen.
+5. Velg dumpfilen som ligger i '...\ReviewHubAPI\SQL script\DumpFile\Database 5.sql'.
 5. Etter vellykket import, utfør en omfattende testing av API-et for å sikre at det fungerer i henhold til spesifikasjonene.
 6. Installer "Live Server" Extension på Visual Studio Code.
 7. Aktiver "index.html" på rot-nivå via Live Server for å dynamisk vise nettstedet under utvikling,
