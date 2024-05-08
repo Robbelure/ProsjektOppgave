@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using ReviewHubAPI.Models.DTO;
+using System.Text.RegularExpressions;
 
 namespace ReviewHubAPI.Validators;
 
@@ -24,5 +25,20 @@ public class UserRegistrationDTOValidator : AbstractValidator<UserRegistrationDT
             .Matches(@"[A-Z]+").WithMessage("Password must contain at least 1 uppercase letter")
             .Matches(@"[a-z]").WithMessage("Password must contain at least 1 lowercase letter")
             .Matches(@"[^a-zA-Z0-9]+").WithMessage("Password must contain at least one special character");
+    }
+
+
+    /// <summary>
+    /// Denne listen representerer en samling av sensitive ord som bør unngås i brukernavn.
+    /// Fungerer slik at 
+    /// Gadd ikke liste opp en haug med fæle ord, men dere skjønner poenget :D
+    /// </summary>
+    private static readonly List<string> sensitiveWords = new List<string> { "jævel", "fuck", "helvete" };
+
+    public static bool ValidUsername(string username)
+    {
+        string pattern = @"\b(" + string.Join("|", sensitiveWords) + @")\b";
+        Regex regex = new Regex(pattern, RegexOptions.IgnoreCase);
+        return !regex.IsMatch(username);
     }
 }

@@ -3,6 +3,12 @@ using System.Reflection;
 
 namespace ReviewHubAPI.Extensions;
 
+/// <summary>
+/// Extension-klasse som håndterer automatisk registrering av alle mapper-klasser i assembly.
+/// Registrerer alle mapper-klasser i den kjørende applikasjonens assembly som implementerer IMapper-interface.
+/// Dette forenkler dependency injection ved å legge til alle mappere i tjenestekontaineren som scoped services.
+/// </summary>
+
 public static class MapperRegistrationExtension
 {
     public static void RegisterMappers(this WebApplicationBuilder builder)

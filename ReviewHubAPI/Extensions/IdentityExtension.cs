@@ -2,6 +2,10 @@
 
 namespace ReviewHubAPI.Extensions;
 
+/// <summary>
+/// Statisk klasse som inneholder utvidelsesmetoder relatert til identitet og påstander. 
+/// Har en GetUserId-metode, som gjør det mulig å hente ut brukerens ID fra claims i et ClaimsPrincipal-objekt.
+/// </summary>
 public static class IdentityExtensions
 {
     private static ILogger? _logger;

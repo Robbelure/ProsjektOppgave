@@ -21,19 +21,24 @@ public class UploadProfilePictureService : IUploadProfilePictureService
         _logger = logger;
     }
 
+    /// <summary>
+    /// Legger til eller oppdaterer et profilbilde for en spesifikk bruker.
+    /// </summary>
+    /// <param name="userId">Brukerens ID.</param>
+    /// <param name="file">Filobjektet som inneholder bildet.</param>
+    /// <returns>En streng som bekrefter oppdateringen eller legger til operasjonen.</returns>
     public async Task<string> AddOrUpdateProfilePictureAsync(int userId, IFormFile file)
     {
         byte[] pictureBytes;
 
+        // Validerer og konverterer bildet til byte array.
         if (file == null || file.Length == 0)
         {
-            // henter default profilbilde bytes asynkront
-            pictureBytes = await GetDefaultProfilePictureBytesAsync();
+            pictureBytes = await GetDefaultProfilePictureBytesAsync(); // Henter standard profilbilde hvis ingen fil er gitt.
         }
         else
         {
-            // konverterer mottatt fil til bytes
-            pictureBytes = await GetPictureBytesAsync(file);
+            pictureBytes = await GetPictureBytesAsync(file); // Konverterer opplastet fil til byte array.
         }
 
         var entity = await _uploadProfilePictureRepository.GetProfilePictureByUserIdAsync(userId) ?? new ProfilePicture { UserId = userId };
@@ -92,6 +97,8 @@ public class UploadProfilePictureService : IUploadProfilePictureService
         return false;
     }
 
+
+    // Hjelpefunksjoner for å håndtere bildefiler
     private async Task<byte[]> GetPictureBytesAsync(IFormFile picture)
     {
         using (var memoryStream = new System.IO.MemoryStream())
@@ -100,7 +107,6 @@ public class UploadProfilePictureService : IUploadProfilePictureService
             return memoryStream.ToArray();
         }
     }
-
     private async Task<byte[]> GetDefaultProfilePictureBytesAsync()
     {
         var pathToDefaultImage = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "profile-icon.jpg");

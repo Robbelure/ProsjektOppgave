@@ -20,11 +20,13 @@ function loadImage(index) {
     img.src = images[index];
 }
 
+// initialisering ved vindulasting
 window.onload = function() {
     loadImage(randomIndex);
     document.getElementById('login').style.display = 'none'; 
 };
 
+// DOM-elementer for registrering og innlogging
 var x = document.getElementById("register");
 var y = document.getElementById("login");
 var z = document.getElementById("btn");
@@ -41,9 +43,11 @@ function register(){
     z.style.left = "0px";
 }
 
+// håndterer innsending av registreringsskjema
 document.getElementById('register').addEventListener('submit', function(event){
     event.preventDefault();
 
+    // samler data fra skjema
     var formData = {
         firstname: document.querySelector('#register input[name="firstname"]').value,
         lastname: document.querySelector('#register input[name="lastname"]').value,
@@ -52,6 +56,7 @@ document.getElementById('register').addEventListener('submit', function(event){
         password: document.querySelector('#register input[name="password"]').value
     };
 
+    // Validerer innsendt data
     var errors = validateFormData(formData);
     if (errors.length > 0) {
         displayErrors(errors);
@@ -82,6 +87,7 @@ document.getElementById('register').addEventListener('submit', function(event){
         successMessage.style.color = 'green';
         document.getElementById('error-container').appendChild(successMessage);
 
+        // omdirigerer etter vellykket registrering
         setTimeout(() => {
             window.location.href = '../SignInnPage/index.html';
         }, 1250); 

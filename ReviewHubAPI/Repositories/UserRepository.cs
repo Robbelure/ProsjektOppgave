@@ -31,6 +31,10 @@ public class UserRepository : IUserRepository
         return await _dbContext.Users.FindAsync(userId);
     }
 
+    /// <summary>
+    /// Henter en user entity fra databasen etter brukernavn, 
+    /// noe som er avgjørende for å verifisere Username under autentiseringsprosessen. 
+    /// </summary>
     public async Task<User?> GetUserByUsernameAsync(string username)
     {
         return await _dbContext.Users.FirstOrDefaultAsync(u => u.Username == username);
