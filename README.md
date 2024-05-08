@@ -51,6 +51,62 @@ Oppdatere databasen med de siste migreringene
 dotnet ef database update
 ```
 
+## Funksjoner og Bruk
+
+ReviewHub tilbyr flere kjernefunksjoner som lar brukere interagere med innhold og hverandre på forskjellige måter. Nedenfor er detaljer:
+
+### Legge til Anmeldelser
+Brukere kan legge til anmeldelser for filmer gjennom et brukervennlig skjema på nettsiden.
+- **API-endepunkt**: POST /api/Review
+
+### Legge til Filmer
+Brukere kan legge til detaljer om nye filmer som andre brukere kan anmelde.
+- **API-endepunkt**: POST /api/Movie
+
+### Legge til Kommentarer
+Brukere kan kommentere på eksisterende anmeldelser for å delta i diskusjoner.
+- **API-endepunkt**: POST /api/Comment
+
+### Legge til Movie Posters
+Brukere kan laste opp movieposters som gir en visuell representasjon av filmene.
+- **API-endepunkt**: POST /api/MoviePoster
+
+### Legge til Profilbilde
+Brukere kan laste opp profilbilder som vises på deres brukerprofil.
+- **API-endepunkt**: POST /api/uploadprofilepicture/Id={userId}
+
+### Legge til Review Pictures
+Brukere kan laste opp bilder som del av deres anmeldelser for å forbedre den visuelle representasjonen.
+- **API-endepunkt**: POST /api/ReviewPicture/Id={ReviewId}
+
+### Feilhåndtering
+- Systemet logger alle hendelser under prosessen, slik at eventuelle problemer kan diagnostiseres og løses effektivt. Dette inkluderer suksessfulle tillegg av anmeldelser så vel som feil.
+
+Brukere oppfordres til å gi detaljerte og informative anmeldelser, som bidrar til et rikt og engasjerende samfunn på ReviewHub. Hver anmeldelse hjelper andre brukere å gjøre bedre valg om hva de vil se, lese eller strømme.
+
+
+## Autentisering og Sikkerhet
+
+### Brukerregistrering og Innlogging
+- **Brukerregistrering**: Når en ny bruker registrerer seg, sender frontend nødvendig informasjon som brukernavn, 
+    e-post og passord til backend  via et HTTPS-kall. Backend vil:
+  - Validere innsendt data mot forhåndsdefinerte krav som e-postformat og passordstyrke.
+  - Hashe passordet med hashfunksjonen 'bcrypt' før det lagres i databasen for å sikre passordene mot angrep.
+  - Opprette en ny brukerrekord i databasen med det hashede passordet og andre relevante brukerdata.
+- **Brukerinnlogging**: Ved innlogging sender frontend brukerens påloggingsdetaljer til backend. Backend utfører følgende:
+  - Sjekker brukernavnet mot databasen for å hente det hashede passordet.
+  - Sammenligner det innsendte passordet med det lagrede hashede passordet.
+  - Ved vellykket autentisering, genereres en JWT for brukeren.
+
+### JWT Generering og Håndtering
+- **Token Generering**: Ved vellykket autentisering genererer backend en JWT som inkluderer brukeridentifikator og roller som tilskrives brukeren.
+- **Token Bruk**: JWT lagres lokalt localStorage og inkluderes i HTTP Authorization-headeren som en 'Bearer' token for hver etterfølgende autentiserte forespørsel.
+- **Token Validering**: Backend validerer tokenet ved hver forespørsel, inkludert å sjekke tokenets signatur og utløpstid(per nå satt til 1 time. Denne kan endres, for eksmepel til 1 minutt, i GenerateJwtToken-metoden i AuthService hvis ønskelig for å teste utløpstiden).
+
+### Sikkerhetsmekanismer
+- **HTTPS**: All kommunikasjon mellom klient og server skjer over HTTPS.
+- **CORS**: Backend aksepterer fores
+
 ### For å tilføre data til databasen, følg disse trinnene nøye:
 1. Åpne MySQL Workbench
 2. Gå til 'server' -> 'data import'.
